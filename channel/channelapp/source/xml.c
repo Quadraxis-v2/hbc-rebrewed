@@ -48,7 +48,7 @@ static char *_get_cdata(mxml_node_t* node) {
 	return NULL;
 }
 
-static char *_get_elem_cdata(mxml_node_t **node, const char *element) {
+static char *_get_elem_cdata(mxml_node_t *node, const char *element) {
 	if (!node)
 		return NULL;
 
