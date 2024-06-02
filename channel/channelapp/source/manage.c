@@ -104,7 +104,7 @@ static s32 rmdir_hier_iter(const char *dirname) {
 		gprintf("unlinking '%s'\n", newpath);
 		res = unlink(newpath);
 		if (res) {
-			gprintf("error unlinking '%s'\n", newpath);
+			gprintf("error unlinking '%s' %d \n", newpath, errno);
 			goto exit;
 		}
 	}
@@ -125,10 +125,10 @@ static s32 rmdir_hier(const char *dirname) {
 	gprintf("rmdir_hier '%s'\n", buf);
 	s32 res = rmdir_hier_iter(buf);
 	if (!res) {
-		gprintf("unlinking dir '%s'\n", (buf));
-		res = unlink(buf);
+		gprintf("removing dir '%s'\n", (buf));
+		res = rmdir(buf);
 		if (res)
-			gprintf("error unlinking '%s'\n", buf);
+			gprintf("error removing dir '%s' %d \n", buf, errno);
 	}
 
 	return res;
@@ -351,7 +351,7 @@ static bool manage_extract_zip(u8 *data, u32 data_len,
 	char sd_filename[PATH_MAX];
 	char *p;
 	int fd;
-	
+
 	buf = (u8 *) pmalloc(8 * 1024);
 
 	for (i = 0; i < gi.number_entry; ++i) {
@@ -470,7 +470,7 @@ static void *manage_func (void *arg) {
 	if (ta->extract)
 		ta->success = manage_extract_zip(ta->data, ta->data_len, &ta->mutex, &ta->progress);
 	else
-		ta->success = 0 == rmdir_hier(ta->dirname); 
+		ta->success = 0 == rmdir_hier(ta->dirname);
 
 	ta->running = false;
 
@@ -513,7 +513,7 @@ bool manage_run(view *sub_view, const char *dirname,
 	}
 
 	const char *text;
-	
+
 	if (data) {
 		text = _("Extracting");
 		sprintf(caption, "%s '%s'...", text, dirname);
@@ -557,5 +557,3 @@ bool manage_run(view *sub_view, const char *dirname,
 
 	return ta.success;
 }
-
-
