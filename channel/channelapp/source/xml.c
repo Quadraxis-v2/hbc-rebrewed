@@ -184,18 +184,12 @@ static void _get_theme(mxml_node_t *node) {
     mp3.size = _get_elem_int(node, "size", 0);
     // this should be all we need for now if we're just doing one file, if we add credits music we will need targets like fonts
 
-    if(mp3) {
-        if(theme.music) {
+    if(mp3.file != NULL) {
             if(theme.music.file) {
                 free(theme.music.file);
             }
             theme.music.file = mp3.file;
-
-            if(theme.music.size) {
-                free(theme.music.size);
-            }
             theme.music.size = mp3.size;
-        }
     }
 }
 
@@ -571,8 +565,8 @@ bool load_theme_xml(char *buf) {
 	for (i=0; i<FONT_MAX; i++)
 		if (theme.fonts[i].file)
 			free(theme.fonts[i].file);
-	if (theme.music)
-	    free(theme.music);
+	if (theme.music.file)
+	    free(theme.music.file);
 
 	root = mxmlLoadString(NULL, buf, MXML_OPAQUE_CALLBACK);
 
@@ -611,7 +605,7 @@ bool load_theme_xml(char *buf) {
 	if (theme.description && (strlen(theme.description) > 64))
 		theme.description[64] = 0;
 
-	theme.music = NULL;
+	theme.music.file = NULL;
 
 	theme.default_font.color = NO_COLOR;
 	theme.default_font.file = NULL;

@@ -172,6 +172,7 @@ static bool theme_get_index(u32 *index, bool *ws, const char *filename) {
 static void theme_load_music(unzFile uf) {
     // TODO: Check if we already loaded this
     const char* file = NULL;
+    int res;
 
     if (theme.music.file) {
         file = theme.music.file;
@@ -185,25 +186,21 @@ static void theme_load_music(unzFile uf) {
 			res = unzLocateFile(uf, file, 2);
 			if (res != UNZ_OK) {
 				gprintf("Could not locate mp3 file %s\n", file);
-				continue;
 			}
 
 			res = unzGetCurrentFileInfo(uf, &fi, NULL, 0, NULL, 0, NULL, 0);
 			if (res != UNZ_OK) {
 				gprintf("unzGetCurrentFileInfo failed: %d\n", res);
-				continue;
 			}
 
 			if (fi.uncompressed_size == 0) {
 				gprintf("MP3 file is empty\n");
-				continue;
 			}
 
 			void *buf;
 			res = unzOpenCurrentFile(uf);
 			if (res != UNZ_OK) {
 				gprintf("unzOpenCurrentFile failed: %d\n", res);
-				continue;
 			}
 
 			buf = (u8 *) pmalloc(fi.uncompressed_size);
@@ -213,7 +210,6 @@ static void theme_load_music(unzFile uf) {
 				gprintf("unzReadCurrentFile failed: %d\n", res);
 				unzCloseCurrentFile(uf);
 				free(buf);
-				continue;
 			}
 			unzCloseCurrentFile(uf);
 
@@ -385,6 +381,7 @@ static void theme_load(u8 *data, u32 data_len) {
 	}
 
 	theme_load_fonts(uf);
+	theme_load_music(uf);
 
 error:
 	res = unzClose(uf);
@@ -410,6 +407,10 @@ void theme_init(u8 *data, u32 data_len) {
 		theme_fonts[i].size = 0;
 		theme_fonts[i].color = 0xffffffff;
 	}
+
+	theme_music.file = NULL;
+	theme_music.data = NULL;
+	theme_music.data_len = 0;
 
 	theme.progress.ul = 0xc8e1edff;
 	theme.progress.ur = 0xc8e1edff;
