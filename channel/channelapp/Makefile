@@ -58,6 +58,9 @@ FILES_TTF_OBJ = $(FILES_TTF:$(DIR_DATA)/%.ttf=$(DIR_BUILD)/%_ttf.o)
 FILES_PNG = $(wildcard $(DIR_DATA)/*.png)
 FILES_PNG_OBJ = $(FILES_PNG:$(DIR_DATA)/%.png=$(DIR_BUILD)/%_png.o)
 
+FILES_MP3 = $(wildcard $(DIR_DATA)/*.mp3)
+FILES_MP3_OBJ = $(FILES_MP3:$(DIR_DATA)/%.mp3=$(DIR_BUILD)/%_mp3.o)
+
 POTPL = $(DIR_I18N)/template.pot
 POTPL_MRG = $(DIR_I18N)/template.merge.pot
 FILES_PO = $(wildcard $(DIR_I18N)/*.po)
@@ -70,7 +73,7 @@ FILES_PO_MRG = $(FILES_PO:$(DIR_I18N)/%.po=$(DIR_I18N)/merge/%.po)
 FILES_SRC = $(wildcard $(DIR_SRC)/*.c)
 FILES_SRC_OBJ = $(FILES_SRC:$(DIR_SRC)/%.c=$(DIR_BUILD)/%.o) \
 		$(DIR_BUILD)/$(TARGET_STUB)_bin.o $(BANNER_OBJ) \
-		$(FILES_PNG_OBJ) $(FILES_MO_OBJ) $(FILES_TTF_OBJ)
+		$(FILES_PNG_OBJ) $(FILES_MP3_OBJ) $(FILES_MO_OBJ) $(FILES_TTF_OBJ)
 
 FILES_CHAN = $(DIR_CHAN)/nandloader.S
 FILES_CHAN_OBJ = $(DIR_BUILD)/nandloader.o $(FILES_SRC_OBJ)
@@ -90,7 +93,7 @@ world:
 	@$(MAKE) --no-print-directory all
 	@$(MAKE) --no-print-directory $(TARGET_CHAN).dol
 
-data: $(BANNER_OBJ) $(FILES_PNG_OBJ) $(FILES_MO_OBJ) \
+data: $(BANNER_OBJ) $(FILES_PNG_OBJ) $(FILES_MP3_OBJ) $(FILES_MO_OBJ) \
 		$(FILES_PNG_INT_OBJ) $(FILES_INT_OBJ) \
 		$(FILES_TTF_OBJ)
 
@@ -137,6 +140,14 @@ $(DIR_BUILD)/%_png.o: $(DIR_DATA)/%.png
 	@echo "extern const u8 $(<F:%.png=%_png)[];" > $(@:%.o=%.h)
 	@echo "extern const u8 $(<F:%.png=%_png)_end;" >> $(@:%.o=%.h)
 	@echo "extern const u32 $(<F:%.png=%_png)_size;" >> $(@:%.o=%.h)
+
+$(DIR_BUILD)/%_mp3.o: $(DIR_DATA)/%.mp3
+	@echo $(@F)
+	@$(BIN2S) -a 32 $< | $(AS) -o $@
+	@echo "extern const u8 $(<F:%.mp3=%_mp3)[];" > $(@:%.o=%.h)
+	@echo "extern const u8 $(<F:%.mp3=%_mp3)_end;" >> $(@:%.o=%.h)
+	@echo "extern const u32 $(<F:%.mp3=%_mp3)_size;" >> $(@:%.o=%.h)
+
 
 $(DIR_BUILD)/%_ttf.o: $(DIR_DATA)/%.ttf
 	@echo $(@F)

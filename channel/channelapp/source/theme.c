@@ -57,6 +57,8 @@
 #include "progress_png.h"
 #include "content_arrow_up_png.h"
 #include "content_arrow_down_png.h"
+// music.c
+#include "menu_music_mp3.h"
 
 #define _ENTRY(n, w, h, fn) \
 	{ \
@@ -78,6 +80,8 @@
 #define ENTRY_WS_RO(n, w, h, w_ws) _ENTRY_WS(n, w, h, w_ws, NULL)
 
 gfx_entity *theme_gfx[THEME_LAST];
+
+theme_mp3 theme_music;
 
 theme_font theme_fonts[FONT_MAX];
 
@@ -163,6 +167,61 @@ static bool theme_get_index(u32 *index, bool *ws, const char *filename) {
 	}
 
 	return false;
+}
+
+static void theme_load_music(unzFile uf) {
+    // TODO: Check if we already loaded this
+    const char* file = NULL;
+
+    if (theme.music.file) {
+        file = theme.music.file;
+    }
+
+    if(file) {
+        if(!theme_music.data) {
+            unz_file_info fi;
+            gprintf("Loading mp3 file %s\n", file);
+
+			res = unzLocateFile(uf, file, 2);
+			if (res != UNZ_OK) {
+				gprintf("Could not locate mp3 file %s\n", file);
+				continue;
+			}
+
+			res = unzGetCurrentFileInfo(uf, &fi, NULL, 0, NULL, 0, NULL, 0);
+			if (res != UNZ_OK) {
+				gprintf("unzGetCurrentFileInfo failed: %d\n", res);
+				continue;
+			}
+
+			if (fi.uncompressed_size == 0) {
+				gprintf("MP3 file is empty\n");
+				continue;
+			}
+
+			void *buf;
+			res = unzOpenCurrentFile(uf);
+			if (res != UNZ_OK) {
+				gprintf("unzOpenCurrentFile failed: %d\n", res);
+				continue;
+			}
+
+			buf = (u8 *) pmalloc(fi.uncompressed_size);
+
+			res = unzReadCurrentFile(uf, buf, fi.uncompressed_size);
+			if (res < 0) {
+				gprintf("unzReadCurrentFile failed: %d\n", res);
+				unzCloseCurrentFile(uf);
+				free(buf);
+				continue;
+			}
+			unzCloseCurrentFile(uf);
+
+			theme_music.file = file;
+			theme_music.data = buf;
+			theme_music.data_len = fi.uncompressed_size;
+        }
+    }
 }
 
 static void theme_load_fonts(unzFile uf) {
@@ -471,4 +530,3 @@ bool theme_is_valid_fn(const char *filename) {
 
 	return theme_get_index(&index, &ws, filename);
 }
-

@@ -8,6 +8,7 @@
 #include <gctypes.h>
 
 #include "font.h"
+#include "theme.h"
 
 #define NO_COLOR 0x0DEADF00
 
@@ -48,6 +49,11 @@ typedef struct {
 	u32 color;
 } theme_font_t;
 
+typedef struct {
+    char *file;
+    int size;
+} theme_mp3_t;
+
 typedef enum {
 	TLANG_JA = 0x01,
 	TLANG_KO = 0x02,
@@ -59,6 +65,7 @@ typedef struct {
 	char *description;
 	theme_font_t default_font;
 	theme_font_t fonts[FONT_MAX];
+	theme_mp3_t music;
 	theme_lang_t langs;
 } theme_t;
 
@@ -78,4 +85,3 @@ void theme_xml_init(void);
 bool load_theme_xml(char *buf);
 
 #endif
-

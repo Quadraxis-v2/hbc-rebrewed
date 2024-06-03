@@ -61,9 +61,18 @@ typedef struct {
 	u32 color;
 } theme_font;
 
+// TODO: if we choose to add credits music in the future, add an enum field for the purpose of the file
+typedef struct {
+    const char *file;
+    void *data;
+    u32 data_len;
+} theme_mp3;
+
 extern gfx_entity *theme_gfx[THEME_LAST];
 
 extern theme_font theme_fonts[FONT_MAX];
+
+extern theme_mp3 theme_music;
 
 extern const char *theme_fn_xml;
 
@@ -73,4 +82,3 @@ void theme_deinit(void);
 bool theme_is_valid_fn(const char *filename);
 
 #endif
-
