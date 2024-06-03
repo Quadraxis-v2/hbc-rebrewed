@@ -12,6 +12,8 @@ void play_music() {
         MP3Player_Init();
         MP3Player_Volume(127);
         FILE* f = fopen("sd:/menu_music.mp3", "r");
-        MP3Player_PlayFile(f, &mp3Reader, NULL);
+        if(f != NULL) {
+            MP3Player_PlayFile(f, &mp3Reader, NULL);
+        }
         ASND_Pause(0);
 }

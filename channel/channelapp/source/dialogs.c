@@ -525,7 +525,7 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 										FONT_BUTTON,
 										caption_device_names[i]);
 		else
-			if(is_wii() && i<2){
+			if(is_vwii() && i<2){
 				widget_button_set_caption(&v->widgets[DLG_DEV_FIRST + i],
 										FONT_BUTTON_DESEL,
 										caption_device_names[i]);
@@ -564,7 +564,7 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 			widget_button_set_caption(&v->widgets[12],
 									FONT_BUTTON,
 									caption_sort_author);
-			break;		
+			break;
 	}
 
 	view_set_focus (v, 11);
@@ -659,5 +659,3 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 
 	return ret;
 }
-
-
