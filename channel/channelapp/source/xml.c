@@ -178,6 +178,27 @@ static void _get_font(mxml_node_t *node) {
 	}
 }
 
+static void _get_theme(mxml_node_t *node) {
+    theme_mp3_t mp3;
+    mp3.file = _xmldup(_get_elem_cdata(node, "file"));
+    mp3.size = _get_elem_int(node, "size", 0);
+    // this should be all we need for now if we're just doing one file, if we add credits music we will need targets like fonts
+
+    if(mp3) {
+        if(theme.music) {
+            if(theme.music.file) {
+                free(theme.music.file);
+            }
+            theme.music.file = mp3.file;
+
+            if(theme.music.size) {
+                free(theme.music.size);
+            }
+            theme.music.size = mp3.size;
+        }
+    }
+}
+
 static char *_get_args(u16 *length, mxml_node_t *node, const char *element) {
 	*length = 0;
 
@@ -540,7 +561,7 @@ void theme_xml_init(void) {
 
 bool load_theme_xml(char *buf) {
 	int i;
-	mxml_node_t *root, *node, *fnode;
+	mxml_node_t *root, *node, *fnode, *mnode;
 
 	// free prior theme
 	if (theme.description)
@@ -550,6 +571,8 @@ bool load_theme_xml(char *buf) {
 	for (i=0; i<FONT_MAX; i++)
 		if (theme.fonts[i].file)
 			free(theme.fonts[i].file);
+	if (theme.music)
+	    free(theme.music);
 
 	root = mxmlLoadString(NULL, buf, MXML_OPAQUE_CALLBACK);
 
@@ -588,6 +611,8 @@ bool load_theme_xml(char *buf) {
 	if (theme.description && (strlen(theme.description) > 64))
 		theme.description[64] = 0;
 
+	theme.music = NULL;
+
 	theme.default_font.color = NO_COLOR;
 	theme.default_font.file = NULL;
 	theme.default_font.size = 0;
@@ -604,6 +629,11 @@ bool load_theme_xml(char *buf) {
 	while (fnode != NULL) {
 		_get_font(fnode);
 		fnode = mxmlFindElement(fnode, root, "font", NULL, NULL, MXML_NO_DESCEND);
+	}
+
+	mnode = mxmlFindElement(node, root, "music", NULL, NULL, MXML_DESCEND_FIRST);
+	if(mnode != NULL) {
+	   mnode = mxmlFindElement(mnode, root, "music", NULL, NULL, MXML_DESCEND_FIRST);
 	}
 
 	mxmlDelete(root);
