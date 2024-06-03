@@ -633,6 +633,7 @@ bool load_theme_xml(char *buf) {
 
 	mnode = mxmlFindElement(node, root, "music", NULL, NULL, MXML_DESCEND_FIRST);
 	if(mnode != NULL) {
+	   _get_theme(mnode);
 	   mnode = mxmlFindElement(mnode, root, "music", NULL, NULL, MXML_DESCEND_FIRST);
 	}
 
