@@ -18,6 +18,7 @@
 #include "panic.h"
 
 #include "appentry.h"
+#include "music.h"
 
 typedef struct {
 	const char *name;
@@ -474,6 +475,7 @@ static void *ae_func (void *arg) {
 				if (chdir(cwd))
 					gprintf("chdir failed: %d\n", errno);
 
+				play_music();
 				app_entry_load_all();
 
 				ta->loading = false;

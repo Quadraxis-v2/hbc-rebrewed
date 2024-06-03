@@ -1,5 +1,6 @@
 #include <mad.h>
 #include <stdio.h>
+#include <mp3player.h>
 
 int mp3Reader(void *cbdata, void *dst, int size) {
         FILE *file = cbdata;
@@ -7,7 +8,10 @@ int mp3Reader(void *cbdata, void *dst, int size) {
 }
 
 void play_music() {
-        FILE *myFile = fopen("sd:/menu_music.mp3");
-        MP3Player_PlayFile(myFile, &mp3Reader, NULL);
-        fclose(myFile);
+        ASND_Init();
+        MP3Player_Init();
+        MP3Player_Volume(127);
+        FILE* f = fopen("sd:/menu_music.mp3", "r");
+        MP3Player_PlayFile(f, &mp3Reader, NULL);
+        ASND_Pause(0);
 }
