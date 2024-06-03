@@ -525,11 +525,14 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 										FONT_BUTTON,
 										caption_device_names[i]);
 		else
-			widget_button_set_caption(&v->widgets[DLG_DEV_FIRST + i],
+			if(is_wii() && i<2){
+				widget_button_set_caption(&v->widgets[DLG_DEV_FIRST + i],
 										FONT_BUTTON_DESEL,
 										caption_device_names[i]);
+			}
 
 		widget_set_flag (&v->widgets[DLG_DEV_FIRST + i], WF_ENABLED, status[i]);
+
 	}
 
 	// By default, show all the sorting options widgets as not active
