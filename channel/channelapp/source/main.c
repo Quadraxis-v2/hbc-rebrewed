@@ -13,6 +13,7 @@
 #include <ogc/conf.h>
 #include <debug.h>
 
+
 #include "../config.h"
 #include "controls.h"
 #include "appentry.h"
@@ -29,6 +30,7 @@
 #include "browser.h"
 #include "m_main.h"
 #include "loader.h"
+#include "music.h"
 #ifdef ENABLE_UPDATES
 #include "http.h"
 #include "update.h"
@@ -242,6 +244,7 @@ static void main_pre(void) {
 	widgets_init();
 	view_init();
 	dialogs_init();
+	play_music();
 }
 
 static void load_text(void)
