@@ -184,12 +184,13 @@ static void _get_theme(mxml_node_t *node) {
     mp3.size = _get_elem_int(node, "size", 0);
     // this should be all we need for now if we're just doing one file, if we add credits music we will need targets like fonts
 
+    // FIXME: Support themes/custom music. For now hardcode music to menu music
     if(mp3.file != NULL) {
-            if(theme.music.file) {
-                free(theme.music.file);
+            if(theme.music[0].file) {
+                free(theme.music[0].file);
             }
-            theme.music.file = mp3.file;
-            theme.music.size = mp3.size;
+            theme.music[0].file = mp3.file;
+            theme.music[0].size = mp3.size;
     }
 }
 
@@ -565,8 +566,10 @@ bool load_theme_xml(char *buf) {
 	for (i=0; i<FONT_MAX; i++)
 		if (theme.fonts[i].file)
 			free(theme.fonts[i].file);
-	if (theme.music.file)
-	    free(theme.music.file);
+	if (theme.music[0].file)
+	    free(theme.music[0].file);
+	if (theme.music[1].file)
+	    free(theme.music[1].file);
 
 	root = mxmlLoadString(NULL, buf, MXML_OPAQUE_CALLBACK);
 
@@ -605,7 +608,8 @@ bool load_theme_xml(char *buf) {
 	if (theme.description && (strlen(theme.description) > 64))
 		theme.description[64] = 0;
 
-	theme.music.file = NULL;
+	theme.music[0].file = NULL;
+	theme.music[1].file = NULL;
 
 	theme.default_font.color = NO_COLOR;
 	theme.default_font.file = NULL;

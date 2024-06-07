@@ -30,6 +30,7 @@
 #include "browser.h"
 #include "m_main.h"
 #include "loader.h"
+#include "music.h"
 #ifdef ENABLE_UPDATES
 #include "http.h"
 #include "update.h"
@@ -448,6 +449,7 @@ void main_real(void) {
 					continue;
 
 				case 1:
+				    play_music_track(MUSIC_TRACK_CREDITS);
 					v_about = dialog_about (v_m_main);
 					v_current = v_about;
 
@@ -738,6 +740,7 @@ void main_real(void) {
 				exit_about = true;
 
 			if (exit_about) {
+			    play_music_track(MUSIC_TRACK_MENU);
 				dialog_fade (v_current, false);
 
 				v_current = v_m_main;
@@ -757,6 +760,7 @@ void main_real(void) {
 	gprintf ("exiting\n");
 
 	view_enable_cursor (false);
+	music_deinit();
 
 	if (v_current->sub_view)
 		dialog_fade (v_current, false);
@@ -793,7 +797,6 @@ void main_real(void) {
 	view_deinit ();
 	widgets_deinit ();
 	font_deinit ();
-	music_deinit();
 	theme_deinit();
 
 	settings_save();

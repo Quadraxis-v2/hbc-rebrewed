@@ -58,6 +58,7 @@
 #include "content_arrow_up_png.h"
 #include "content_arrow_down_png.h"
 // music.c
+#include "credit_music_mp3.h"
 #include "menu_music_mp3.h"
 
 #define _ENTRY(n, w, h, fn) \
@@ -81,7 +82,7 @@
 
 gfx_entity *theme_gfx[THEME_LAST];
 
-theme_mp3 theme_music;
+theme_mp3 theme_music[2];
 
 theme_font theme_fonts[FONT_MAX];
 
@@ -171,50 +172,52 @@ static bool theme_get_index(u32 *index, bool *ws, const char *filename) {
 
 static void theme_load_music(unzFile uf) {
     // TODO: Check if we already loaded this
-    const char* file = NULL;
     int res;
 
-    if (theme.music.file) {
-        file = theme.music.file;
-    }
+    for(int i = 0; i < 2; i++) {
+        const char* file = NULL;
+        if (theme.music[i].file) {
+            file = theme.music[i].file;
+        }
 
-    if(file) {
-        if(!theme_music.data) {
-            unz_file_info fi;
-            gprintf("Loading mp3 file %s\n", file);
+        if(file) {
+            if(!theme_music[i].data) {
+                unz_file_info fi;
+                gprintf("Loading mp3 file %s\n", file);
 
-			res = unzLocateFile(uf, file, 2);
-			if (res != UNZ_OK) {
-				gprintf("Could not locate mp3 file %s\n", file);
-			}
+                res = unzLocateFile(uf, file, 2);
+                if (res != UNZ_OK) {
+                    gprintf("Could not locate mp3 file %s\n", file);
+                }
 
-			res = unzGetCurrentFileInfo(uf, &fi, NULL, 0, NULL, 0, NULL, 0);
-			if (res != UNZ_OK) {
-				gprintf("unzGetCurrentFileInfo failed: %d\n", res);
-			}
+                res = unzGetCurrentFileInfo(uf, &fi, NULL, 0, NULL, 0, NULL, 0);
+                if (res != UNZ_OK) {
+                    gprintf("unzGetCurrentFileInfo failed: %d\n", res);
+                }
 
-			if (fi.uncompressed_size == 0) {
-				gprintf("MP3 file is empty\n");
-			}
+                if (fi.uncompressed_size == 0) {
+                    gprintf("MP3 file is empty\n");
+                }
 
-			void *buf;
-			res = unzOpenCurrentFile(uf);
-			if (res != UNZ_OK) {
-				gprintf("unzOpenCurrentFile failed: %d\n", res);
-			}
+                void *buf;
+                res = unzOpenCurrentFile(uf);
+                if (res != UNZ_OK) {
+                    gprintf("unzOpenCurrentFile failed: %d\n", res);
+                }
 
-			buf = (u8 *) pmalloc(fi.uncompressed_size);
+                buf = (u8 *) pmalloc(fi.uncompressed_size);
 
-			res = unzReadCurrentFile(uf, buf, fi.uncompressed_size);
-			if (res < 0) {
-				gprintf("unzReadCurrentFile failed: %d\n", res);
-				unzCloseCurrentFile(uf);
-				free(buf);
-			}
-			unzCloseCurrentFile(uf);
+                res = unzReadCurrentFile(uf, buf, fi.uncompressed_size);
+                if (res < 0) {
+                    gprintf("unzReadCurrentFile failed: %d\n", res);
+                    unzCloseCurrentFile(uf);
+                    free(buf);
+                }
+                unzCloseCurrentFile(uf);
 
-			theme_music.data = buf;
-			theme_music.data_len = fi.uncompressed_size;
+                theme_music[i].data = buf;
+                theme_music[i].data_len = fi.uncompressed_size;
+            }
         }
     }
 }
@@ -407,8 +410,11 @@ void theme_init(u8 *data, u32 data_len) {
 		theme_fonts[i].color = 0xffffffff;
 	}
 
-	theme_music.data = menu_music_mp3;
-	theme_music.data_len = menu_music_mp3_size;
+	// TODO: support custom mp3s
+	theme_music[0].data = menu_music_mp3;
+	theme_music[0].data_len = menu_music_mp3_size;
+	theme_music[1].data = credit_music_mp3;
+	theme_music[1].data_len = credit_music_mp3_size;
 
 	theme.progress.ul = 0xc8e1edff;
 	theme.progress.ur = 0xc8e1edff;

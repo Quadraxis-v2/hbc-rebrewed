@@ -65,7 +65,7 @@ typedef struct {
 	char *description;
 	theme_font_t default_font;
 	theme_font_t fonts[FONT_MAX];
-	theme_mp3_t music;
+	theme_mp3_t music[2];
 	theme_lang_t langs;
 } theme_t;
 
