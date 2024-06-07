@@ -234,6 +234,7 @@ static void main_pre(void) {
 	gfx_init();
 	app_entry_init();
 	theme_xml_init();
+	music_init();
 	theme_init(NULL, 0);
 	config_language();
 	loader_init();
@@ -358,6 +359,7 @@ void main_real(void) {
 		}
 #endif
 		memstats(false);
+		play_music();
 
 		if (v_current == v_browser) {
 			switch (app_entry_action()) {
@@ -791,6 +793,7 @@ void main_real(void) {
 	view_deinit ();
 	widgets_deinit ();
 	font_deinit ();
+	music_deinit();
 	theme_deinit();
 
 	settings_save();
@@ -840,4 +843,3 @@ int main(int argc, char *argv[]) {
 	gprintf("uh oh\n");
 	return 0;
 }
-

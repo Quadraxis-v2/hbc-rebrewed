@@ -18,7 +18,6 @@
 #include "panic.h"
 
 #include "appentry.h"
-#include "music.h"
 
 typedef struct {
 	const char *name;
@@ -425,7 +424,7 @@ static void *ae_func (void *arg) {
 
 		switch (ta->cmd) {
 		case AE_CMD_SCAN:
-			
+
 			if (device_active >= 0) {
 				if (!ta->umount && devices[device_active].device->isInserted())
 					continue;
@@ -475,7 +474,6 @@ static void *ae_func (void *arg) {
 				if (chdir(cwd))
 					gprintf("chdir failed: %d\n", errno);
 
-				play_music();
 				app_entry_load_all();
 
 				ta->loading = false;
@@ -731,4 +729,3 @@ bool app_entry_is_loading(void) {
 
 	return ta_ae.loading;
 }
-

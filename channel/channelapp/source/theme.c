@@ -213,7 +213,6 @@ static void theme_load_music(unzFile uf) {
 			}
 			unzCloseCurrentFile(uf);
 
-			theme_music.file = file;
 			theme_music.data = buf;
 			theme_music.data_len = fi.uncompressed_size;
         }
