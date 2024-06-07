@@ -20,6 +20,13 @@
 
 #define TRANS_STEPS 15
 
+// dialog upon pressing "1"
+#define WIDGET_SORT_NAME 8
+#define WIDGET_SORT_DATE 9
+#define WIDGET_SORT_AUTHOR 10
+#define WIDGET_CAPTION_OK 11
+#define WIDGET_CAPTION_BACK 12
+
 static const char *app_entry_desc_default;
 
 static const char *caption_info;
@@ -498,15 +505,15 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 	widget_button (&v->widgets[6], 52, 128, 1, BTN_SMALL, NULL);
 	widget_button (&v->widgets[7], 268, 128, 1, BTN_SMALL, NULL);
 
-	widget_button (&v->widgets[8], 52, 216, 1, BTN_TINY, NULL);
-	widget_button (&v->widgets[9], 186, 216, 1, BTN_TINY, NULL);
-	widget_button (&v->widgets[12], 320, 216, 1, BTN_TINY, NULL);
+	widget_button (&v->widgets[WIDGET_SORT_NAME], 52, 216, 1, BTN_TINY, NULL);
+	widget_button (&v->widgets[WIDGET_SORT_DATE], 186, 216, 1, BTN_TINY, NULL);
+	widget_button (&v->widgets[WIDGET_SORT_AUTHOR], 320, 216, 1, BTN_TINY, NULL);
 
-	widget_button (&v->widgets[10], 32,
+	widget_button (&v->widgets[WIDGET_CAPTION_OK], 32,
 					theme_gfx[THEME_DIALOG]->h -
 					theme_gfx[THEME_BUTTON_SMALL]->h - 16 , 1, BTN_SMALL,
 					caption_ok);
-	widget_button (&v->widgets[11], theme_gfx[THEME_DIALOG]->w -
+	widget_button (&v->widgets[WIDGET_CAPTION_BACK], theme_gfx[THEME_DIALOG]->w -
 					theme_gfx[THEME_BUTTON_SMALL]->w - 32,
 					theme_gfx[THEME_DIALOG]->h -
 					theme_gfx[THEME_BUTTON_SMALL]->h - 16 , 1, BTN_SMALL,
@@ -536,38 +543,38 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 	}
 
 	// By default, show all the sorting options widgets as not active
-	widget_button_set_caption(&v->widgets[8],
+	widget_button_set_caption(&v->widgets[WIDGET_SORT_NAME],
 									FONT_BUTTON_DESEL,
 									caption_sort_name);
-	widget_button_set_caption(&v->widgets[12],
-									FONT_BUTTON_DESEL,
-									caption_sort_author);
-	widget_button_set_caption(&v->widgets[9],
+	widget_button_set_caption(&v->widgets[WIDGET_SORT_DATE],
 									FONT_BUTTON_DESEL,
 									caption_sort_date);
+	widget_button_set_caption(&v->widgets[WIDGET_SORT_AUTHOR],
+									FONT_BUTTON_DESEL,
+									caption_sort_author);
 
 	// Only set the widget of the active sort to show different
 	switch (ret.sort) {
 		case APP_SORT_NAME:
-			widget_button_set_caption(&v->widgets[8],
+			widget_button_set_caption(&v->widgets[WIDGET_SORT_NAME],
 									FONT_BUTTON,
 									caption_sort_name);
 			break;
 
 		case APP_SORT_DATE:
-			widget_button_set_caption(&v->widgets[9],
+			widget_button_set_caption(&v->widgets[WIDGET_SORT_DATE],
 									FONT_BUTTON,
 									caption_sort_date);
 			break;
 
 		case APP_SORT_AUTHOR:
-			widget_button_set_caption(&v->widgets[12],
+			widget_button_set_caption(&v->widgets[WIDGET_SORT_AUTHOR],
 									FONT_BUTTON,
 									caption_sort_author);
 			break;
 	}
 
-	view_set_focus (v, 11);
+	view_set_focus (v, WIDGET_CAPTION_BACK);
 
 	dialog_fade (v, true);
 
@@ -608,40 +615,40 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 				widget_button_set_caption(&v->widgets[DLG_DEV_FIRST + ret.device],
 											FONT_BUTTON,
 											caption_device_names[ret.device]);
-			} else if (v->focus == 8) {
+			} else if (v->focus == WIDGET_SORT_NAME) {
 				ret.sort = APP_SORT_NAME;
-				widget_button_set_caption(&v->widgets[8],
+				widget_button_set_caption(&v->widgets[WIDGET_SORT_NAME],
 											FONT_BUTTON,
 											caption_sort_name);
-				widget_button_set_caption(&v->widgets[12],
-											FONT_BUTTON_DESEL,
-											caption_sort_author);
-				widget_button_set_caption(&v->widgets[9],
+				widget_button_set_caption(&v->widgets[WIDGET_SORT_DATE],
 											FONT_BUTTON_DESEL,
 											caption_sort_date);
-			} else if (v->focus == 9) {
+				widget_button_set_caption(&v->widgets[WIDGET_SORT_AUTHOR],
+											FONT_BUTTON_DESEL,
+											caption_sort_author);
+			} else if (v->focus == WIDGET_SORT_DATE) {
 				ret.sort = APP_SORT_DATE;
-				widget_button_set_caption(&v->widgets[8],
+				widget_button_set_caption(&v->widgets[WIDGET_SORT_NAME],
 											FONT_BUTTON_DESEL,
 											caption_sort_name);
-				widget_button_set_caption(&v->widgets[12],
-											FONT_BUTTON_DESEL,
-											caption_sort_author);
-				widget_button_set_caption(&v->widgets[9],
+				widget_button_set_caption(&v->widgets[WIDGET_SORT_DATE],
 											FONT_BUTTON,
 											caption_sort_date);
-			} else if (v->focus == 12) {
+				widget_button_set_caption(&v->widgets[WIDGET_SORT_AUTHOR],
+											FONT_BUTTON_DESEL,
+											caption_sort_author);
+			} else if (v->focus == WIDGET_SORT_AUTHOR) {
 				ret.sort = APP_SORT_AUTHOR;
-				widget_button_set_caption(&v->widgets[8],
+				widget_button_set_caption(&v->widgets[WIDGET_SORT_NAME],
 											FONT_BUTTON_DESEL,
 											caption_sort_name);
-				widget_button_set_caption(&v->widgets[12],
-											FONT_BUTTON,
-											caption_sort_author);
-				widget_button_set_caption(&v->widgets[9],
+				widget_button_set_caption(&v->widgets[WIDGET_SORT_DATE],
 											FONT_BUTTON_DESEL,
 											caption_sort_date);
-			} else if ((v->focus == 10) || (v->focus == 11)) {
+				widget_button_set_caption(&v->widgets[WIDGET_SORT_AUTHOR],
+											FONT_BUTTON,
+											caption_sort_author);
+			} else if ((v->focus == WIDGET_CAPTION_OK) || (v->focus == WIDGET_CAPTION_BACK)) {
 				break;
 			}
 		}
@@ -650,7 +657,7 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 			app_entry_poll_status(false);
 	}
 
-	if ((bd & PADS_A) && (v->focus == 10))
+	if ((bd & PADS_A) && (v->focus == WIDGET_CAPTION_OK))
 		ret.confirmed = true;
 
 	dialog_fade (v, false);
