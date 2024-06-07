@@ -63,7 +63,6 @@ typedef struct {
 
 // TODO: if we choose to add credits music in the future, add an enum field for the purpose of the file
 typedef struct {
-    const char *file;
     void *data;
     u32 data_len;
 } theme_mp3;

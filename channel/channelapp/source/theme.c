@@ -408,9 +408,8 @@ void theme_init(u8 *data, u32 data_len) {
 		theme_fonts[i].color = 0xffffffff;
 	}
 
-	theme_music.file = NULL;
-	theme_music.data = NULL;
-	theme_music.data_len = 0;
+	theme_music.data = menu_music_mp3;
+	theme_music.data_len = menu_music_mp3_size;
 
 	theme.progress.ul = 0xc8e1edff;
 	theme.progress.ur = 0xc8e1edff;
