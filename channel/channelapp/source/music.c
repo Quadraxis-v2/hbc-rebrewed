@@ -1,9 +1,11 @@
 #include "music.h"
-#include "theme.h"
-#include "xml.h"
+#include <asndlib.h>
 #include <mad.h>
 #include <stdio.h>
 #include <mp3player.h>
+
+#include "theme.h"
+#include "xml.h"
 
 int current_track = MUSIC_TRACK_MENU; // default
 
