@@ -232,11 +232,7 @@ view * dialog_app (const app_entry *entry, const view *sub_view) {
 	widget_label (&v->widgets[4], 48 + APP_ENTRY_ICON_WIDTH, 72, 1, coder,
 					theme_gfx[THEME_DIALOG]->w - 72 - APP_ENTRY_ICON_WIDTH,
 					FA_LEFT, FA_ASCENDER, FONT_LABEL);
-	widget_label (&v->widgets[5], 48 + APP_ENTRY_ICON_WIDTH, 92, 1, size,
-					theme_gfx[THEME_DIALOG]->w - 72 - APP_ENTRY_ICON_WIDTH,
-					FA_LEFT, FA_ASCENDER, FONT_LABEL);
-
-	widget_label (&v->widgets[5], 64 + APP_ENTRY_ICON_WIDTH, 72, 1, size,
+	widget_label (&v->widgets[11], 48 + APP_ENTRY_ICON_WIDTH, 92, 1, size,
 					theme_gfx[THEME_DIALOG]->w - 72 - APP_ENTRY_ICON_WIDTH,
 					FA_LEFT, FA_ASCENDER, FONT_LABEL);
 
@@ -244,22 +240,22 @@ view * dialog_app (const app_entry *entry, const view *sub_view) {
 	ym = 48 + APP_ENTRY_ICON_HEIGHT + 8;
 	hm = yb - ym - 8;
 
-	widget_memo_deco (&v->widgets[6], 32, ym, 1,
+	widget_memo_deco (&v->widgets[5], 32, ym, 1,
 						theme_gfx[THEME_DIALOG]->w - 64, hm, desc, FA_LEFT);
 
 	gap = (theme_gfx[THEME_DIALOG]->w -
 			theme_gfx[THEME_BUTTON_TINY]->w * 3) / 4;
 
 	x = gap;
-	widget_button (&v->widgets[9], x, yb, 1, BTN_TINY, caption_delete);
+	widget_button (&v->widgets[8], x, yb, 1, BTN_TINY, caption_delete);
 
 	x += gap + theme_gfx[THEME_BUTTON_TINY]->w;
-	widget_button (&v->widgets[10], x, yb, 1, BTN_TINY, caption_load);
+	widget_button (&v->widgets[9], x, yb, 1, BTN_TINY, caption_load);
 
 	x += gap + theme_gfx[THEME_BUTTON_TINY]->w;
-	widget_button (&v->widgets[11], x, yb, 1, BTN_TINY, caption_back);
+	widget_button (&v->widgets[10], x, yb, 1, BTN_TINY, caption_back);
 
-	view_set_focus (v, 11);
+	view_set_focus (v, 10);
 
 	return v;
 }
