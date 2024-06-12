@@ -413,8 +413,10 @@ void theme_init(u8 *data, u32 data_len) {
 	// TODO: support custom mp3s
 	theme_music[0].data = menu_music_mp3;
 	theme_music[0].data_len = menu_music_mp3_size;
+#ifdef USE_CREDITS
 	theme_music[1].data = credit_music_mp3;
 	theme_music[1].data_len = credit_music_mp3_size;
+#endif
 
 	theme.progress.ul = 0xc8e1edff;
 	theme.progress.ur = 0xc8e1edff;

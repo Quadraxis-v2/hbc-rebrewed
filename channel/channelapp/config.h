@@ -7,6 +7,8 @@
 //#define DEBUG_APP
 //#define DEBUG_STUB
 
+//#define USE_CREDITS
+
 #define ENABLE_WIDESCREEN
 #define ENABLE_SCREENSHOTS
 //#define ENABLE_UPDATES
@@ -140,4 +142,3 @@ void memstats(int reset);
 #define FORCE_INLINE __attribute__((always_inline))
 
 #endif
-

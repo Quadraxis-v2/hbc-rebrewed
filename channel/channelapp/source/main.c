@@ -449,7 +449,9 @@ void main_real(void) {
 					continue;
 
 				case 1:
+				#ifdef USE_CREDITS
 				    play_music_track(MUSIC_TRACK_CREDITS);
+				#endif
 					v_about = dialog_about (v_m_main);
 					v_current = v_about;
 
