@@ -52,6 +52,7 @@ static app_sort current_sort = APP_SORT_NAME;
 static bool cmp_author = false;
 static bool cmp_descending = false;
 static bool cmp_release_date = false;
+static bool cmp_size = false;
 
 // app sorting: comparison function
 static int cmp_app_entry (const void *p1, const void *p2) {
@@ -66,6 +67,9 @@ static int cmp_app_entry (const void *p1, const void *p2) {
 		a2 = *((const app_entry **) p2);
 	}
 
+	if (cmp_size) {
+	   return a2->size - a1->size;
+	}
 	if (!a1->meta && !a2->meta)
 		return strcasecmp (a1->dirname, a2->dirname);
 
@@ -157,6 +161,7 @@ void app_entry_set_sort(app_sort sort) {
 		cmp_author = false;
 		cmp_descending = true;
 		cmp_release_date = true;
+		cmp_sort = false;
 		current_filter = APP_FILTER_DATEONLY;
 		current_sort = APP_SORT_DATE;
 		break;
@@ -165,14 +170,25 @@ void app_entry_set_sort(app_sort sort) {
 		cmp_author = true;
 		cmp_descending = false;
 		cmp_release_date = false;
+		cmp_sort = false;
 		current_filter = APP_FILTER_ALL;
 		current_sort = APP_SORT_AUTHOR;
+		break;
+
+	case APP_SORT_SIZE:
+		cmp_author = false;
+		cmp_descending = false;
+		cmp_release_date = false;
+		cmp_sort = true;
+		current_filter = APP_FILTER_ALL;
+		current_sort = APP_SORT_SIZE;
 		break;
 
 	default:
 		cmp_author = false;
 		cmp_descending = false;
 		cmp_release_date = false;
+		cmp_sort = false;
 		current_filter = APP_FILTER_ALL;
 		current_sort = APP_SORT_NAME;
 		break;

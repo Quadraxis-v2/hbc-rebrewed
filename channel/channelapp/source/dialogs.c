@@ -236,6 +236,10 @@ view * dialog_app (const app_entry *entry, const view *sub_view) {
 					theme_gfx[THEME_DIALOG]->w - 72 - APP_ENTRY_ICON_WIDTH,
 					FA_LEFT, FA_ASCENDER, FONT_LABEL);
 
+	widget_label (&v->widgets[5], 64 + APP_ENTRY_ICON_WIDTH, 72, 1, size,
+					theme_gfx[THEME_DIALOG]->w - 72 - APP_ENTRY_ICON_WIDTH,
+					FA_LEFT, FA_ASCENDER, FONT_LABEL);
+
 	yb = theme_gfx[THEME_DIALOG]->h - theme_gfx[THEME_BUTTON_TINY]->h - 16;
 	ym = 48 + APP_ENTRY_ICON_HEIGHT + 8;
 	hm = yb - ym - 8;
