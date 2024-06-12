@@ -50,6 +50,7 @@ static const char *caption_sort_author;
 
 static const char *l_version;
 static const char *l_coder;
+static const char *l_size;
 
 static const char *string_about_pre;
 static const char *string_about_post;
@@ -133,6 +134,7 @@ void dialogs_theme_reinit (void) {
 
 	l_version = _("Version: %s");
 	l_coder = _("Author: %s");
+	l_size = _("Size: %d");
 }
 
 void dialogs_init (void) {
@@ -184,6 +186,7 @@ view * dialog_app (const app_entry *entry, const view *sub_view) {
 	char *name;
 	char coder[64];
 	char version[64];
+	char size[64];
 	const char *desc;
 	u16 ym, hm, yb;
 
@@ -207,8 +210,9 @@ view * dialog_app (const app_entry *entry, const view *sub_view) {
 	else
 		desc = app_entry_desc_default;
 
+	snprintf(size, sizeof(size), l_size, entry->size);
 	// TODO: Better ways of handling when we need to add more widgets
-	v = view_new (12, sub_view, (view_width - theme_gfx[THEME_DIALOG]->w) / 2,
+	v = view_new (13, sub_view, (view_width - theme_gfx[THEME_DIALOG]->w) / 2,
 					44, TEX_LAYER_DIALOGS, PADS_B);
 
 	widget_image(&v->widgets[0], 0, 0, 0, theme_gfx[THEME_DIALOG],
@@ -228,27 +232,30 @@ view * dialog_app (const app_entry *entry, const view *sub_view) {
 	widget_label (&v->widgets[4], 48 + APP_ENTRY_ICON_WIDTH, 72, 1, coder,
 					theme_gfx[THEME_DIALOG]->w - 72 - APP_ENTRY_ICON_WIDTH,
 					FA_LEFT, FA_ASCENDER, FONT_LABEL);
+	widget_label (&v->widgets[5], 48 + APP_ENTRY_ICON_WIDTH, 92, 1, size,
+					theme_gfx[THEME_DIALOG]->w - 72 - APP_ENTRY_ICON_WIDTH,
+					FA_LEFT, FA_ASCENDER, FONT_LABEL);
 
 	yb = theme_gfx[THEME_DIALOG]->h - theme_gfx[THEME_BUTTON_TINY]->h - 16;
 	ym = 48 + APP_ENTRY_ICON_HEIGHT + 8;
 	hm = yb - ym - 8;
 
-	widget_memo_deco (&v->widgets[5], 32, ym, 1,
+	widget_memo_deco (&v->widgets[6], 32, ym, 1,
 						theme_gfx[THEME_DIALOG]->w - 64, hm, desc, FA_LEFT);
 
 	gap = (theme_gfx[THEME_DIALOG]->w -
 			theme_gfx[THEME_BUTTON_TINY]->w * 3) / 4;
 
 	x = gap;
-	widget_button (&v->widgets[8], x, yb, 1, BTN_TINY, caption_delete);
+	widget_button (&v->widgets[9], x, yb, 1, BTN_TINY, caption_delete);
 
 	x += gap + theme_gfx[THEME_BUTTON_TINY]->w;
-	widget_button (&v->widgets[9], x, yb, 1, BTN_TINY, caption_load);
+	widget_button (&v->widgets[10], x, yb, 1, BTN_TINY, caption_load);
 
 	x += gap + theme_gfx[THEME_BUTTON_TINY]->w;
-	widget_button (&v->widgets[10], x, yb, 1, BTN_TINY, caption_back);
+	widget_button (&v->widgets[11], x, yb, 1, BTN_TINY, caption_back);
 
-	view_set_focus (v, 10);
+	view_set_focus (v, 11);
 
 	return v;
 }
