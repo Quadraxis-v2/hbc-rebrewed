@@ -161,7 +161,7 @@ void app_entry_set_sort(app_sort sort) {
 		cmp_author = false;
 		cmp_descending = true;
 		cmp_release_date = true;
-		cmp_sort = false;
+		cmp_size = false;
 		current_filter = APP_FILTER_DATEONLY;
 		current_sort = APP_SORT_DATE;
 		break;
@@ -170,7 +170,7 @@ void app_entry_set_sort(app_sort sort) {
 		cmp_author = true;
 		cmp_descending = false;
 		cmp_release_date = false;
-		cmp_sort = false;
+		cmp_size = false;
 		current_filter = APP_FILTER_ALL;
 		current_sort = APP_SORT_AUTHOR;
 		break;
@@ -179,7 +179,7 @@ void app_entry_set_sort(app_sort sort) {
 		cmp_author = false;
 		cmp_descending = false;
 		cmp_release_date = false;
-		cmp_sort = true;
+		cmp_size = true;
 		current_filter = APP_FILTER_ALL;
 		current_sort = APP_SORT_SIZE;
 		break;
@@ -188,7 +188,7 @@ void app_entry_set_sort(app_sort sort) {
 		cmp_author = false;
 		cmp_descending = false;
 		cmp_release_date = false;
-		cmp_sort = false;
+		cmp_size = false;
 		current_filter = APP_FILTER_ALL;
 		current_sort = APP_SORT_NAME;
 		break;
