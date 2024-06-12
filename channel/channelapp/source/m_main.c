@@ -60,7 +60,7 @@ view * m_main_init (void) {
 	bootmii_ios = bootmii_is_installed(TITLEID_BOOTMII);
 	vwii = is_vwii();
 
-	v_m_main = view_new (8, NULL, 0, 0, 0, 0);
+	v_m_main = view_new (9, NULL, 0, 0, 0, 0);
 
 	m_main_theme_reinit();
 	m_main_update();
@@ -151,7 +151,7 @@ void m_main_update (void) {
 	}
 
 	sprintf (buffer2, text_number_apps, entry_count);
-	widget_label (&v_m_main->widgets[7], 48, 32, 0, buffer2,
+	widget_label (&v_m_main->widgets[8], 48, 48, 0, buffer2,
 					  view_width / 3 * 2 - 48, FA_LEFT, FA_ASCENDER, FONT_LABEL);
 
 
