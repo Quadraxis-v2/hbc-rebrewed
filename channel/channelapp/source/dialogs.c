@@ -137,7 +137,7 @@ void dialogs_theme_reinit (void) {
 
 	l_version = _("Version: %s");
 	l_coder = _("Author: %s");
-	l_size = _("Size: %d");
+	l_size = _("Size: %.2f MB"); // (insert joke about significant figures)
 }
 
 void dialogs_init (void) {
@@ -213,7 +213,7 @@ view * dialog_app (const app_entry *entry, const view *sub_view) {
 	else
 		desc = app_entry_desc_default;
 
-	snprintf(size, sizeof(size), l_size, entry->size);
+	snprintf(size, sizeof(size), l_size, (float)entry->size / 1000000.0);
 	// TODO: Better ways of handling when we need to add more widgets
 	v = view_new (13, sub_view, (view_width - theme_gfx[THEME_DIALOG]->w) / 2,
 					44, TEX_LAYER_DIALOGS, PADS_B);
