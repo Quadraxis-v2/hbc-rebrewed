@@ -24,8 +24,9 @@
 #define WIDGET_SORT_NAME 8
 #define WIDGET_SORT_DATE 9
 #define WIDGET_SORT_AUTHOR 10
-#define WIDGET_CAPTION_OK 11
-#define WIDGET_CAPTION_BACK 12
+#define WIDGET_SORT_SIZE 11
+#define WIDGET_CAPTION_OK 12
+#define WIDGET_CAPTION_BACK 13
 
 static const char *app_entry_desc_default;
 
@@ -47,6 +48,7 @@ static const char *caption_sort_by;
 static const char *caption_sort_name;
 static const char *caption_sort_date;
 static const char *caption_sort_author;
+static const char *caption_sort_size;
 
 static const char *l_version;
 static const char *l_coder;
@@ -82,6 +84,7 @@ void dialogs_theme_reinit (void) {
 	caption_sort_name = _("Name");
 	caption_sort_date = _("Date");
 	caption_sort_author = _("Author");
+	caption_sort_size = _("Size");
 
 	string_about_pre =
 		"Credits\n\n"
@@ -494,7 +497,7 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 
 	app_entry_poll_status(true);
 
-	v = view_new (13, sub_view, (view_width - theme_gfx[THEME_DIALOG]->w) / 2,
+	v = view_new (14, sub_view, (view_width - theme_gfx[THEME_DIALOG]->w) / 2,
 					44, TEX_LAYER_DIALOGS, PADS_B);
 
 	widget_image (&v->widgets[0], 0, 0, 0, theme_gfx[THEME_DIALOG],
@@ -504,17 +507,18 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 
 	widget_label (&v->widgets[2], 32, 60, 1, caption_device,
 					theme_gfx[THEME_DIALOG]->w - 64, FA_LEFT, FA_DESCENDER, FONT_LABEL);
-	widget_label (&v->widgets[3], 32, 212, 1, caption_sort_by,
+	widget_label (&v->widgets[3], 32, 184, 1, caption_sort_by,
 					theme_gfx[THEME_DIALOG]->w - 64, FA_LEFT, FA_DESCENDER, FONT_LABEL);
 
 	widget_button (&v->widgets[4], 52, 64, 1, BTN_SMALL, NULL);
 	widget_button (&v->widgets[5], 268, 64, 1, BTN_SMALL, NULL);
-	widget_button (&v->widgets[6], 52, 128, 1, BTN_SMALL, NULL);
-	widget_button (&v->widgets[7], 268, 128, 1, BTN_SMALL, NULL);
+	widget_button (&v->widgets[6], 52, 112, 1, BTN_SMALL, NULL);
+	widget_button (&v->widgets[7], 268, 112, 1, BTN_SMALL, NULL);
 
-	widget_button (&v->widgets[WIDGET_SORT_NAME], 52, 216, 1, BTN_TINY, NULL);
-	widget_button (&v->widgets[WIDGET_SORT_DATE], 186, 216, 1, BTN_TINY, NULL);
-	widget_button (&v->widgets[WIDGET_SORT_AUTHOR], 320, 216, 1, BTN_TINY, NULL);
+	widget_button (&v->widgets[WIDGET_SORT_NAME], 52, 190, 1, BTN_SMALL, NULL);
+	widget_button (&v->widgets[WIDGET_SORT_DATE], 268, 190, 1, BTN_SMALL, NULL);
+	widget_button (&v->widgets[WIDGET_SORT_AUTHOR], 52, 242, 1, BTN_SMALL, NULL);
+	widget_button (&v->widgets[WIDGET_SORT_SIZE], 268, 242, 1, BTN_SMALL, NULL);
 
 	widget_button (&v->widgets[WIDGET_CAPTION_OK], 32,
 					theme_gfx[THEME_DIALOG]->h -
@@ -559,6 +563,9 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 	widget_button_set_caption(&v->widgets[WIDGET_SORT_AUTHOR],
 									FONT_BUTTON_DESEL,
 									caption_sort_author);
+	widget_button_set_caption(&v->widgets[WIDGET_SORT_SIZE],
+									FONT_BUTTON_DESEL,
+									caption_sort_size);
 
 	// Only set the widget of the active sort to show different
 	switch (ret.sort) {
@@ -579,6 +586,11 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 									FONT_BUTTON,
 									caption_sort_author);
 			break;
+		case APP_SORT_SIZE:
+		    widget_button_set_caption(&v->widgets[WIDGET_SORT_SIZE],
+								    FONT_BUTTON,
+								    caption_sort_size);
+		break;
 	}
 
 	view_set_focus (v, WIDGET_CAPTION_BACK);
@@ -633,6 +645,9 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 				widget_button_set_caption(&v->widgets[WIDGET_SORT_AUTHOR],
 											FONT_BUTTON_DESEL,
 											caption_sort_author);
+				widget_button_set_caption(&v->widgets[WIDGET_SORT_SIZE],
+											FONT_BUTTON_DESEL,
+											caption_sort_size);
 			} else if (v->focus == WIDGET_SORT_DATE) {
 				ret.sort = APP_SORT_DATE;
 				widget_button_set_caption(&v->widgets[WIDGET_SORT_NAME],
@@ -644,6 +659,9 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 				widget_button_set_caption(&v->widgets[WIDGET_SORT_AUTHOR],
 											FONT_BUTTON_DESEL,
 											caption_sort_author);
+				widget_button_set_caption(&v->widgets[WIDGET_SORT_SIZE],
+											FONT_BUTTON_DESEL,
+											caption_sort_size);
 			} else if (v->focus == WIDGET_SORT_AUTHOR) {
 				ret.sort = APP_SORT_AUTHOR;
 				widget_button_set_caption(&v->widgets[WIDGET_SORT_NAME],
@@ -655,6 +673,23 @@ dialog_options_result show_options_dialog(const view *sub_view) {
 				widget_button_set_caption(&v->widgets[WIDGET_SORT_AUTHOR],
 											FONT_BUTTON,
 											caption_sort_author);
+				widget_button_set_caption(&v->widgets[WIDGET_SORT_SIZE],
+											FONT_BUTTON_DESEL,
+											caption_sort_size);
+			} else if (v->focus == WIDGET_SORT_SIZE) {
+			    ret.sort = APP_SORT_SIZE;
+			    widget_button_set_caption(&v->widgets[WIDGET_SORT_NAME],
+				    						FONT_BUTTON_DESEL,
+					    					caption_sort_name);
+			    widget_button_set_caption(&v->widgets[WIDGET_SORT_DATE],
+				    						FONT_BUTTON_DESEL,
+					    					caption_sort_date);
+			    widget_button_set_caption(&v->widgets[WIDGET_SORT_AUTHOR],
+				    						FONT_BUTTON_DESEL,
+					    					caption_sort_author);
+			    widget_button_set_caption(&v->widgets[WIDGET_SORT_SIZE],
+				    						FONT_BUTTON,
+					    					caption_sort_size);
 			} else if ((v->focus == WIDGET_CAPTION_OK) || (v->focus == WIDGET_CAPTION_BACK)) {
 				break;
 			}
