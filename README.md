@@ -4,20 +4,26 @@ This repository contains the public release of the source code for
 The Homebrew Channel: Rebrewed. This is a fork of the original Homebrew Channel
 by fail0verflow with more stuff.
 
+New features:
+* Sorting by app size and author
+* vWii: Menu option to reboot to the Wii U Menu
+* Display of number of applications
+
 Included portions:
 
 * The Homebrew Channel
 * Reload stub
 * Banner
-* PyWii (includes Alameda for banner creation)
+* PyWii (includes Alameda for banner creation), ported to Python 3
 * WiiPAX (LZMA executable packer)
 
 Not included:
 
 * Installer
+* BootMii nor the GUI (CE1LING_CAT)
 
 Note that the code in this repository differs from the source code used to build
-the official version of The Homebrew Channel, which includes additional
+the fail0verflow's version of The Homebrew Channel, which includes additional
 protection features (i.e. we had to add reverse-DRM to stop scammers from
 selling it).
 
