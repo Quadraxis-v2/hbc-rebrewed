@@ -179,6 +179,7 @@ static void _get_font(mxml_node_t *node) {
 }
 
 static void _get_theme(mxml_node_t *node) {
+    #ifdef USE_MUSIC
     theme_mp3_t mp3;
     mp3.file = _xmldup(_get_elem_cdata(node, "file"));
     mp3.size = _get_elem_int(node, "size", 0);
@@ -192,6 +193,7 @@ static void _get_theme(mxml_node_t *node) {
             theme.music[0].file = mp3.file;
             theme.music[0].size = mp3.size;
     }
+    #endif
 }
 
 static char *_get_args(u16 *length, mxml_node_t *node, const char *element) {
@@ -566,10 +568,12 @@ bool load_theme_xml(char *buf) {
 	for (i=0; i<FONT_MAX; i++)
 		if (theme.fonts[i].file)
 			free(theme.fonts[i].file);
+	#ifdef USE_MUSIC
 	if (theme.music[0].file)
 	    free(theme.music[0].file);
 	if (theme.music[1].file)
 	    free(theme.music[1].file);
+	#endif
 
 	root = mxmlLoadString(NULL, buf, MXML_OPAQUE_CALLBACK);
 
@@ -608,8 +612,10 @@ bool load_theme_xml(char *buf) {
 	if (theme.description && (strlen(theme.description) > 64))
 		theme.description[64] = 0;
 
+	#ifdef USE_MUSIC
 	theme.music[0].file = NULL;
 	theme.music[1].file = NULL;
+	#endif
 
 	theme.default_font.color = NO_COLOR;
 	theme.default_font.file = NULL;
@@ -629,11 +635,13 @@ bool load_theme_xml(char *buf) {
 		fnode = mxmlFindElement(fnode, root, "font", NULL, NULL, MXML_NO_DESCEND);
 	}
 
+	#ifdef USE_MUSIC
 	mnode = mxmlFindElement(node, root, "music", NULL, NULL, MXML_DESCEND_FIRST);
 	if(mnode != NULL) {
 	   _get_theme(mnode);
 	   mnode = mxmlFindElement(mnode, root, "music", NULL, NULL, MXML_DESCEND_FIRST);
 	}
+	#endif
 
 	mxmlDelete(root);
 

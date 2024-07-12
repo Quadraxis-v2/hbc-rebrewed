@@ -8,6 +8,7 @@
 //#define DEBUG_STUB
 
 //#define USE_CREDITS
+//#define USE_MUSIC
 
 #define ENABLE_WIDESCREEN
 #define ENABLE_SCREENSHOTS

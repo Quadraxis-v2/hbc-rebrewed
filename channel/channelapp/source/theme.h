@@ -61,16 +61,18 @@ typedef struct {
 	u32 color;
 } theme_font;
 
+#ifdef USE_MUSIC
 typedef struct {
     void *data;
     u32 data_len;
 } theme_mp3;
+extern theme_mp3 theme_music[2];
+#endif
 
 extern gfx_entity *theme_gfx[THEME_LAST];
 
 extern theme_font theme_fonts[FONT_MAX];
 
-extern theme_mp3 theme_music[2];
 
 extern const char *theme_fn_xml;
 

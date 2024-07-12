@@ -49,10 +49,12 @@ typedef struct {
 	u32 color;
 } theme_font_t;
 
+#ifdef USE_MUSIC
 typedef struct {
     char *file;
     int size;
 } theme_mp3_t;
+#endif
 
 typedef enum {
 	TLANG_JA = 0x01,
@@ -65,7 +67,9 @@ typedef struct {
 	char *description;
 	theme_font_t default_font;
 	theme_font_t fonts[FONT_MAX];
+	#ifdef USE_MUSIC
 	theme_mp3_t music[2];
+	#endif
 	theme_lang_t langs;
 } theme_t;
 

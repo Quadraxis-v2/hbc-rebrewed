@@ -1,3 +1,4 @@
+#ifdef USE_MUSIC
 #include "music.h"
 #include <asndlib.h>
 #include <mad.h>
@@ -39,3 +40,5 @@ void music_deinit() {
     MP3Player_Stop();
     ASND_End();
 }
+
+#endif

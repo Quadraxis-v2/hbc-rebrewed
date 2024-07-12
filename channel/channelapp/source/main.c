@@ -30,7 +30,9 @@
 #include "browser.h"
 #include "m_main.h"
 #include "loader.h"
+#ifdef USE_MUSIC
 #include "music.h"
+#endif
 #ifdef ENABLE_UPDATES
 #include "http.h"
 #include "update.h"
@@ -237,7 +239,9 @@ static void main_pre(void) {
 	gfx_init();
 	app_entry_init();
 	theme_xml_init();
+	#ifdef USE_MUSIC
 	music_init();
+	#endif
 	theme_init(NULL, 0);
 	config_language();
 	loader_init();
@@ -362,7 +366,9 @@ void main_real(void) {
 		}
 #endif
 		memstats(false);
+		#ifdef USE_MUSIC
 		play_music();
+		#endif
 
 		if (v_current == v_browser) {
 			switch (app_entry_action()) {
@@ -451,8 +457,10 @@ void main_real(void) {
 					continue;
 
 				case 1:
+				#ifdef USE_MUSIC
 				#ifdef USE_CREDITS
 				    play_music_track(MUSIC_TRACK_CREDITS);
+				#endif
 				#endif
 					v_about = dialog_about (v_m_main);
 					v_current = v_about;
@@ -746,7 +754,9 @@ void main_real(void) {
 				exit_about = true;
 
 			if (exit_about) {
+			#ifdef USE_MUSIC
 			    play_music_track(MUSIC_TRACK_MENU);
+			#endif
 				dialog_fade (v_current, false);
 
 				v_current = v_m_main;
@@ -766,7 +776,9 @@ void main_real(void) {
 	gprintf ("exiting\n");
 
 	view_enable_cursor (false);
+	#ifdef USE_MUSIC
 	music_deinit();
+	#endif
 
 	if (v_current->sub_view)
 		dialog_fade (v_current, false);

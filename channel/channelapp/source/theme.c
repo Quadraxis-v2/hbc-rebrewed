@@ -57,9 +57,11 @@
 #include "progress_png.h"
 #include "content_arrow_up_png.h"
 #include "content_arrow_down_png.h"
+#ifdef USE_MUSIC
 // music.c
 #include "credit_music_mp3.h"
 #include "menu_music_mp3.h"
+#endif
 
 #define _ENTRY(n, w, h, fn) \
 	{ \
@@ -82,7 +84,9 @@
 
 gfx_entity *theme_gfx[THEME_LAST];
 
+#ifdef USE_MUSIC
 theme_mp3 theme_music[2];
+#endif
 
 theme_font theme_fonts[FONT_MAX];
 
@@ -171,6 +175,7 @@ static bool theme_get_index(u32 *index, bool *ws, const char *filename) {
 }
 
 static void theme_load_music(unzFile uf) {
+    #ifdef USE_MUSIC
     // TODO: Check if we already loaded this
     int res;
 
@@ -220,6 +225,7 @@ static void theme_load_music(unzFile uf) {
             }
         }
     }
+    #endif
 }
 
 static void theme_load_fonts(unzFile uf) {
@@ -383,7 +389,9 @@ static void theme_load(u8 *data, u32 data_len) {
 	}
 
 	theme_load_fonts(uf);
+	#ifdef USE_MUSIC
 	theme_load_music(uf);
+	#endif
 
 error:
 	res = unzClose(uf);
@@ -410,12 +418,14 @@ void theme_init(u8 *data, u32 data_len) {
 		theme_fonts[i].color = 0xffffffff;
 	}
 
+	#ifdef USE_MUSIC
 	// TODO: support custom mp3s
 	theme_music[0].data = menu_music_mp3;
 	theme_music[0].data_len = menu_music_mp3_size;
 #ifdef USE_CREDITS
 	theme_music[1].data = credit_music_mp3;
 	theme_music[1].data_len = credit_music_mp3_size;
+#endif
 #endif
 
 	theme.progress.ul = 0xc8e1edff;
