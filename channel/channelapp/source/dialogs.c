@@ -98,7 +98,8 @@ void dialogs_theme_reinit (void) {
 		"segher (EBUGFOUND) - nandloader stub code\n"
 		"souLLy (ENOTHERE) - banner graphics\n"
 		"drmr (EMORECOWBELL) - banner audio, channel graphics\n"
-		"mha (E404) - update server and hosting";
+		"mha (E404) - update server and hosting\n"
+	    "ItzSwirlz (EPSYDUCK) - rebrewing\n";
 
 	string_about_post =
 		"Powered by devkitPPC and libogc, by shagkur, WinterMute, "
