@@ -23,14 +23,13 @@
 #define PADS_NET_INIT (PAD_TRIGGER_Z | (PADW_BUTTON_NET_INIT << 16))
 #define PADS_SCREENSHOT (PADW_BUTTON_SCREENSHOT << 16)
 
-void controls_init (void);
-void controls_deinit (void);
+void controls_init(void);
+void controls_deinit(void);
 
-void controls_scan (u32 *down, u32 *held, u32 *up);
-bool controls_ir (s32 *x, s32 *y, f32 *roll);
+void controls_scan(u32 *down, u32 *held, u32 *up);
+bool controls_ir(s32 *x, s32 *y, f32 *roll);
 void controls_rumble(int rumble);
 s32 controls_sticky(void);
 void controls_set_ir_threshold(int on);
 
 #endif
-

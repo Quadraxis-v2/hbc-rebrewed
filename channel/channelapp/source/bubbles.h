@@ -12,4 +12,3 @@ void bubble_update(bool wm, s32 x, s32 y);
 void bubble_popall(void);
 
 #endif
-

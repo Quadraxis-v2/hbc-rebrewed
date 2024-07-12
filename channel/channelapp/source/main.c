@@ -1,35 +1,34 @@
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <malloc.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <unistd.h>
-#include <locale.h>
 #include <ctype.h>
+#include <locale.h>
+#include <malloc.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
-#include <ogcsys.h>
-#include <ogc/machine/processor.h>
-#include <ogc/conf.h>
 #include <debug.h>
-
+#include <ogc/conf.h>
+#include <ogc/machine/processor.h>
+#include <ogcsys.h>
 
 #include "../config.h"
-#include "controls.h"
 #include "appentry.h"
-#include "playtime.h"
+#include "browser.h"
+#include "bubbles.h"
+#include "controls.h"
+#include "cursors.h"
+#include "dialogs.h"
+#include "font.h"
 #include "gfx.h"
+#include "loader.h"
+#include "m_main.h"
+#include "playtime.h"
 #include "tex.h"
 #include "theme.h"
-#include "cursors.h"
-#include "font.h"
-#include "widgets.h"
 #include "view.h"
-#include "bubbles.h"
-#include "dialogs.h"
-#include "browser.h"
-#include "m_main.h"
-#include "loader.h"
+#include "widgets.h"
 #ifdef USE_MUSIC
 #include "music.h"
 #endif
@@ -37,22 +36,22 @@
 #include "http.h"
 #include "update.h"
 #endif
-#include "i18n.h"
 #include "dvd.h"
+#include "i18n.h"
 #include "manage.h"
-#include "xml.h"
 #include "title.h"
+#include "xml.h"
 
 // Languages
-#include "spanish_mo.h"
 #include "dutch_mo.h"
-#include "german_mo.h"
 #include "french_mo.h"
+#include "german_mo.h"
 #include "italian_mo.h"
 #include "japanese_mo.h"
+#include "spanish_mo.h"
 
 #ifdef DEBUG_APP
-//#define GDBSTUB
+// #define GDBSTUB
 #else
 #undef GDBSTUB
 #endif
@@ -81,786 +80,783 @@ s32 __IOS_LoadStartupIOS(void) {
 	__ES_Init();
 	__IOS_LaunchNewIOS(58);
 #endif
-	return 0;
+    return 0;
 }
 
-#define MEM2_PROT          0x0D8B420A
-#define ES_MODULE_START (u16*)0x939F0000
+#define MEM2_PROT 0x0D8B420A
+#define ES_MODULE_START (u16 *)0x939F0000
 
 static const u16 ticket_check[] = {
-    0x685B,               // ldr r3,[r3,#4] ; get TMD pointer
-    0x22EC, 0x0052,       // movls r2, 0x1D8
-    0x189B,               // adds r3, r3, r2; add offset of access rights field in TMD
-    0x681B,               // ldr r3, [r3]   ; load access rights (haxxme!)
-    0x4698,               // mov r8, r3  ; store it for the DVD video bitcheck later
-    0x07DB                // lsls r3, r3, #31; check AHBPROT bit
+    0x685B,         // ldr r3,[r3,#4] ; get TMD pointer
+    0x22EC, 0x0052, // movls r2, 0x1D8
+    0x189B,         // adds r3, r3, r2; add offset of access rights field in TMD
+    0x681B,         // ldr r3, [r3]   ; load access rights (haxxme!)
+    0x4698,         // mov r8, r3  ; store it for the DVD video bitcheck later
+    0x07DB          // lsls r3, r3, #31; check AHBPROT bit
 };
 
-static int patch_ahbprot_reset(void)
-{
-	u16 *patchme;
+static int patch_ahbprot_reset(void) {
+    u16 *patchme;
 
-	if ((read32(0x0D800064) == 0xFFFFFFFF) ? 1 : 0) {
-		write16(MEM2_PROT, 2);
-		for (patchme=ES_MODULE_START; patchme < ES_MODULE_START+0x4000; ++patchme) {
-			if (!memcmp(patchme, ticket_check, sizeof(ticket_check)))
-			{
-				// write16/uncached poke doesn't work for MEM2
-				patchme[4] = 0x23FF; // li r3, 0xFF
-				DCFlushRange(patchme+4, 2);
-				return 0;
-			}
-		}
-		return -1;
-	} else {
-		return -2;
-	}
+    if ((read32(0x0D800064) == 0xFFFFFFFF) ? 1 : 0) {
+        write16(MEM2_PROT, 2);
+        for (patchme = ES_MODULE_START; patchme < ES_MODULE_START + 0x4000;
+             ++patchme) {
+            if (!memcmp(patchme, ticket_check, sizeof(ticket_check))) {
+                // write16/uncached poke doesn't work for MEM2
+                patchme[4] = 0x23FF; // li r3, 0xFF
+                DCFlushRange(patchme + 4, 2);
+                return 0;
+            }
+        }
+        return -1;
+    } else {
+        return -2;
+    }
 }
 
 static void reset_cb(u32 irq, void *ctx) {
 #ifdef GDBSTUB
-	gdb = true;
+    gdb = true;
 #else
-	should_exit = true;
+    should_exit = true;
 #endif
 }
 
 static void power_cb(void) {
-	should_exit = true;
-	shutdown = true;
+    should_exit = true;
+    shutdown = true;
 }
 
 void config_language(void) {
-	s32 language;
-	const void *mo;
+    s32 language;
+    const void *mo;
 
-	// this is probably wrong, but we don't let the C library do any UTF-8 text
-	// processing worth mentioning anyway, and I'm scared of what might happen
-	// if I change this :P
-	setlocale(LC_CTYPE, "C-ISO-8859-1");
+    // this is probably wrong, but we don't let the C library do any UTF-8 text
+    // processing worth mentioning anyway, and I'm scared of what might happen
+    // if I change this :P
+    setlocale(LC_CTYPE, "C-ISO-8859-1");
 
 #ifdef FORCE_LANG
-	language = FORCE_LANG;
+    language = FORCE_LANG;
 #else
-	language = CONF_GetLanguage();
-	if (language < 0)
-		language = CONF_LANG_ENGLISH;
+    language = CONF_GetLanguage();
+    if (language < 0)
+        language = CONF_LANG_ENGLISH;
 #endif
 
-	mo = NULL;
+    mo = NULL;
 
-	switch (language) {
-		case CONF_LANG_ENGLISH:
-			mo = NULL;
-			break;
+    switch (language) {
+    case CONF_LANG_ENGLISH:
+        mo = NULL;
+        break;
 
-		case CONF_LANG_SPANISH:
-			mo = spanish_mo;
-			break;
+    case CONF_LANG_SPANISH:
+        mo = spanish_mo;
+        break;
 
-		case CONF_LANG_FRENCH:
-			mo = french_mo;
-			break;
+    case CONF_LANG_FRENCH:
+        mo = french_mo;
+        break;
 
-		case CONF_LANG_GERMAN:
-			mo = german_mo;
-			break;
+    case CONF_LANG_GERMAN:
+        mo = german_mo;
+        break;
 
-		case CONF_LANG_DUTCH:
-			mo = dutch_mo;
-			break;
+    case CONF_LANG_DUTCH:
+        mo = dutch_mo;
+        break;
 
-		case CONF_LANG_ITALIAN:
-			mo = italian_mo;
-			break;
+    case CONF_LANG_ITALIAN:
+        mo = italian_mo;
+        break;
 
-		case CONF_LANG_JAPANESE:
-			if (theme.langs & TLANG_JA) {
-				mo = japanese_mo;
-			} else {
-				gprintf("language ja disabled due to missing theme support\n");
-				language = CONF_LANG_ENGLISH;
-			}
-			break;
+    case CONF_LANG_JAPANESE:
+        if (theme.langs & TLANG_JA) {
+            mo = japanese_mo;
+        } else {
+            gprintf("language ja disabled due to missing theme support\n");
+            language = CONF_LANG_ENGLISH;
+        }
+        break;
 
-		default:
-			gprintf("unsupported language %d, defaulting to English\n",
-					language);
-			language = CONF_LANG_ENGLISH;
-	}
+    default:
+        gprintf("unsupported language %d, defaulting to English\n", language);
+        language = CONF_LANG_ENGLISH;
+    }
 
-	gprintf("configuring language: %d with mo file at %p\n", language, mo);
-	i18n_set_mo(mo);
+    gprintf("configuring language: %d with mo file at %p\n", language, mo);
+    i18n_set_mo(mo);
 }
-
 
 static void main_pre(void) {
 #ifdef DEBUG_APP
-	if(usb_isgeckoalive(USBGECKO_CHANNEL))
-		CON_EnableGecko(USBGECKO_CHANNEL, 1);
+    if (usb_isgeckoalive(USBGECKO_CHANNEL))
+        CON_EnableGecko(USBGECKO_CHANNEL, 1);
 
 #ifdef GDBSTUB
-	DEBUG_Init(GDBSTUB_DEVICE_USB, USBGECKO_CHANNEL);
+    DEBUG_Init(GDBSTUB_DEVICE_USB, USBGECKO_CHANNEL);
 #endif
 #endif
 
-	AUDIO_Init(NULL);
-	DSP_Init();
-	AUDIO_StopDMA();
-	AUDIO_RegisterDMACallback(NULL);
+    AUDIO_Init(NULL);
+    DSP_Init();
+    AUDIO_StopDMA();
+    AUDIO_RegisterDMACallback(NULL);
 
-	gfx_init_video();
-	PAD_Init();
+    gfx_init_video();
+    PAD_Init();
 
-	SYS_SetResetCallback(reset_cb);
-	title_init();
-	SYS_SetPowerCallback(power_cb);
+    SYS_SetResetCallback(reset_cb);
+    title_init();
+    SYS_SetPowerCallback(power_cb);
 
-	gprintf("installing stub (%u)\n", stub_bin_size);
+    gprintf("installing stub (%u)\n", stub_bin_size);
 
 #ifdef DEBUG_APP
-	if (stub_bin_size > 0x1800)
-		gprintf("WARNING: stub too big!\n");
+    if (stub_bin_size > 0x1800)
+        gprintf("WARNING: stub too big!\n");
 #endif
 
-	memcpy((u32 *) 0x80001800, stub_bin, stub_bin_size);
-	DCFlushRange((u32 *) 0x80001800, stub_bin_size);
+    memcpy((u32 *)0x80001800, stub_bin, stub_bin_size);
+    DCFlushRange((u32 *)0x80001800, stub_bin_size);
 
-	*conf_magic = 0;
+    *conf_magic = 0;
 
-	gprintf ("startup\n");
-	gprintf("IOS Version: IOS%d %d.%d\n",
-			IOS_GetVersion(), IOS_GetRevisionMajor(), IOS_GetRevisionMinor());
+    gprintf("startup\n");
+    gprintf("IOS Version: IOS%d %d.%d\n", IOS_GetVersion(),
+            IOS_GetRevisionMajor(), IOS_GetRevisionMinor());
 
-	ISFS_Initialize();
+    ISFS_Initialize();
 
-	WiiDVD_StopMotorAsync();
+    WiiDVD_StopMotorAsync();
 
-	gfx_init();
-	app_entry_init();
-	theme_xml_init();
-	#ifdef USE_MUSIC
-	music_init();
-	#endif
-	theme_init(NULL, 0);
-	config_language();
-	loader_init();
-	controls_init();
-	cursors_init();
-	font_init();
-	widgets_init();
-	view_init();
-	dialogs_init();
+    gfx_init();
+    app_entry_init();
+    theme_xml_init();
+#ifdef USE_MUSIC
+    music_init();
+#endif
+    theme_init(NULL, 0);
+    config_language();
+    loader_init();
+    controls_init();
+    cursors_init();
+    font_init();
+    widgets_init();
+    view_init();
+    dialogs_init();
 }
 
-static void load_text(void)
-{
-	text_delete = _("Do you really want to delete this application?");
-	text_error_delete = _("Error deleting '%s'");
+static void load_text(void) {
+    text_delete = _("Do you really want to delete this application?");
+    text_error_delete = _("Error deleting '%s'");
 }
 
 static void refresh_theme(view *v, app_entry *app, u8 *data, u32 data_len) {
-	browser_gen_view(BA_REMOVE, NULL);
-	view_fade(v, TEX_LAYER_CURSOR + 1, 0, 0, 0, 0, 32, 8);
-	font_clear();
-	theme_deinit();
-	theme_init(data, data_len);
-	config_language();
-	widgets_theme_reinit();
-	bubbles_theme_reinit();
-	view_theme_reinit();
-	browser_theme_reinit();
-	m_main_theme_reinit();
-	dialogs_theme_reinit();
-	view_fade(v, TEX_LAYER_CURSOR + 1, 0xff, 0xff, 0xff, 0xff, 31, -8);
-	browser_gen_view(BA_REFRESH, app);
-	load_text();
+    browser_gen_view(BA_REMOVE, NULL);
+    view_fade(v, TEX_LAYER_CURSOR + 1, 0, 0, 0, 0, 32, 8);
+    font_clear();
+    theme_deinit();
+    theme_init(data, data_len);
+    config_language();
+    widgets_theme_reinit();
+    bubbles_theme_reinit();
+    view_theme_reinit();
+    browser_theme_reinit();
+    m_main_theme_reinit();
+    dialogs_theme_reinit();
+    view_fade(v, TEX_LAYER_CURSOR + 1, 0xff, 0xff, 0xff, 0xff, 31, -8);
+    browser_gen_view(BA_REFRESH, app);
+    load_text();
 }
 
 void main_real(void) {
-	view *v_last, *v_current, *v_m_main, *v_browser, *v_detail, *v_about;
+    view *v_last, *v_current, *v_m_main, *v_browser, *v_detail, *v_about;
 
-	u8 fhw;
+    u8 fhw;
 
-	u32 bd, bh;
-	s8 clicked;
-	s16 mm;
-
-#ifdef ENABLE_UPDATES
-	s16 update_check = -1;
-	bool update_in_progress = false;
-	bool update_available = false;
-#endif
-
-	app_entry *app_sel;
-	bool loading = false;
-
-	loader_result ld_res;
-	entry_point ep;
-	bool reloced;
-	bool ahb_access;
-	bool launch_bootmii;
-	bool restart;
-
-	u64 frame;
-	bool exit_about;
-
-	char charbuf[PATH_MAX];
-
-	load_text();
-
-	playtime_destroy();
-
-	if (settings_load()) {
-		app_entry_set_prefered(settings.device);
-		app_entry_set_sort(settings.sort_order);
-
-		if (settings.browse_mode == 1)
-			browser_switch_mode();
-	}
+    u32 bd, bh;
+    s8 clicked;
+    s16 mm;
 
 #ifdef ENABLE_UPDATES
-	update_check = 60;
+    s16 update_check = -1;
+    bool update_in_progress = false;
+    bool update_available = false;
 #endif
 
-	app_sel = NULL;
-	v_browser = browser_init();
-	v_m_main = m_main_init ();
-	view_bubbles = true;
+    app_entry *app_sel;
+    bool loading = false;
+
+    loader_result ld_res;
+    entry_point ep;
+    bool reloced;
+    bool ahb_access;
+    bool launch_bootmii;
+    bool restart;
+
+    u64 frame;
+    bool exit_about;
+
+    char charbuf[PATH_MAX];
+
+    load_text();
+
+    playtime_destroy();
+
+    if (settings_load()) {
+        app_entry_set_prefered(settings.device);
+        app_entry_set_sort(settings.sort_order);
+
+        if (settings.browse_mode == 1)
+            browser_switch_mode();
+    }
 
 #ifdef ENABLE_UPDATES
-	http_init ();
+    update_check = 60;
 #endif
 
-	fhw = font_get_y_spacing(FONT_MEMO);
+    app_sel = NULL;
+    v_browser = browser_init();
+    v_m_main = m_main_init();
+    view_bubbles = true;
 
-	should_exit = false;
-	shutdown = false;
+#ifdef ENABLE_UPDATES
+    http_init();
+#endif
+
+    fhw = font_get_y_spacing(FONT_MEMO);
+
+    should_exit = false;
+    shutdown = false;
 #ifdef GDBSTUB
-	gdb = false;
+    gdb = false;
 #endif
 
-	reloced = false;
-	ahb_access = false;
-	launch_bootmii = false;
-	restart = false;
+    reloced = false;
+    ahb_access = false;
+    launch_bootmii = false;
+    restart = false;
 
-	frame = 0;
-	exit_about = false;
+    frame = 0;
+    exit_about = false;
 
-	v_last = v_current = v_browser;
-	v_detail = NULL;
-	v_about = NULL;
+    v_last = v_current = v_browser;
+    v_detail = NULL;
+    v_about = NULL;
 
-	view_fade(v_current, TEX_LAYER_CURSOR + 1, 0xff, 0xff, 0xff, 0xff, 31, -8);
+    view_fade(v_current, TEX_LAYER_CURSOR + 1, 0xff, 0xff, 0xff, 0xff, 31, -8);
 
-	view_enable_cursor (true);
+    view_enable_cursor(true);
 
-	while (!should_exit) {
+    while (!should_exit) {
 #ifdef GDBSTUB
-		if (gdb) {
-			gprintf("attach gdb now!\n");
-			_break();
-			gdb = false;
-			SYS_SetResetCallback (reset_cb);
-		}
+        if (gdb) {
+            gprintf("attach gdb now!\n");
+            _break();
+            gdb = false;
+            SYS_SetResetCallback(reset_cb);
+        }
 #endif
-		memstats(false);
-		#ifdef USE_MUSIC
-		play_music();
-		#endif
+        memstats(false);
+#ifdef USE_MUSIC
+        play_music();
+#endif
 
-		if (v_current == v_browser) {
-			switch (app_entry_action()) {
-			case AE_ACT_NONE:
-				break;
+        if (v_current == v_browser) {
+            switch (app_entry_action()) {
+            case AE_ACT_NONE:
+                break;
 
-			case AE_ACT_REMOVE:
-				app_sel = browser_sel();
-				if (app_sel) {
-					memset(settings.app_sel, 0, sizeof(settings.app_sel));
-					strcpy(settings.app_sel, app_sel->dirname);
-				}
+            case AE_ACT_REMOVE:
+                app_sel = browser_sel();
+                if (app_sel) {
+                    memset(settings.app_sel, 0, sizeof(settings.app_sel));
+                    strcpy(settings.app_sel, app_sel->dirname);
+                }
 
-				bubble_popall();
-				browser_gen_view(BA_REMOVE, NULL);
-				app_entries_free();
-				memstats(true);
-				break;
+                bubble_popall();
+                browser_gen_view(BA_REMOVE, NULL);
+                app_entries_free();
+                memstats(true);
+                break;
 
-			case AE_ACT_ADD:
-				if (strlen(settings.app_sel) > 0)
-					app_sel = app_entry_find(settings.app_sel);
-				else
-					app_sel = NULL;
+            case AE_ACT_ADD:
+                if (strlen(settings.app_sel) > 0)
+                    app_sel = app_entry_find(settings.app_sel);
+                else
+                    app_sel = NULL;
 
-				view_show_throbber(false);
-				browser_gen_view(BA_ADD, app_sel);
-				break;
-			}
-		}
+                view_show_throbber(false);
+                browser_gen_view(BA_ADD, app_sel);
+                break;
+            }
+        }
 
-		if (loading != app_entry_is_loading()) {
-			loading = !loading;
+        if (loading != app_entry_is_loading()) {
+            loading = !loading;
 
-			view_show_throbber(loading);
-		}
+            view_show_throbber(loading);
+        }
 
+        if (loading)
+            view_throbber_tickle();
 
-		if (loading)
-			view_throbber_tickle();
+        if ((frame % 30) == 0)
+            app_entry_scan();
 
-		if ((frame % 30) == 0)
-			app_entry_scan();
+        view_plot(v_current, DIALOG_MASK_COLOR, &bd, &bh, NULL);
 
-		view_plot (v_current, DIALOG_MASK_COLOR, &bd, &bh, NULL);
+        frame++;
+        if (v_last != v_current) {
+            frame = 0;
+            v_last = v_current;
+        }
 
-		frame++;
-		if (v_last != v_current) {
-			frame = 0;
-			v_last = v_current;
-		}
+        if ((bd & PADS_HOME) && viewing) {
+            if (v_current == v_browser) {
+                m_main_update();
+                v_current = v_m_main;
+                view_set_focus(v_m_main, 0);
 
-		if ((bd & PADS_HOME) && viewing) {
-			if (v_current == v_browser) {
-				m_main_update ();
-				v_current = v_m_main;
-				view_set_focus (v_m_main, 0);
+                continue;
+            } else {
+                if (v_current == v_m_main)
+                    v_current = v_browser;
 
-				continue;
-			} else {
-				if (v_current == v_m_main)
-					v_current = v_browser;
+                continue;
+            }
+        }
 
-				continue;
-			}
-		}
+        if ((v_current == v_m_main) && viewing) {
+            if (bd & PADS_B) {
+                v_current = v_browser;
 
-		if ((v_current == v_m_main) && viewing) {
-			if (bd & PADS_B) {
-				v_current = v_browser;
+                continue;
+            }
 
-				continue;
-			}
+            if (bd & PADS_UP)
+                view_set_focus_prev(v_current);
 
-			if (bd & PADS_UP)
-				view_set_focus_prev (v_current);
+            if (bd & PADS_DOWN)
+                view_set_focus_next(v_current);
 
-			if (bd & PADS_DOWN)
-				view_set_focus_next (v_current);
+            // what to do when a button is pressed
+            if (bd & PADS_A) {
+                switch (v_m_main->focus) {
+                case 0:
+                    v_current = v_browser;
+                    continue;
 
-			// what to do when a button is pressed
-			if (bd & PADS_A) {
-				switch (v_m_main->focus) {
-				case 0:
-					v_current = v_browser;
-					continue;
+                case 1:
+#ifdef USE_MUSIC
+#ifdef USE_CREDITS
+                    play_music_track(MUSIC_TRACK_CREDITS);
+#endif
+#endif
+                    v_about = dialog_about(v_m_main);
+                    v_current = v_about;
 
-				case 1:
-				#ifdef USE_MUSIC
-				#ifdef USE_CREDITS
-				    play_music_track(MUSIC_TRACK_CREDITS);
-				#endif
-				#endif
-					v_about = dialog_about (v_m_main);
-					v_current = v_about;
+                    view_enable_cursor(false);
 
-					view_enable_cursor (false);
+                    dialog_fade(v_current, true);
 
-					dialog_fade (v_current, true);
+                    exit_about = false;
 
-					exit_about = false;
+                    continue;
 
-					continue;
+                // "Launch BootMii"
+                case 2:
+                    launch_bootmii = true;
+                    should_exit = true;
+                    break;
 
-				// "Launch BootMii"
-				case 2:
-					launch_bootmii = true;
-					should_exit = true;
-					break;
+                // "Exit to System Menu"
+                case 3:
+                    should_exit = true;
+                    continue;
 
-				// "Exit to System Menu"
-				case 3:
-					should_exit = true;
-					continue;
+                // "Reboot"
+                case 4:
+                    restart = true;
+                    should_exit = true;
 
-				// "Reboot"
-				case 4:
-					restart = true;
-					should_exit = true;
+                // "Shutdown"
+                case 5:
+                    should_exit = true;
+                    shutdown = true;
+                    break;
+                }
+            }
 
-				// "Shutdown"
-				case 5:
-					should_exit = true;
-					shutdown = true;
-					break;
-				}
-			}
+            continue;
+        }
 
-			continue;
-		}
+        if (v_current == v_browser) {
+            widget_set_flag(&v_browser->widgets[2], WF_ENABLED,
+                            loader_gecko_initialized());
 
-		if (v_current == v_browser) {
-			widget_set_flag (&v_browser->widgets[2], WF_ENABLED,
-								loader_gecko_initialized ());
+            if (!loader_tcp_initializing())
+                widget_set_flag(&v_browser->widgets[3], WF_ENABLED,
+                                loader_tcp_initialized());
 
-			if (!loader_tcp_initializing ())
-				widget_set_flag (&v_browser->widgets[3], WF_ENABLED,
-									loader_tcp_initialized ());
+            if (loader_tcp_initializing() && (frame % 20 == 0))
+                widget_toggle_flag(&v_browser->widgets[3], WF_ENABLED);
 
-			if (loader_tcp_initializing () && (frame % 20 == 0))
-				widget_toggle_flag (&v_browser->widgets[3], WF_ENABLED);
-
-			if (viewing && ((bd & PADS_NET_INIT) || ((bd & (WPAD_BUTTON_1<<16)) && !(bh & (WPAD_BUTTON_2<<16)))))
-				loader_tcp_init ();
+            if (viewing &&
+                ((bd & PADS_NET_INIT) || ((bd & (WPAD_BUTTON_1 << 16)) &&
+                                          !(bh & (WPAD_BUTTON_2 << 16)))))
+                loader_tcp_init();
 
 #ifdef ENABLE_UPDATES
-			if (loader_tcp_initialized () && (update_check > 0))
-				update_check--;
+            if (loader_tcp_initialized() && (update_check > 0))
+                update_check--;
 
-			if (update_check == 0) {
-				update_check = -1;
-				update_in_progress = update_signal ();
-			}
+            if (update_check == 0) {
+                update_check = -1;
+                update_in_progress = update_signal();
+            }
 
-			if (update_in_progress) {
-				if (!loading && !update_busy(&update_available))
-					update_in_progress = false;
-			}
+            if (update_in_progress) {
+                if (!loading && !update_busy(&update_available))
+                    update_in_progress = false;
+            }
 
-			if (update_available) {
-				update_available = false;
+            if (update_available) {
+                update_available = false;
 
-				reloced = update_execute (v_current, &ep);
-				should_exit = reloced;
+                reloced = update_execute(v_current, &ep);
+                should_exit = reloced;
 
-				continue;
-			}
+                continue;
+            }
 #endif
-			if (viewing) {
-				if (bd & PADS_1) {
-					dialog_options_result options;
-					options = show_options_dialog(v_current);
+            if (viewing) {
+                if (bd & PADS_1) {
+                    dialog_options_result options;
+                    options = show_options_dialog(v_current);
 
-					if (options.confirmed) {
-						app_entry_set_sort(options.sort);
-						app_entry_set_device(options.device);
-						app_entry_set_prefered(options.device);
-					}
+                    if (options.confirmed) {
+                        app_entry_set_sort(options.sort);
+                        app_entry_set_device(options.device);
+                        app_entry_set_prefered(options.device);
+                    }
 
-					continue;
-				}
+                    continue;
+                }
 
-				if (bd & PADS_2) {
-					browser_switch_mode();
-					continue;
-				}
+                if (bd & PADS_2) {
+                    browser_switch_mode();
+                    continue;
+                }
 
-				if (bd & PADS_DPAD) {
-					browser_set_focus(bd);
-					continue;
-				}
+                if (bd & PADS_DPAD) {
+                    browser_set_focus(bd);
+                    continue;
+                }
 
-				if (bd & PADS_A) {
-					clicked = view_widget_at_ir (v_browser);
+                if (bd & PADS_A) {
+                    clicked = view_widget_at_ir(v_browser);
 
-					if (clicked == 0) {
-						browser_gen_view(BA_PREV, NULL);
-						continue;
-					}
+                    if (clicked == 0) {
+                        browser_gen_view(BA_PREV, NULL);
+                        continue;
+                    }
 
-					if (clicked == 1) {
-						browser_gen_view(BA_NEXT, NULL);
-						continue;
-					}
+                    if (clicked == 1) {
+                        browser_gen_view(BA_NEXT, NULL);
+                        continue;
+                    }
 
-					if (clicked == 3) {
-						loader_tcp_init ();
-						continue;
-					}
+                    if (clicked == 3) {
+                        loader_tcp_init();
+                        continue;
+                    }
 
-					app_sel = browser_sel();
+                    app_sel = browser_sel();
 
-					if (!app_sel)
-						continue;
+                    if (!app_sel)
+                        continue;
 
-					v_detail = dialog_app (app_sel, v_browser);
-					v_current = v_detail;
+                    v_detail = dialog_app(app_sel, v_browser);
+                    v_current = v_detail;
 
-					dialog_fade (v_current, true);
+                    dialog_fade(v_current, true);
 
-					continue;
-				}
+                    continue;
+                }
 
-				if ((bd | bh) & PADS_MINUS)
-					browser_gen_view(BA_PREV, NULL);
+                if ((bd | bh) & PADS_MINUS)
+                    browser_gen_view(BA_PREV, NULL);
 
-				if ((bd | bh) & PADS_PLUS)
-					browser_gen_view(BA_NEXT, NULL);
-			}
+                if ((bd | bh) & PADS_PLUS)
+                    browser_gen_view(BA_NEXT, NULL);
+            }
 
-			if (loader_handshaked ()) {
-				loader_load (&ld_res, v_browser, NULL);
+            if (loader_handshaked()) {
+                loader_load(&ld_res, v_browser, NULL);
 
-				switch (ld_res.type) {
-				case LT_UNKNOWN:
-					break;
+                switch (ld_res.type) {
+                case LT_UNKNOWN:
+                    break;
 
-				case LT_EXECUTABLE:
-					if (loader_load_executable(&ep, &ld_res, v_browser)) {
-						reloced = true;
-						ahb_access = true;
-						should_exit = true;
-					}
+                case LT_EXECUTABLE:
+                    if (loader_load_executable(&ep, &ld_res, v_browser)) {
+                        reloced = true;
+                        ahb_access = true;
+                        should_exit = true;
+                    }
 
-					break;
+                    break;
 
-				case LT_ZIP_APP:
-					if (loader_handle_zip_app(&ld_res, v_browser)) {
-						app_sel = app_entry_add(ld_res.dirname);
+                case LT_ZIP_APP:
+                    if (loader_handle_zip_app(&ld_res, v_browser)) {
+                        app_sel = app_entry_add(ld_res.dirname);
 
-						if (app_sel)
-							browser_gen_view(BA_REFRESH, app_sel);
-						memstats(true);
-					}
+                        if (app_sel)
+                            browser_gen_view(BA_REFRESH, app_sel);
+                        memstats(true);
+                    }
 
-					break;
+                    break;
 
-				case LT_ZIP_THEME:
-					refresh_theme(v_current, app_sel, ld_res.data,
-									ld_res.data_len);
-					fhw = font_get_y_spacing(FONT_MEMO);
-					memstats(true);
-					break;
-				}
+                case LT_ZIP_THEME:
+                    refresh_theme(v_current, app_sel, ld_res.data,
+                                  ld_res.data_len);
+                    fhw = font_get_y_spacing(FONT_MEMO);
+                    memstats(true);
+                    break;
+                }
 
-				continue;
-			}
+                continue;
+            }
 
-			if (!reloced)
-				loader_signal_threads ();
+            if (!reloced)
+                loader_signal_threads();
 
-			continue;
-		}
+            continue;
+        }
 
-		if ((v_current == v_detail) && viewing) {
-			if (bd & PADS_LEFT)
-				view_set_focus_prev (v_current);
+        if ((v_current == v_detail) && viewing) {
+            if (bd & PADS_LEFT)
+                view_set_focus_prev(v_current);
 
-			if (bd & PADS_RIGHT)
-				view_set_focus_next (v_current);
+            if (bd & PADS_RIGHT)
+                view_set_focus_next(v_current);
 
-			mm = 0;
-			if (bd & PADS_UP)
-				mm += fhw;
+            mm = 0;
+            if (bd & PADS_UP)
+                mm += fhw;
 
-			if (bd & PADS_DOWN)
-				mm -= fhw;
+            if (bd & PADS_DOWN)
+                mm -= fhw;
 
-			mm += controls_sticky() / 8;
+            mm += controls_sticky() / 8;
 
-			if (v_current->drag && (v_current->drag_widget == 6)) {
-				mm += -v_current->drag_y / 32;
-			} else if (bd & PADS_B) {
-				dialog_fade (v_current, false);
+            if (v_current->drag && (v_current->drag_widget == 6)) {
+                mm += -v_current->drag_y / 32;
+            } else if (bd & PADS_B) {
+                dialog_fade(v_current, false);
 
-				v_current = v_browser;
-				view_free (v_detail);
-				v_detail = NULL;
+                v_current = v_browser;
+                view_free(v_detail);
+                v_detail = NULL;
 
-				continue;
-			}
+                continue;
+            }
 
-			widget_scroll_memo_deco (&v_detail->widgets[5], mm);
+            widget_scroll_memo_deco(&v_detail->widgets[5], mm);
 
-			if ((bd & PADS_A) && v_detail->focus == 10) {
-				dialog_fade (v_current, false);
+            if ((bd & PADS_A) && v_detail->focus == 10) {
+                dialog_fade(v_current, false);
 
-				v_current = v_browser;
-				view_free (v_detail);
-				v_detail = NULL;
+                v_current = v_browser;
+                view_free(v_detail);
+                v_detail = NULL;
 
-				continue;
-			}
+                continue;
+            }
 
-			if ((bd & PADS_A) && v_detail->focus == 8) {
-				dialog_fade (v_current, false);
+            if ((bd & PADS_A) && v_detail->focus == 8) {
+                dialog_fade(v_current, false);
 
-				v_current = v_browser;
-				view_free (v_detail);
-				v_detail = NULL;
+                v_current = v_browser;
+                view_free(v_detail);
+                v_detail = NULL;
 
-				if (show_message (v_current, DLGMT_CONFIRM, DLGB_YESNO,
-									text_delete, 1) == 1)
-					continue;
+                if (show_message(v_current, DLGMT_CONFIRM, DLGB_YESNO,
+                                 text_delete, 1) == 1)
+                    continue;
 
-				browser_gen_view(BA_REMOVE, NULL);
-				if (!manage_run(v_current, app_sel->dirname, NULL, 0, 0)) {
-					sprintf(charbuf, text_error_delete, app_sel->dirname);
-					show_message(v_current, DLGMT_ERROR, DLGB_OK, charbuf, 0);
-				} else {
-					app_entry_remove(app_sel);
-					app_sel = NULL;
-				}
-				browser_gen_view(BA_REFRESH, NULL);
+                browser_gen_view(BA_REMOVE, NULL);
+                if (!manage_run(v_current, app_sel->dirname, NULL, 0, 0)) {
+                    sprintf(charbuf, text_error_delete, app_sel->dirname);
+                    show_message(v_current, DLGMT_ERROR, DLGB_OK, charbuf, 0);
+                } else {
+                    app_entry_remove(app_sel);
+                    app_sel = NULL;
+                }
+                browser_gen_view(BA_REFRESH, NULL);
 
-				continue;
-			}
+                continue;
+            }
 
-			if ((bd & PADS_A) && v_detail->focus == 9) {
-				dialog_fade (v_current, false);
+            if ((bd & PADS_A) && v_detail->focus == 9) {
+                dialog_fade(v_current, false);
 
-				v_current = v_browser;
+                v_current = v_browser;
 
-				view_free (v_detail);
-				v_detail = NULL;
+                view_free(v_detail);
+                v_detail = NULL;
 
-				loader_load(&ld_res, v_browser, app_sel);
+                loader_load(&ld_res, v_browser, app_sel);
 
-				switch (ld_res.type) {
-				case LT_UNKNOWN:
-					break;
+                switch (ld_res.type) {
+                case LT_UNKNOWN:
+                    break;
 
-				case LT_EXECUTABLE:
-					if (loader_load_executable(&ep, &ld_res, v_browser)) {
-						reloced = true;
+                case LT_EXECUTABLE:
+                    if (loader_load_executable(&ep, &ld_res, v_browser)) {
+                        reloced = true;
 
-						if (app_sel && app_sel->meta)
-							ahb_access = app_sel->meta->ahb_access;
+                        if (app_sel && app_sel->meta)
+                            ahb_access = app_sel->meta->ahb_access;
 
-						should_exit = true;
-					}
+                        should_exit = true;
+                    }
 
-					break;
+                    break;
 
-				case LT_ZIP_APP:
-					free(ld_res.data);
-					break;
+                case LT_ZIP_APP:
+                    free(ld_res.data);
+                    break;
 
-				case LT_ZIP_THEME:
-					refresh_theme(v_current, app_sel, ld_res.data,
-									ld_res.data_len);
-					break;
-				}
+                case LT_ZIP_THEME:
+                    refresh_theme(v_current, app_sel, ld_res.data,
+                                  ld_res.data_len);
+                    break;
+                }
 
-				continue;
-			}
+                continue;
+            }
 
-			continue;
-		}
+            continue;
+        }
 
-		if ((v_current == v_about) && viewing) {
-			if (bd & (PADS_A | PADS_B))
-				exit_about = true;
+        if ((v_current == v_about) && viewing) {
+            if (bd & (PADS_A | PADS_B))
+                exit_about = true;
 
-			if (exit_about) {
-			#ifdef USE_MUSIC
-			    play_music_track(MUSIC_TRACK_MENU);
-			#endif
-				dialog_fade (v_current, false);
+            if (exit_about) {
+#ifdef USE_MUSIC
+                play_music_track(MUSIC_TRACK_MENU);
+#endif
+                dialog_fade(v_current, false);
 
-				v_current = v_m_main;
-				view_free (v_about);
-				v_about = NULL;
+                v_current = v_m_main;
+                view_free(v_about);
+                v_about = NULL;
 
-				view_enable_cursor (true);
+                view_enable_cursor(true);
 
-				continue;
-			}
+                continue;
+            }
 
-			if ((frame > 60 * 2) && (frame % 3) == 0)
-				widget_scroll_memo (&v_current->widgets[2], -1);
-		}
-	}
+            if ((frame > 60 * 2) && (frame % 3) == 0)
+                widget_scroll_memo(&v_current->widgets[2], -1);
+        }
+    }
 
-	gprintf ("exiting\n");
+    gprintf("exiting\n");
 
-	view_enable_cursor (false);
-	#ifdef USE_MUSIC
-	music_deinit();
-	#endif
+    view_enable_cursor(false);
+#ifdef USE_MUSIC
+    music_deinit();
+#endif
 
-	if (v_current->sub_view)
-		dialog_fade (v_current, false);
+    if (v_current->sub_view)
+        dialog_fade(v_current, false);
 
-	view_fade (v_current, TEX_LAYER_CURSOR + 1, 0, 0, 0, 0, 32, 8);
+    view_fade(v_current, TEX_LAYER_CURSOR + 1, 0, 0, 0, 0, 32, 8);
 
-	WiiDVD_ShutDown();
-	controls_deinit();
+    WiiDVD_ShutDown();
+    controls_deinit();
 
-	app_sel = browser_sel();
-	if (app_sel) {
-		size_t i, s = strlen(app_sel->dirname);
-		memset(settings.app_sel, 0, sizeof(settings.app_sel));
-		for (i = 0; i < s; ++i)
-			settings.app_sel[i] = tolower((int) app_sel->dirname[i]);
-	}
+    app_sel = browser_sel();
+    if (app_sel) {
+        size_t i, s = strlen(app_sel->dirname);
+        memset(settings.app_sel, 0, sizeof(settings.app_sel));
+        for (i = 0; i < s; ++i)
+            settings.app_sel[i] = tolower((int)app_sel->dirname[i]);
+    }
 
-	// because the tcp thread is the only one that can block after the exit
-	// command is sent, deinit it first. this gives the other threads a chance
-	// to do any pending work if the tcp thread does block.
-	loader_deinit ();
+    // because the tcp thread is the only one that can block after the exit
+    // command is sent, deinit it first. this gives the other threads a chance
+    // to do any pending work if the tcp thread does block.
+    loader_deinit();
 #ifdef ENABLE_UPDATES
-        http_deinit ();
+    http_deinit();
 #endif
-	app_entry_deinit ();
+    app_entry_deinit();
 
-	gfx_deinit ();
-	cursors_deinit ();
+    gfx_deinit();
+    cursors_deinit();
 
-	browser_deinit ();
-	m_main_deinit ();
+    browser_deinit();
+    m_main_deinit();
 
-	dialogs_deinit ();
-	view_deinit ();
-	widgets_deinit ();
-	font_deinit ();
-	theme_deinit();
+    dialogs_deinit();
+    view_deinit();
+    widgets_deinit();
+    font_deinit();
+    theme_deinit();
 
-	settings_save();
+    settings_save();
 
-	if (launch_bootmii) {
-		gprintf ("launching BootMii\n");
-		__IOS_LaunchNewIOS(BOOTMII_IOS);
-	}
+    if (launch_bootmii) {
+        gprintf("launching BootMii\n");
+        __IOS_LaunchNewIOS(BOOTMII_IOS);
+    }
 
-	if (reloced) {
-		if (ahb_access) {
-			gprintf ("patching IOS for AHB access post-reload...\n");
-			int res = patch_ahbprot_reset();
-			if (res)
-				gprintf ("patch failed (%d)\n", res);
-		}
+    if (reloced) {
+        if (ahb_access) {
+            gprintf("patching IOS for AHB access post-reload...\n");
+            int res = patch_ahbprot_reset();
+            if (res)
+                gprintf("patch failed (%d)\n", res);
+        }
 
-		gprintf ("reloading to IOS%d...\n", APPS_IOS_VERSION);
-		__IOS_LaunchNewIOS(APPS_IOS_VERSION);
+        gprintf("reloading to IOS%d...\n", APPS_IOS_VERSION);
+        __IOS_LaunchNewIOS(APPS_IOS_VERSION);
 
-		if (ahb_access) {
-			gprintf ("reenabling DVD access...\n");
-			mask32(0x0D800180, 1<<21, 0);
-		}
+        if (ahb_access) {
+            gprintf("reenabling DVD access...\n");
+            mask32(0x0D800180, 1 << 21, 0);
+        }
 
-		gprintf ("branching to %p\n", ep);
-		loader_exec (ep);
-	}
+        gprintf("branching to %p\n", ep);
+        loader_exec(ep);
+    }
 
-	if (restart) {
-		gprintf ("rebooting console\n");
-		STM_RebootSystem();
-	}
+    if (restart) {
+        gprintf("rebooting console\n");
+        STM_RebootSystem();
+    }
 
-	if (shutdown) {
-		gprintf ("shutting down\n");
-		SYS_ResetSystem(SYS_POWEROFF, 0, 0);
-	}
+    if (shutdown) {
+        gprintf("shutting down\n");
+        SYS_ResetSystem(SYS_POWEROFF, 0, 0);
+    }
 
-	gprintf ("returning to sysmenu\n");
-	SYS_ResetSystem (SYS_RETURNTOMENU, 0, 0);
+    gprintf("returning to sysmenu\n");
+    SYS_ResetSystem(SYS_RETURNTOMENU, 0, 0);
 }
 
 int main(int argc, char *argv[]) {
-	main_pre();
-	main_real();
-	gprintf("uh oh\n");
-	return 0;
+    main_pre();
+    main_real();
+    gprintf("uh oh\n");
+    return 0;
 }

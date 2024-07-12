@@ -7,4 +7,3 @@ s32 WiiDVD_StopMotorAsync(void);
 void WiiDVD_ShutDown(void);
 
 #endif
-

@@ -10,4 +10,3 @@ bool update_busy(bool *update_available);
 bool update_execute(view *sub_view, entry_point *ep);
 
 #endif
-

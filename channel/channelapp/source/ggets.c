@@ -28,40 +28,39 @@
    Freeing of assigned storage is the callers responsibility
  */
 
+#include "ggets.h"
+#include "panic.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "panic.h"
-#include "ggets.h"
 
-#define INITSIZE   112  /* power of 2 minus 16, helps malloc */
+#define INITSIZE 112 /* power of 2 minus 16, helps malloc */
 #define DELTASIZE (INITSIZE + 16)
 
-enum {OK = 0, NOMEM};
+enum { OK = 0, NOMEM };
 
-int fggets(char* *ln, FILE *f)
-{
-   int     cursize, ch, ix;
-   char   *buffer;
+int fggets(char **ln, FILE *f) {
+    int cursize, ch, ix;
+    char *buffer;
 
-   *ln = NULL; /* default */
-   buffer = pmalloc(INITSIZE);
-   cursize = INITSIZE;
+    *ln = NULL; /* default */
+    buffer = pmalloc(INITSIZE);
+    cursize = INITSIZE;
 
-   ix = 0;
-   while ((EOF != (ch = getc(f))) && ('\n' != ch)) {
-      if (ix >= (cursize - 1)) { /* extend buffer */
-         cursize += DELTASIZE;
-         buffer = prealloc(buffer, (size_t)cursize);
-      }
-      buffer[ix++] = ch;
-   }
-   if ((EOF == ch) && (0 == ix)) {
-      free(buffer);
-      return EOF;
-   }
+    ix = 0;
+    while ((EOF != (ch = getc(f))) && ('\n' != ch)) {
+        if (ix >= (cursize - 1)) { /* extend buffer */
+            cursize += DELTASIZE;
+            buffer = prealloc(buffer, (size_t)cursize);
+        }
+        buffer[ix++] = ch;
+    }
+    if ((EOF == ch) && (0 == ix)) {
+        free(buffer);
+        return EOF;
+    }
 
-   buffer[ix] = '\0';
-   *ln = prealloc(buffer, (size_t)ix + 1);
-   return OK;
+    buffer[ix] = '\0';
+    *ln = prealloc(buffer, (size_t)ix + 1);
+    return OK;
 } /* fggets */
 /* End of ggets.c */

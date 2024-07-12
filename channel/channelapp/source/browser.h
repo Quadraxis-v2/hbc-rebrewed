@@ -6,14 +6,14 @@
 #include "view.h"
 
 typedef enum {
-	BA_ADD = 0,
-	BA_REMOVE,
-	BA_REFRESH,
-	BA_NEXT,
-	BA_PREV
+    BA_ADD = 0,
+    BA_REMOVE,
+    BA_REFRESH,
+    BA_NEXT,
+    BA_PREV
 } browser_action;
 
-view * browser_init(void);
+view *browser_init(void);
 void browser_deinit(void);
 void browser_theme_reinit(void);
 
@@ -23,4 +23,3 @@ app_entry *browser_sel(void);
 void browser_switch_mode(void);
 
 #endif
-

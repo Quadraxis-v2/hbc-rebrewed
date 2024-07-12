@@ -10,4 +10,3 @@ const char *i18n(char *english_string);
 u32 i18n_have_mo(void);
 
 #endif
-

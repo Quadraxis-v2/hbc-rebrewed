@@ -2,7 +2,6 @@
 /* By C.B. Falconer.  Public domain 2002-06-22            */
 /*    attribution appreciated.                            */
 
-
 /* Revised 2002-06-26  New prototype.
            2002-06-27  Incomplete final lines
  */
@@ -28,18 +27,18 @@
  */
 
 #ifndef ggets_h_
-#  define ggets_h_
+#define ggets_h_
 
-#  ifdef __cplusplus
-      extern "C" {
-#  endif
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-int fggets(char* *ln, FILE *f);
+int fggets(char **ln, FILE *f);
 
 #define ggets(ln) fggets(ln, stdin)
 
-#  ifdef __cplusplus
-      }
-#  endif
+#ifdef __cplusplus
+}
+#endif
 #endif
 /* END ggets.h */

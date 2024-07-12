@@ -5,11 +5,10 @@
 
 #include "view.h"
 
-view * m_main_init (void);
-void m_main_deinit (void);
-void m_main_theme_reinit (void);
+view *m_main_init(void);
+void m_main_deinit(void);
+void m_main_theme_reinit(void);
 
-void m_main_update (void);
+void m_main_update(void);
 
 #endif
-

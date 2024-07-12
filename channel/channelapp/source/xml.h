@@ -1,8 +1,6 @@
 #ifndef _XML_H_
 #define _XML_H_
 
-
-
 #include <time.h>
 
 #include <gctypes.h>
@@ -13,40 +11,40 @@
 #define NO_COLOR 0x0DEADF00
 
 typedef struct {
-	char *name;
-	char *coder;
-	char *version;
-	time_t release_date;
-	char *short_description;
-	char *long_description;
-	char *args;
-	u16 argslen;
-	bool ahb_access;
+    char *name;
+    char *coder;
+    char *version;
+    time_t release_date;
+    char *short_description;
+    char *long_description;
+    char *args;
+    u16 argslen;
+    bool ahb_access;
 } meta_info;
 
 typedef struct {
-	char *version;
-	u64 date;
-	char *notes;
-	char *uri;
-	char *hash;
+    char *version;
+    u64 date;
+    char *notes;
+    char *uri;
+    char *hash;
 } update_info;
 
 typedef struct {
-	int device;
-	int sort_order;
-	int browse_mode;
-	char app_sel[64];
+    int device;
+    int sort_order;
+    int browse_mode;
+    char app_sel[64];
 } settings_t;
 
 typedef struct {
-	u32 ul, ur, lr, ll;
+    u32 ul, ur, lr, ll;
 } theme_gradient_t;
 
 typedef struct {
-	char *file;
-	int size;
-	u32 color;
+    char *file;
+    int size;
+    u32 color;
 } theme_font_t;
 
 #ifdef USE_MUSIC
@@ -57,20 +55,20 @@ typedef struct {
 #endif
 
 typedef enum {
-	TLANG_JA = 0x01,
-	TLANG_KO = 0x02,
-	TLANG_ZH = 0x04,
+    TLANG_JA = 0x01,
+    TLANG_KO = 0x02,
+    TLANG_ZH = 0x04,
 } theme_lang_t;
 
 typedef struct {
-	theme_gradient_t progress;
-	char *description;
-	theme_font_t default_font;
-	theme_font_t fonts[FONT_MAX];
-	#ifdef USE_MUSIC
-	theme_mp3_t music[2];
-	#endif
-	theme_lang_t langs;
+    theme_gradient_t progress;
+    char *description;
+    theme_font_t default_font;
+    theme_font_t fonts[FONT_MAX];
+#ifdef USE_MUSIC
+    theme_mp3_t music[2];
+#endif
+    theme_lang_t langs;
 } theme_t;
 
 extern settings_t settings;
