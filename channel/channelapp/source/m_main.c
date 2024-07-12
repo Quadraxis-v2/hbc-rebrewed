@@ -83,7 +83,7 @@ void m_main_theme_reinit(void) {
 
 	text_no_ip = _("Network not initialized");
 	text_has_ip = _("Your Wii's IP is %u.%u.%u.%u");
-	text_number_apps = _("Number of apps installed - %d");
+	text_number_apps = _("%d applications installed");
 
 	if (inited_widgets)
 		for (i = 0; i < v_m_main->widget_count; ++i)
