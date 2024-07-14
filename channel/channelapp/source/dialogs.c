@@ -10,6 +10,7 @@
 #include "font.h"
 #include "panic.h"
 #include "theme.h"
+#include "title.h"
 #include "view.h"
 #include "widgets.h"
 #include "xml.h"
@@ -545,7 +546,7 @@ dialog_options_result show_options_dialog(const view *sub_view) {
         if (i == device)
             widget_button_set_caption(&v->widgets[DLG_DEV_FIRST + i],
                                       FONT_BUTTON, caption_device_names[i]);
-        else if (is_vwii() && i < 2) {
+        else if (is_vwii() && (i < 2)) {
             widget_button_set_caption(&v->widgets[DLG_DEV_FIRST + i],
                                       FONT_BUTTON_DESEL,
                                       caption_device_names[i]);
