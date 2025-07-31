@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: spanish\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-22 21:29+0900\n"
+"POT-Creation-Date: 2025-07-31 23:48+0200\n"
 "PO-Revision-Date: 2008-05-21 01:17+0200\n"
 "Last-Translator: marcan <marcan@marcansoft.com>\n"
 "Language-Team: Spanish\n"
@@ -19,150 +19,163 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: source/dialogs.c:53
+#: source/dialogs.c:65
 msgid "no description available"
 msgstr "descripción no disponible"
 
-#: source/dialogs.c:55
+#: source/dialogs.c:67
 msgid "Information"
 msgstr "Información"
 
-#: source/dialogs.c:56
+#: source/dialogs.c:68
 msgid "Confirmation"
 msgstr "Confirmación"
 
-#: source/dialogs.c:57
+#: source/dialogs.c:69
 msgid "Warning"
 msgstr "Advertencia"
 
-#: source/dialogs.c:58
+#: source/dialogs.c:70
 msgid "Error"
 msgstr "Error"
 
-#: source/dialogs.c:59
+#: source/dialogs.c:71
 msgid "Ok"
 msgstr "Aceptar"
 
-#: source/dialogs.c:60
+#: source/dialogs.c:72
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: source/dialogs.c:61
+#: source/dialogs.c:73
 msgid "Yes"
 msgstr "Sí"
 
-#: source/dialogs.c:62
+#: source/dialogs.c:74
 msgid "No"
 msgstr "No"
 
-#: source/dialogs.c:63
+#: source/dialogs.c:75
 msgid "Delete"
 msgstr "Eliminar"
 
 #  button text
-#: source/dialogs.c:64
+#: source/dialogs.c:76
 msgid "Load"
 msgstr "Cargar"
 
 #  button text
-#: source/dialogs.c:65 source/m_main.c:95
+#: source/dialogs.c:77 source/m_main.c:100
 msgid "Back"
 msgstr "Atrás"
 
-#: source/dialogs.c:66
+#: source/dialogs.c:78
 msgid "Options"
 msgstr "Opciones"
 
-#: source/dialogs.c:67
+#: source/dialogs.c:79
 msgid "Device:"
 msgstr "Dispositivo:"
 
-#: source/dialogs.c:68
+#: source/dialogs.c:80
 msgid "Internal SD Slot"
 msgstr "Ranura SD Interna"
 
-#: source/dialogs.c:69
+#: source/dialogs.c:81
 msgid "USB device"
 msgstr "Dispositivo USB"
 
-#: source/dialogs.c:70
+#: source/dialogs.c:82
 msgid "SDGecko Slot A"
 msgstr "SDGecko en Slot A"
 
-#: source/dialogs.c:71
+#: source/dialogs.c:83
 msgid "SDGecko Slot B"
 msgstr "SDGecko en Slot B"
 
-#: source/dialogs.c:72
+#: source/dialogs.c:84
 msgid "Sort applications by:"
 msgstr "Ordenar aplicaciones por:"
 
-#: source/dialogs.c:73
+#: source/dialogs.c:85
 msgid "Name"
 msgstr "Nombre"
 
-#: source/dialogs.c:74
+#: source/dialogs.c:86
 msgid "Date"
 msgstr "Fecha"
 
-#: source/dialogs.c:110
+#: source/dialogs.c:87
+msgid "Author"
+msgstr "Autor"
+
+#: source/dialogs.c:88
+msgid "Size"
+msgstr "Tamaño"
+
+#: source/dialogs.c:127
 msgid "<YourLanguageHere> translation by <YourNickNameHere>"
 msgstr "Traducción al español - marcan"
 
-#: source/dialogs.c:115
+#: source/dialogs.c:132
 msgid "Theme:"
 msgstr "Tema:"
 
-#: source/dialogs.c:125
+#: source/dialogs.c:141
 #, c-format
 msgid "Version: %s"
 msgstr "Versión: %s"
 
-#: source/dialogs.c:126
+#: source/dialogs.c:142
 #, c-format
 msgid "Author: %s"
 msgstr "Autor: %s"
 
-#: source/loader.c:716
+#: source/dialogs.c:143
+#, c-format
+msgid "Size: %.2f MB"
+msgstr "Tamaño: %.2f MB"
+
+#: source/loader.c:711
 msgid "Error while reading the application from the SD card"
 msgstr "Error al leer la aplicación desde la tarjeta SD"
 
-#: source/loader.c:717
+#: source/loader.c:712
 msgid "Error while receiving the application"
 msgstr "Error al recibir la aplicación"
 
-#: source/loader.c:718
+#: source/loader.c:713
 msgid "Error uncompressing the received data"
 msgstr "Error al descomprimir los datos recibidos"
 
-#: source/loader.c:719
+#: source/loader.c:714
 msgid "This is not a valid Wii application"
 msgstr "Esta no es una aplicación de Wii válida"
 
-#: source/loader.c:720
+#: source/loader.c:715
 msgid "This is not a usable ZIP file"
 msgstr "Este archivo ZIP no se puede utilizar"
 
-#: source/loader.c:721
+#: source/loader.c:716
 msgid "Not enough memory"
 msgstr "Memoria insuficiente"
 
-#: source/loader.c:763
+#: source/loader.c:758
 #, c-format
 msgid "Loading %s"
 msgstr "Cargando %s"
 
-#: source/loader.c:772
+#: source/loader.c:767
 #, c-format
 msgid "Receiving over USBGecko"
 msgstr "Recibiendo por USBGecko"
 
-#: source/loader.c:782
+#: source/loader.c:777
 #, c-format
 msgid "Receiving from %s"
 msgstr "Recibiendo desde %s"
 
-#: source/loader.c:968
+#: source/loader.c:963
 #, c-format
 msgid ""
 "Extract the received ZIP file?\n"
@@ -171,54 +184,72 @@ msgstr ""
 "¿Desea extraer el archivo ZIP recibido?\n"
 "Se requiren %s de espacio libre."
 
-#: source/loader.c:969
+#: source/loader.c:964
 #, c-format
 msgid "WARNING: Files in '%s' will be overwritten"
 msgstr "AVISO: Se reemplazarán archivos en '%s'"
 
-#: source/loader.c:970
+#: source/loader.c:965
 msgid "Error while extracting the ZIP file"
 msgstr "Error al extraer el archivo ZIP"
 
-#: source/main.c:250
-msgid "Do you really want to delete this application?"
-msgstr "¿Estás seguro de que quieres eliminar esta aplicación?"
-
-#: source/main.c:251
-#, c-format
-msgid "Error deleting '%s'"
-msgstr "Error al eliminar '%s'"
-
-#: source/manage.c:518
-msgid "Extracting"
-msgstr "Extrayendo"
-
-#: source/m_main.c:80
+#: source/m_main.c:84
 msgid "Network not initialized"
 msgstr "La red no se ha inicializado"
 
-#: source/m_main.c:81
+#: source/m_main.c:85
 #, c-format
 msgid "Your Wii's IP is %u.%u.%u.%u"
 msgstr "La IP de tu Wii es %u.%u.%u.%u"
 
-#: source/m_main.c:97
+#: source/m_main.c:86 source/m_main.c:157
+#, c-format
+msgid "%d applications installed"
+msgstr "%d aplicaciones instaladas"
+
+#: source/m_main.c:102
 msgid "About"
 msgstr "Acerca de"
 
-#: source/m_main.c:102
+#: source/m_main.c:107
 msgid "Launch BootMii"
 msgstr "Lanzar BootMii"
 
-#: source/m_main.c:106
+#: source/m_main.c:113
+#, fuzzy
+msgid "Exit to vWii System Menu"
+msgstr "Salir al menú del sistema"
+
+#: source/m_main.c:117
+msgid "Reboot to Wii U Menu"
+msgstr "Volver al Menú de Wii U"
+
+#: source/m_main.c:120
 msgid "Exit to System Menu"
 msgstr "Salir al menú del sistema"
 
-#: source/m_main.c:109
+#: source/m_main.c:124
 msgid "Shutdown"
 msgstr "Apagar"
 
-#: source/update.c:232
+#: source/m_main.c:156
+msgid "1 application installed"
+msgstr "1 aplicación instalada"
+
+#: source/main.c:253
+msgid "Do you really want to delete this application?"
+msgstr "¿Estás seguro de que quieres eliminar esta aplicación?"
+
+#: source/main.c:254
+#, c-format
+msgid "Error deleting '%s'"
+msgstr "Error al eliminar '%s'"
+
+#: source/manage.c:527
+msgid "Extracting"
+msgstr "Extrayendo"
+
+#: source/update.c:230
 #, c-format
 msgid ""
 "An update to the Homebrew Channel (version %s, replacing the installed "
@@ -235,12 +266,12 @@ msgstr ""
 "\n"
 "%s"
 
-#: source/update.c:262
+#: source/update.c:260
 #, c-format
 msgid "Downloading Update (%u kB)"
 msgstr "Descargando (%u kB)"
 
-#: source/update.c:304
+#: source/update.c:302
 msgid "Download failed"
 msgstr "Error al descargar"
 

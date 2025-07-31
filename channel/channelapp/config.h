@@ -52,7 +52,7 @@ void memstats(int reset);
 #define PREFERRED IOS_GetPreferredVersion()
 #define UNCHANGED IOS_GetVersion()
 
-#define MY_TITLEID 0x000100014f484243ull
+#define MY_TITLEID 0x000100014c554c5aull
 #define STUB_LOAD_IOS_VERSION UNCHANGED
 #define APPS_IOS_VERSION PREFERRED
 

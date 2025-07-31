@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-22 21:29+0900\n"
+"POT-Creation-Date: 2025-07-31 23:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: NICKNAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE\n"
@@ -16,157 +16,171 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: source/dialogs.c:53
+#: source/dialogs.c:65
 msgid "no description available"
 msgstr "nessuna descrizione disponibile"
 
 # This and the following strings are dialog box "title bars"
-#: source/dialogs.c:55
+#: source/dialogs.c:67
 msgid "Information"
 msgstr "Informazioni"
 
-#: source/dialogs.c:56
+#: source/dialogs.c:68
 msgid "Confirmation"
 msgstr "Conferma"
 
-#: source/dialogs.c:57
+#: source/dialogs.c:69
 msgid "Warning"
 msgstr "Avvertenza"
 
-#: source/dialogs.c:58
+#: source/dialogs.c:70
 msgid "Error"
 msgstr "Errore"
 
 #  button text
-#: source/dialogs.c:59
+#: source/dialogs.c:71
 msgid "Ok"
 msgstr "Ok"
 
 #  button text
-#: source/dialogs.c:60
+#: source/dialogs.c:72
 msgid "Cancel"
 msgstr "Annulla"
 
 #  button text
-#: source/dialogs.c:61
+#: source/dialogs.c:73
 msgid "Yes"
 msgstr "Sì"
 
 #  button text
-#: source/dialogs.c:62
+#: source/dialogs.c:74
 msgid "No"
 msgstr "No"
 
-#: source/dialogs.c:63
+#: source/dialogs.c:75
 msgid "Delete"
 msgstr "Elimina"
 
 #  button text
-#: source/dialogs.c:64
+#: source/dialogs.c:76
 msgid "Load"
 msgstr "Carica"
 
 #  button text
-#: source/dialogs.c:65 source/m_main.c:95
+#: source/dialogs.c:77 source/m_main.c:100
 msgid "Back"
 msgstr "Indietro"
 
-#: source/dialogs.c:66
+#: source/dialogs.c:78
 msgid "Options"
 msgstr "Opzioni"
 
-#: source/dialogs.c:67
+#: source/dialogs.c:79
 msgid "Device:"
 msgstr "Periferica:"
 
-#: source/dialogs.c:68
+#: source/dialogs.c:80
 msgid "Internal SD Slot"
 msgstr "Slot SD Interno"
 
-#: source/dialogs.c:69
+#: source/dialogs.c:81
 msgid "USB device"
 msgstr "Pendrive USB"
 
-#: source/dialogs.c:70
+#: source/dialogs.c:82
 msgid "SDGecko Slot A"
 msgstr "SDGecko Slot A"
 
-#: source/dialogs.c:71
+#: source/dialogs.c:83
 msgid "SDGecko Slot B"
 msgstr "SDGecko Slot B"
 
-#: source/dialogs.c:72
+#: source/dialogs.c:84
 msgid "Sort applications by:"
 msgstr "Ordina applicazioni per:"
 
-#: source/dialogs.c:73
+#: source/dialogs.c:85
 msgid "Name"
 msgstr "Nome"
 
-#: source/dialogs.c:74
+#: source/dialogs.c:86
 msgid "Date"
 msgstr "Data"
 
-#: source/dialogs.c:110
+#: source/dialogs.c:87
+#, fuzzy
+msgid "Author"
+msgstr "Autore: %s"
+
+#: source/dialogs.c:88
+msgid "Size"
+msgstr ""
+
+#: source/dialogs.c:127
 msgid "<YourLanguageHere> translation by <YourNickNameHere>"
 msgstr ""
 "Traduzione italiana di EnricoBr\n"
 "Aggiornata da The Lemon Man"
 
-#: source/dialogs.c:115
+#: source/dialogs.c:132
 msgid "Theme:"
 msgstr "Tema:"
 
-#: source/dialogs.c:125
+#: source/dialogs.c:141
 #, c-format
 msgid "Version: %s"
 msgstr "Versione: %s"
 
-#: source/dialogs.c:126
+#: source/dialogs.c:142
 #, c-format
 msgid "Author: %s"
 msgstr "Autore: %s"
 
-#: source/loader.c:716
+#: source/dialogs.c:143
+#, c-format
+msgid "Size: %.2f MB"
+msgstr ""
+
+#: source/loader.c:711
 msgid "Error while reading the application from the SD card"
 msgstr "Errore durante la lettura dell'applicazione dalla scheda SD"
 
-#: source/loader.c:717
+#: source/loader.c:712
 msgid "Error while receiving the application"
 msgstr "Errore durante la ricezione dell'applicazione"
 
-#: source/loader.c:718
+#: source/loader.c:713
 msgid "Error uncompressing the received data"
 msgstr "Errore durante la decompressione dei dati ricevuti"
 
-#: source/loader.c:719
+#: source/loader.c:714
 msgid "This is not a valid Wii application"
 msgstr "Non è un'applicazione Wii valida"
 
-#: source/loader.c:720
+#: source/loader.c:715
 msgid "This is not a usable ZIP file"
 msgstr "Questo non è un file ZIP utilizzabile"
 
-#: source/loader.c:721
+#: source/loader.c:716
 msgid "Not enough memory"
 msgstr "Memoria insufficiente"
 
-#: source/loader.c:763
+#: source/loader.c:758
 #, c-format
 msgid "Loading %s"
 msgstr "Caricamento di %s"
 
-#: source/loader.c:772
+#: source/loader.c:767
 #, c-format
 msgid "Receiving over USBGecko"
 msgstr "Ricezione su USBGecko"
 
-#: source/loader.c:782
+#: source/loader.c:777
 #, c-format
 msgid "Receiving from %s"
 msgstr "Ricezione da %s"
 
-#: source/loader.c:968
+#: source/loader.c:963
 #, c-format
 msgid ""
 "Extract the received ZIP file?\n"
@@ -175,55 +189,74 @@ msgstr ""
 "Estrarre il file ZIP ricevuto?\n"
 "Sono richiesti %s di spazio libero."
 
-#: source/loader.c:969
+#: source/loader.c:964
 #, c-format
 msgid "WARNING: Files in '%s' will be overwritten"
 msgstr "ATTENZIONE: I file in '%s' verranno sovrascritti"
 
-#: source/loader.c:970
+#: source/loader.c:965
 msgid "Error while extracting the ZIP file"
 msgstr "Errore durante l'estrazione del file ZIP"
 
-#: source/main.c:250
-msgid "Do you really want to delete this application?"
-msgstr "Sei sicuro di voler cancellare questa domanda?"
-
-#: source/main.c:251
-#, c-format
-msgid "Error deleting '%s'"
-msgstr "Errore durante l' eliminazione di '%s'"
-
-#: source/manage.c:518
-msgid "Extracting"
-msgstr "Estraendo"
-
-#: source/m_main.c:80
+#: source/m_main.c:84
 msgid "Network not initialized"
 msgstr "Rete non inizializzata"
 
-#: source/m_main.c:81
+#: source/m_main.c:85
 #, c-format
 msgid "Your Wii's IP is %u.%u.%u.%u"
 msgstr "L'indirizzo IP del Wii è %u.%u.%u.%u"
 
+#: source/m_main.c:86 source/m_main.c:157
+#, fuzzy, c-format
+msgid "%d applications installed"
+msgstr "Ordina applicazioni per:"
+
 # button text
-#: source/m_main.c:97
+#: source/m_main.c:102
 msgid "About"
 msgstr "Informazioni"
 
-#: source/m_main.c:102
+#: source/m_main.c:107
 msgid "Launch BootMii"
 msgstr "Lanciare BootMii"
 
-#: source/m_main.c:106
+#: source/m_main.c:113
+#, fuzzy
+msgid "Exit to vWii System Menu"
+msgstr "Ritorna al Menu di Sistema"
+
+#: source/m_main.c:117
+msgid "Reboot to Wii U Menu"
+msgstr ""
+
+#: source/m_main.c:120
 msgid "Exit to System Menu"
 msgstr "Ritorna al Menu di Sistema"
 
-#: source/m_main.c:109
+#: source/m_main.c:124
 msgid "Shutdown"
 msgstr "Spegni"
 
-#: source/update.c:232
+#: source/m_main.c:156
+#, fuzzy
+msgid "1 application installed"
+msgstr "Ordina applicazioni per:"
+
+#: source/main.c:253
+msgid "Do you really want to delete this application?"
+msgstr "Sei sicuro di voler cancellare questa domanda?"
+
+#: source/main.c:254
+#, c-format
+msgid "Error deleting '%s'"
+msgstr "Errore durante l' eliminazione di '%s'"
+
+#: source/manage.c:527
+msgid "Extracting"
+msgstr "Estraendo"
+
+#: source/update.c:230
 #, c-format
 msgid ""
 "An update to the Homebrew Channel (version %s, replacing the installed "
@@ -241,12 +274,12 @@ msgstr ""
 "\n"
 "%s"
 
-#: source/update.c:262
+#: source/update.c:260
 #, c-format
 msgid "Downloading Update (%u kB)"
 msgstr "Download (%u kB)"
 
-#: source/update.c:304
+#: source/update.c:302
 msgid "Download failed"
 msgstr "Download non riuscito"
 

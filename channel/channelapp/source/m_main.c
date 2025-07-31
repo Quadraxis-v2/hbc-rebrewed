@@ -153,7 +153,13 @@ void m_main_update(void) {
                      view_width / 3 * 2 - 32, FA_LEFT, FA_ASCENDER, FONT_LABEL);
     }
 
-    sprintf(buffer2, text_number_apps, entry_count);
+    if (entry_count == 1) strcpy(buffer2, _("1 application installed"));
+    else 
+    {
+	text_number_apps = _("%d applications installed");
+	sprintf(buffer2, text_number_apps, entry_count);
+    }
+
     widget_label(&v_m_main->widgets[8], 48, 48, 0, buffer2,
                  view_width / 3 * 2 - 48, FA_LEFT, FA_ASCENDER, FONT_LABEL);
 }

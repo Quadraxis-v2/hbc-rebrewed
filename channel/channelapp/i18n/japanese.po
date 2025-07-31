@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: homebrew_channel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-22 21:29+0900\n"
+"POT-Creation-Date: 2025-07-31 23:48+0200\n"
 "PO-Revision-Date: 2011-01-10 05:53+0200\n"
 "Last-Translator: Jan Ekstrom <jeebjp@gmail.com>\n"
 "Language-Team: \n"
@@ -16,155 +16,169 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: source/dialogs.c:53
+#: source/dialogs.c:65
 msgid "no description available"
 msgstr "詳細情報はありません "
 
 # This and the following strings are dialog box "title bars"
-#: source/dialogs.c:55
+#: source/dialogs.c:67
 msgid "Information"
 msgstr "報告"
 
-#: source/dialogs.c:56
+#: source/dialogs.c:68
 msgid "Confirmation"
 msgstr "確認"
 
-#: source/dialogs.c:57
+#: source/dialogs.c:69
 msgid "Warning"
 msgstr "警告"
 
-#: source/dialogs.c:58
+#: source/dialogs.c:70
 msgid "Error"
 msgstr "エラー"
 
 #  button text
-#: source/dialogs.c:59
+#: source/dialogs.c:71
 msgid "Ok"
 msgstr "Ok"
 
 #  button text
-#: source/dialogs.c:60
+#: source/dialogs.c:72
 msgid "Cancel"
 msgstr "キャンセル"
 
 #  button text
-#: source/dialogs.c:61
+#: source/dialogs.c:73
 msgid "Yes"
 msgstr "はい"
 
 #  button text
-#: source/dialogs.c:62
+#: source/dialogs.c:74
 msgid "No"
 msgstr "いいえ"
 
-#: source/dialogs.c:63
+#: source/dialogs.c:75
 msgid "Delete"
 msgstr "削除"
 
 #  button text
-#: source/dialogs.c:64
+#: source/dialogs.c:76
 msgid "Load"
 msgstr "起動"
 
 #  button text
-#: source/dialogs.c:65 source/m_main.c:95
+#: source/dialogs.c:77 source/m_main.c:100
 msgid "Back"
 msgstr "戻る"
 
-#: source/dialogs.c:66
+#: source/dialogs.c:78
 msgid "Options"
 msgstr "オプション"
 
-#: source/dialogs.c:67
+#: source/dialogs.c:79
 msgid "Device:"
 msgstr "デバイス:"
 
-#: source/dialogs.c:68
+#: source/dialogs.c:80
 msgid "Internal SD Slot"
 msgstr "内部SDスロット"
 
-#: source/dialogs.c:69
+#: source/dialogs.c:81
 msgid "USB device"
 msgstr "USBデバイス"
 
-#: source/dialogs.c:70
+#: source/dialogs.c:82
 msgid "SDGecko Slot A"
 msgstr "SDGeckoのスロットA"
 
-#: source/dialogs.c:71
+#: source/dialogs.c:83
 msgid "SDGecko Slot B"
 msgstr "SDGeckoのスロットB"
 
-#: source/dialogs.c:72
+#: source/dialogs.c:84
 msgid "Sort applications by:"
 msgstr "アプリケーションの並べ替え順序 "
 
-#: source/dialogs.c:73
+#: source/dialogs.c:85
 msgid "Name"
 msgstr "名前"
 
-#: source/dialogs.c:74
+#: source/dialogs.c:86
 msgid "Date"
 msgstr "日付"
 
-#: source/dialogs.c:110
+#: source/dialogs.c:87
+#, fuzzy
+msgid "Author"
+msgstr "作者: %s"
+
+#: source/dialogs.c:88
+msgid "Size"
+msgstr ""
+
+#: source/dialogs.c:127
 msgid "<YourLanguageHere> translation by <YourNickNameHere>"
 msgstr "日本語、JEEB氏による翻訳"
 
-#: source/dialogs.c:115
+#: source/dialogs.c:132
 msgid "Theme:"
 msgstr "テーマ:"
 
-#: source/dialogs.c:125
+#: source/dialogs.c:141
 #, c-format
 msgid "Version: %s"
 msgstr "バージョン: %s"
 
-#: source/dialogs.c:126
+#: source/dialogs.c:142
 #, c-format
 msgid "Author: %s"
 msgstr "作者: %s"
 
-#: source/loader.c:716
+#: source/dialogs.c:143
+#, c-format
+msgid "Size: %.2f MB"
+msgstr ""
+
+#: source/loader.c:711
 msgid "Error while reading the application from the SD card"
 msgstr "アプリケーションをSDカードから読み込んでいる最中エラーが発生しました。"
 
-#: source/loader.c:717
+#: source/loader.c:712
 msgid "Error while receiving the application"
 msgstr "アプリケーションを受信している最中エラーが発生しました。"
 
-#: source/loader.c:718
+#: source/loader.c:713
 msgid "Error uncompressing the received data"
 msgstr "受信されたデータを解凍中エラーが発生しました。"
 
-#: source/loader.c:719
+#: source/loader.c:714
 msgid "This is not a valid Wii application"
 msgstr "これは妥当なWiiアプリケーションではありません。"
 
-#: source/loader.c:720
+#: source/loader.c:715
 msgid "This is not a usable ZIP file"
 msgstr "これは妥当なZIPファイルではありません。"
 
-#: source/loader.c:721
+#: source/loader.c:716
 msgid "Not enough memory"
 msgstr "メモリーが足りません。"
 
-#: source/loader.c:763
+#: source/loader.c:758
 #, c-format
 msgid "Loading %s"
 msgstr "%sをロード中。"
 
-#: source/loader.c:772
+#: source/loader.c:767
 #, c-format
 msgid "Receiving over USBGecko"
 msgstr "USBGecko経由で受信中。"
 
-#: source/loader.c:782
+#: source/loader.c:777
 #, c-format
 msgid "Receiving from %s"
 msgstr "%sから受信中。"
 
-#: source/loader.c:968
+#: source/loader.c:963
 #, c-format
 msgid ""
 "Extract the received ZIP file?\n"
@@ -173,56 +187,75 @@ msgstr ""
 "受信されたZIPファイルを解凍しますか。\n"
 "%sの空き領域が必要になります。"
 
-#: source/loader.c:969
+#: source/loader.c:964
 #, c-format
 msgid "WARNING: Files in '%s' will be overwritten"
 msgstr "警告: 「%s」の中のファイルはすべて上書きされます。"
 
-#: source/loader.c:970
+#: source/loader.c:965
 msgid "Error while extracting the ZIP file"
 msgstr "ZIPファイルを解凍中エラーが発生しました。"
 
-#: source/main.c:250
-msgid "Do you really want to delete this application?"
-msgstr "本当にこのアプリケーションを削除しますか。"
-
-#: source/main.c:251
-#, c-format
-msgid "Error deleting '%s'"
-msgstr "「%s」を削除中にエラーが発生しました。"
-
-#: source/manage.c:518
-msgid "Extracting"
-msgstr "解凍中"
-
-#: source/m_main.c:80
+#: source/m_main.c:84
 msgid "Network not initialized"
 msgstr "ネットワークが初期化されていません。"
 
-#: source/m_main.c:81
+#: source/m_main.c:85
 #, c-format
 msgid "Your Wii's IP is %u.%u.%u.%u"
 msgstr "このWiiのIPアドレスは %u.%u.%u.%u"
 
+#: source/m_main.c:86 source/m_main.c:157
+#, fuzzy, c-format
+msgid "%d applications installed"
+msgstr "アプリケーションの並べ替え順序 "
+
 # button text
-#: source/m_main.c:97
+#: source/m_main.c:102
 msgid "About"
 msgstr "このアプリケーションについて"
 
-#: source/m_main.c:102
+#: source/m_main.c:107
 msgid "Launch BootMii"
 msgstr "BootMiiを起動"
 
-#: source/m_main.c:106
+#: source/m_main.c:113
+#, fuzzy
+msgid "Exit to vWii System Menu"
+msgstr "システムメニューへ戻る"
+
+#: source/m_main.c:117
+msgid "Reboot to Wii U Menu"
+msgstr ""
+
+#: source/m_main.c:120
 msgid "Exit to System Menu"
 msgstr "システムメニューへ戻る"
 
-#: source/m_main.c:109
+#: source/m_main.c:124
 msgid "Shutdown"
 msgstr "シャットダウン"
 
+#: source/m_main.c:156
+#, fuzzy
+msgid "1 application installed"
+msgstr "アプリケーションの並べ替え順序 "
+
+#: source/main.c:253
+msgid "Do you really want to delete this application?"
+msgstr "本当にこのアプリケーションを削除しますか。"
+
+#: source/main.c:254
+#, c-format
+msgid "Error deleting '%s'"
+msgstr "「%s」を削除中にエラーが発生しました。"
+
+#: source/manage.c:527
+msgid "Extracting"
+msgstr "解凍中"
+
 # note: a non-breaking space is used in "Homebrew Channel" here.
-#: source/update.c:232
+#: source/update.c:230
 #, c-format
 msgid ""
 "An update to the Homebrew Channel (version %s, replacing the installed "
@@ -239,12 +272,12 @@ msgstr ""
 "\n"
 "%s"
 
-#: source/update.c:262
+#: source/update.c:260
 #, c-format
 msgid "Downloading Update (%u kB)"
 msgstr "更新をダウンロード中 (%u kB)"
 
-#: source/update.c:304
+#: source/update.c:302
 msgid "Download failed"
 msgstr "ダウンロードが失敗しました。"
 
