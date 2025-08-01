@@ -5,6 +5,8 @@
 
 #include "gfx.h"
 
+#define X_RATIO (widescreen ? WIDESCREEN_RATIO : 1.0)
+
 typedef enum {
     FONT_LABEL = 0,
     FONT_DLGTITLE,
@@ -37,6 +39,7 @@ int font_get_ascender(font_id id);
 int font_get_y_spacing(font_id id);
 int font_get_min_y(font_id id);
 
+u16 font_get_string_width(font_id id, const char *s, int count);
 int font_get_char_count(font_id id, const char *s, u16 max_width);
 int font_wrap_string(char ***lines, font_id id, const char *s, u16 max_width);
 void font_free_lines(char **lines, u32 count);

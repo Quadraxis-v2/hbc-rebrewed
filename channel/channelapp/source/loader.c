@@ -730,7 +730,7 @@ void loader_load(loader_result *result, view *sub_view, app_entry *entry) {
 
     if (LWP_MutexTryLock(ta_tcp.cmutex) == 0) {
         tcp_handshaked = ta_tcp.handshaked;
-        ta_gecko.cmd = LDTCPCMD_IDLE;
+        ta_tcp.cmd = LDTCPCMD_IDLE;
         LWP_MutexUnlock(ta_tcp.cmutex);
     }
 

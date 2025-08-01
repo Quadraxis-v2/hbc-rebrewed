@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "../config.h"
+#include "font.h"
 #include "i18n.h"
 #include "panic.h"
 #include "theme.h"
@@ -374,13 +375,13 @@ void widget_grid_app_entry(widget *w, s16 x, s16 y, s16 z,
 }
 
 void widget_app_entry(widget *w, s16 x, s16 y, s16 z, const app_entry *entry) {
-    const char *line1, *line2;
-    int l1, l2;
+    const char *line1, *line2, *line3;
+    int l1, l2, l3;
 
     widget_layer *l;
 
     widget_init(w, WT_APP_ENTRY, true, x, y, z, theme_gfx[THEME_APP_ENTRY]->w,
-                theme_gfx[THEME_APP_ENTRY]->h, 4);
+                theme_gfx[THEME_APP_ENTRY]->h, 5);
 
     w->flags |= WF_RUMBLE;
 
@@ -412,12 +413,23 @@ void widget_app_entry(widget *w, s16 x, s16 y, s16 z, const app_entry *entry) {
     gfx_qe_entity(&l->gfx_entries[0], theme_gfx[THEME_APP_ENTRY_FOCUS], 0, 0, 0,
                   COL_DEFAULT);
 
+    l = &w->layers[3];
+	l->flags = WF_FOCUSED | WF_FLAGS_AND | WF_ENABLED;
+	l->flags_invert = 0;
+	l->gfx_entry_count = 1;
+	l->gfx_entries = (gfx_queue_entry *)pmalloc (l->gfx_entry_count * 
+                                                sizeof (gfx_queue_entry));
+	gfx_qe_entity(&l->gfx_entries[0], theme_gfx[THEME_APP_ENTRY_FOCUS], 0, 0, 0, 
+                    COL_DEFAULT);
+
     line1 = NULL;
     line2 = NULL;
+    line3 = NULL;
 
     if (entry->meta) {
         line1 = entry->meta->name;
         line2 = entry->meta->short_description;
+        line3 = entry->meta->version;
     }
 
     if (!line1)
@@ -426,17 +438,25 @@ void widget_app_entry(widget *w, s16 x, s16 y, s16 z, const app_entry *entry) {
     if (!line2)
         line2 = app_entry_default_description;
 
+    if (!line3)
+	   line3 = "";
+
+	gprintf("line3: %s", line3);
+
     l1 = font_get_char_count(FONT_APPNAME, line1,
                              theme_gfx[THEME_APP_ENTRY]->w - APP_ENTRY_TEXT1_X -
                                  16);
     l2 = font_get_char_count(FONT_APPDESC, line2,
                              theme_gfx[THEME_APP_ENTRY]->w - APP_ENTRY_TEXT2_X -
                                  16);
+    l3 = font_get_char_count(FONT_LABEL, line3,
+							theme_gfx[THEME_APP_ENTRY]->w -
+							APP_ENTRY_TEXT1_X - 16);
 
-    l = &w->layers[3];
+    l = &w->layers[4];
     l->flags = 0;
     l->flags_invert = 0;
-    l->gfx_entry_count = l1 + l2;
+    l->gfx_entry_count = l1 + l2 + l3;
 
     if (entry->icon)
         l->gfx_entry_count++;
@@ -451,9 +471,15 @@ void widget_app_entry(widget *w, s16 x, s16 y, s16 z, const app_entry *entry) {
                      APP_ENTRY_TEXT2_X, APP_ENTRY_TEXT2_Y, 1,
                      theme_gfx[THEME_APP_ENTRY]->w - APP_ENTRY_TEXT2_X - 16,
                      FA_LEFT, FA_DESCENDER);
+    if (font_get_string_width(FONT_APPNAME, line1, l1) + font_get_string_width(FONT_LABEL, line3, l3) >=
+        (theme_gfx[THEME_APP_ENTRY]->w - APP_ENTRY_TEXT1_X - 16) / X_RATIO) line3 = "";
+    font_plot_string (&l->gfx_entries[l1 + l2], l3, FONT_LABEL, line3,
+						APP_ENTRY_TEXT1_X, APP_ENTRY_TEXT1_Y, 3,
+						theme_gfx[THEME_APP_ENTRY]->w - APP_ENTRY_TEXT1_X - 16, 
+                        FA_RIGHT, FA_ASCENDER);
 
     if (entry->icon)
-        gfx_qe_entity(&l->gfx_entries[l1 + l2], entry->icon, APP_ENTRY_ICON_X,
+        gfx_qe_entity(&l->gfx_entries[l1 + l2 + l3], entry->icon, APP_ENTRY_ICON_X,
                       APP_ENTRY_ICON_Y, 1, COL_DEFAULT);
 }
 

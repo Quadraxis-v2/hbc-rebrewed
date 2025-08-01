@@ -14,8 +14,6 @@
 
 #define ROUNDUP4B(x) ((x + 4 - 1) & ~(4 - 1))
 
-#define X_RATIO (widescreen ? WIDESCREEN_RATIO : 1.0)
-
 // #define FONT_CHECKER
 
 FT_Library library;
