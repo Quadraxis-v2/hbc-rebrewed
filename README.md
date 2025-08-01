@@ -8,6 +8,7 @@ New features:
 * Sorting by app size and author
 * vWii: Menu option to reboot to the Wii U Menu
 * Display of number of applications
+* Restored the bubble minigame scrapped in v1.0.5
 
 Included portions:
 
