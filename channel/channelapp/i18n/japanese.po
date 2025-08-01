@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: homebrew_channel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-31 23:48+0200\n"
+"POT-Creation-Date: 2025-08-01 13:40+0200\n"
 "PO-Revision-Date: 2011-01-10 05:53+0200\n"
 "Last-Translator: Jan Ekstrom <jeebjp@gmail.com>\n"
 "Language-Team: \n"
@@ -205,7 +205,7 @@ msgstr "ネットワークが初期化されていません。"
 msgid "Your Wii's IP is %u.%u.%u.%u"
 msgstr "このWiiのIPアドレスは %u.%u.%u.%u"
 
-#: source/m_main.c:86 source/m_main.c:157
+#: source/m_main.c:86 source/m_main.c:159
 #, fuzzy, c-format
 msgid "%d applications installed"
 msgstr "アプリケーションの並べ替え順序 "
@@ -280,6 +280,11 @@ msgstr "更新をダウンロード中 (%u kB)"
 #: source/update.c:302
 msgid "Download failed"
 msgstr "ダウンロードが失敗しました。"
+
+#: source/view.c:258
+#, c-format
+msgid "Score: %08d"
+msgstr ""
 
 #: source/widgets.c:16
 msgid "<no description>"

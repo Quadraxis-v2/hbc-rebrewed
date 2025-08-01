@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-31 23:48+0200\n"
+"POT-Creation-Date: 2025-08-01 13:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: NICKNAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE\n"
@@ -207,7 +207,7 @@ msgstr "Rete non inizializzata"
 msgid "Your Wii's IP is %u.%u.%u.%u"
 msgstr "L'indirizzo IP del Wii è %u.%u.%u.%u"
 
-#: source/m_main.c:86 source/m_main.c:157
+#: source/m_main.c:86 source/m_main.c:159
 #, fuzzy, c-format
 msgid "%d applications installed"
 msgstr "Ordina applicazioni per:"
@@ -282,6 +282,11 @@ msgstr "Download (%u kB)"
 #: source/update.c:302
 msgid "Download failed"
 msgstr "Download non riuscito"
+
+#: source/view.c:258
+#, c-format
+msgid "Score: %08d"
+msgstr ""
 
 #: source/widgets.c:16
 msgid "<no description>"

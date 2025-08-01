@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: spanish\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-31 23:48+0200\n"
+"POT-Creation-Date: 2025-08-01 13:40+0200\n"
 "PO-Revision-Date: 2008-05-21 01:17+0200\n"
 "Last-Translator: marcan <marcan@marcansoft.com>\n"
 "Language-Team: Spanish\n"
@@ -202,7 +202,7 @@ msgstr "La red no se ha inicializado"
 msgid "Your Wii's IP is %u.%u.%u.%u"
 msgstr "La IP de tu Wii es %u.%u.%u.%u"
 
-#: source/m_main.c:86 source/m_main.c:157
+#: source/m_main.c:86 source/m_main.c:159
 #, c-format
 msgid "%d applications installed"
 msgstr "%d aplicaciones instaladas"
@@ -274,6 +274,11 @@ msgstr "Descargando (%u kB)"
 #: source/update.c:302
 msgid "Download failed"
 msgstr "Error al descargar"
+
+#: source/view.c:258
+#, c-format
+msgid "Score: %08d"
+msgstr "Puntuación: %08d"
 
 #: source/widgets.c:16
 msgid "<no description>"

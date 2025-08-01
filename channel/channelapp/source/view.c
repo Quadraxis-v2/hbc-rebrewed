@@ -12,6 +12,7 @@
 #include "theme.h"
 #include "view.h"
 #include "widgets.h"
+#include "i18n.h"
 
 #define FOCUS_FLAGS (WF_VISIBLE | WF_ENABLED | WF_FOCUSABLE)
 #define CURSOR_FLAGS (WF_VISIBLE | WF_ENABLED)
@@ -254,7 +255,7 @@ void view_plot(view *v, u32 alpha, u32 *down, u32 *held, u32 *up) {
         if (sce)
             free(sce);
 
-        sprintf(sct, "Score: %08d", score);
+        sprintf(sct, _("Score: %08d"), score);
         int len = font_get_char_count(FONT_LABEL, sct, 200);
         sce = malloc(len * sizeof(gfx_queue_entry));
         // widget_label (&v_m_main->widgets[], 48, 32, 0, buffer,
