@@ -75,7 +75,7 @@ static uLong ZCALLBACK mem_read(voidpf opaque, voidpf stream, void *buf, uLong s
 
 static long ZCALLBACK mem_tell(voidpf opaque, voidpf stream)
 {
-    MEMFILE *handle = (MEMFILE *)stream;
+    const MEMFILE *handle = (MEMFILE *)stream;
     return handle->position;
 }
 

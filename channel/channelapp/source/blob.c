@@ -3,7 +3,7 @@
 
 #include "../config.h"
 #include "blob.h"
-#include "debug.h"
+#include <debug.h>
 #include "panic.h"
 
 #define MAX_BLOBS 8
@@ -50,7 +50,7 @@ void *blob_alloc(size_t size) {
     return (void *)addr;
 }
 
-void blob_free(void *p) {
+void blob_free(const void *p) {
     u32 level;
     if (!p)
         return;

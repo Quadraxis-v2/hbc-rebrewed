@@ -47,7 +47,7 @@ s32 tcp_socket(void) {
 }
 
 s32 tcp_connect(char *host, u16 port) {
-    struct hostent *hp;
+    const struct hostent *hp;
     struct sockaddr_in sa;
     s32 s, res;
     s64 t;

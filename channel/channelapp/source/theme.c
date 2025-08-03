@@ -449,7 +449,6 @@ void theme_init(u8 *data, u32 data_len) {
 
         if (res <= 0) {
             data = NULL;
-            data_len = 0;
             theme.description = pstrdup("Dark Water by drmr");
         }
     }

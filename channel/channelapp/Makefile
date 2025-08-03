@@ -79,7 +79,7 @@ FILES_SRC_OBJ = $(FILES_SRC:$(DIR_SRC)/%.c=$(DIR_BUILD)/%.o) \
 FILES_CHAN = $(DIR_CHAN)/nandloader.S
 FILES_CHAN_OBJ = $(DIR_BUILD)/nandloader.o $(FILES_SRC_OBJ)
 
-.PHONY: all channel world clean upload gdb debug test
+.PHONY: all channel world clean upload gdb debug test checks
 
 all:
 	@[ -d $(DIR_BUILD) ] || mkdir $(DIR_BUILD)

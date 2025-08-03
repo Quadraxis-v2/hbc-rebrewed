@@ -128,7 +128,7 @@ static bool reloc_dol(entry_point *ep, const u8 *addr, u32 size,
 }
 
 static s8 is_valid_elf(const u8 *addr, u32 size) {
-    Elf32_Ehdr *ehdr; /* Elf header structure pointer */
+    const Elf32_Ehdr *ehdr; /* Elf header structure pointer */
 
     ehdr = (Elf32_Ehdr *)addr;
 
@@ -155,7 +155,7 @@ static s8 is_valid_elf(const u8 *addr, u32 size) {
 
 static bool reloc_elf(entry_point *ep, const u8 *addr, u32 size,
                       bool check_overlap) {
-    Elf32_Ehdr *ehdr;
+    const Elf32_Ehdr *ehdr;
     Elf32_Phdr *phdrs;
     u8 *image;
     int i;

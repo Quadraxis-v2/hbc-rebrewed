@@ -196,7 +196,7 @@ int font_load(font_id id, bool use_theme) {
 
     fonts[id] = font;
 
-    font_glyph *glyph = font_get_char(id, 'M');
+    const font_glyph *glyph = font_get_char(id, 'M');
 
     font->em_height = glyph->h; // height of capital M
     font->ascender = (font->face->size->metrics.ascender + 32) >> 6;
@@ -295,7 +295,7 @@ font_glyph *font_get_char(font_id id, int codepoint) {
     int x, y;
     u8 *p = slot->bitmap.buffer;
     for (y = 0; y < ch; y++) {
-        u8 *lp = p;
+        const u8 *lp = p;
         int ty = y / 4;
         int py = y % 4;
         u8 *lpix = pix + ty * tpitch + py * 8;
@@ -480,7 +480,7 @@ u16 font_get_string_width(font_id id, const char *s, int count) {
     int i = 0;
     u32 mbc;
     int cx = 0;
-    int cy = 0;
+    //int cy = 0;
 
     FT_Pos cdx = 0, cdy = 0;
     u32 previous = 0;
@@ -496,13 +496,13 @@ u16 font_get_string_width(font_id id, const char *s, int count) {
         }
         if (mbc == '\r')
             continue;
-        font_glyph *glyph = font_get_char(id, mbc);
+        const font_glyph *glyph = font_get_char(id, mbc);
 
         if (previous)
             font_kern(id, previous, glyph->glyph_index, &cdx, &cdy);
 
         cx += (cdx + 32) >> 6;
-        cy += (cdy + 32) >> 6;
+        //cy += (cdy + 32) >> 6;
 
         cdx = glyph->dx;
         cdy = glyph->dy;
@@ -513,7 +513,7 @@ u16 font_get_string_width(font_id id, const char *s, int count) {
     }
 
     cx += (cdx + 32) >> 6;
-    cy += (cdy + 32) >> 6;
+    //cy += (cdy + 32) >> 6;
 
     return cx;
 }
@@ -541,7 +541,7 @@ int font_get_char_count(font_id id, const char *s, u16 max_width) {
         }
         if (mbc == '\r')
             continue;
-        font_glyph *glyph = font_get_char(id, mbc);
+        const font_glyph *glyph = font_get_char(id, mbc);
 
         if (previous)
             font_kern(id, previous, glyph->glyph_index, &cdx, &cdy);
@@ -568,12 +568,10 @@ int font_wrap_string(char ***lines, font_id id, const char *s, u16 max_width) {
     int start = 0;
     int end = 0;
     int ls = -1;
-    bool lb;
 
     int cx = 0;
     int cy = 0;
 
-    int i = 0;
     u32 mbc;
 
     FT_Pos cdx = 0, cdy = 0;
@@ -584,9 +582,9 @@ int font_wrap_string(char ***lines, font_id id, const char *s, u16 max_width) {
     font_load(id, 1);
 
     while (true) {
-        i = p - s;
+        int i = p - s;
         mbc = utf8_get_char(&p);
-        lb = false;
+        bool lb = false;
 
         if (mbc == ' ')
             ls = p - s;
@@ -598,7 +596,7 @@ int font_wrap_string(char ***lines, font_id id, const char *s, u16 max_width) {
         } else if (mbc == '\r') {
             continue;
         } else {
-            font_glyph *glyph = font_get_char(id, mbc);
+            const font_glyph *glyph = font_get_char(id, mbc);
 
             if (previous)
                 font_kern(id, previous, glyph->glyph_index, &cdx, &cdy);

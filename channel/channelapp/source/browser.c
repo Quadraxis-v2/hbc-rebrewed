@@ -44,9 +44,8 @@ void browser_deinit(void) {
 }
 
 void browser_theme_reinit(void) {
-    int i;
     if (inited_widgets)
-        for (i = 0; i < v_browser->widget_count; ++i)
+        for (int i = 0; i < v_browser->widget_count; ++i)
             widget_free(&v_browser->widgets[i]);
 
     widget_image(&v_browser->widgets[0], 24, 192, 0,
@@ -96,7 +95,6 @@ static void browser_set_top_offset(const app_entry *app) {
 }
 void browser_gen_view(browser_action action, const app_entry *app) {
     bool less, more;
-    app_entry *entry;
     s8 focus;
 
     u32 i, j;
@@ -191,7 +189,7 @@ void browser_gen_view(browser_action action, const app_entry *app) {
     if (action != BA_REMOVE)
         for (i = 0; i < (columns_new * ROWS); ++i) {
             if (entry_count > top_offset + i) {
-                entry = entries[top_offset + i];
+                const app_entry *entry = entries[top_offset + i];
 
                 if (entry && (entry == app))
                     focus += i;
@@ -328,6 +326,5 @@ void browser_switch_mode(void) {
     if (v_browser)
         browser_gen_view(BA_REFRESH, app);
 
-    if (settings.browse_mode != mode)
-        settings.browse_mode = mode;
+    settings.browse_mode = mode;
 }

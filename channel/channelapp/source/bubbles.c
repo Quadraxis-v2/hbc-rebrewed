@@ -64,13 +64,12 @@ static void bubble_update_count(void) {
     static int div = 0;
     s32 minute;
     static int new_count;
-    int t;
 
     // time() might be expensive due to RTC reading
     // so slow it down a bit
     if ((div++ >= 600) || (bubble_count < 0)) {
         div = 0;
-        t = time(NULL);
+        int t = time(NULL);
         minute = (t / 60 - BUBBLE_MIN_TIME) % BUBBLE_TIME_CYCLE;
 
         if (minute <= BUBBLE_MAX_OFFSET)

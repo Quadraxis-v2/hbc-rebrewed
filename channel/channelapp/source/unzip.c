@@ -471,7 +471,7 @@ extern int ZEXPORT unzClose(unzFile file)
   return UNZ_OK if there is no problem. */
 extern int ZEXPORT unzGetGlobalInfo(unzFile file, unz_global_info *pglobal_info)
 {
-    unz_s *s;
+    const unz_s *s;
     if (file == NULL)
         return UNZ_PARAMERROR;
     s = (unz_s *)file;
@@ -812,7 +812,7 @@ typedef struct unz_file_pos_s
 
 extern int ZEXPORT unzGetFilePos(unzFile file, unz_file_pos *file_pos)
 {
-    unz_s *s;
+    const unz_s *s;
 
     if (file == NULL || file_pos == NULL)
         return UNZ_PARAMERROR;
@@ -826,7 +826,7 @@ extern int ZEXPORT unzGetFilePos(unzFile file, unz_file_pos *file_pos)
     return UNZ_OK;
 }
 
-extern int ZEXPORT unzGoToFilePos(unzFile file, unz_file_pos *file_pos)
+extern int ZEXPORT unzGoToFilePos(unzFile file, const unz_file_pos *file_pos)
 {
     unz_s *s;
     int err;
@@ -1281,7 +1281,7 @@ extern z_off_t ZEXPORT unztell(unzFile file)
 extern int ZEXPORT unzeof(unzFile file)
 {
     unz_s *s;
-    file_in_zip_read_info_s *pfile_in_zip_read_info;
+    const file_in_zip_read_info_s *pfile_in_zip_read_info;
     if (file == NULL)
         return UNZ_PARAMERROR;
     s = (unz_s *)file;
@@ -1424,7 +1424,7 @@ extern int ZEXPORT unzGetGlobalComment(unzFile file, char *szComment, uLong uSiz
 /* Additions by RX '2004 */
 extern uLong ZEXPORT unzGetOffset(unzFile file)
 {
-    unz_s *s;
+    const unz_s *s;
 
     if (file == NULL)
         return UNZ_PARAMERROR;

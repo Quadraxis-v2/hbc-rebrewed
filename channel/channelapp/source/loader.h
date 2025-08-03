@@ -40,7 +40,7 @@ bool loader_tcp_initializing(void);
 bool loader_tcp_initialized(void);
 bool loader_handshaked(void);
 
-void loader_load(loader_result *result, view *sub_view, app_entry *entry);
+void loader_load(loader_result *result, const view *sub_view, app_entry *entry);
 bool loader_load_executable(entry_point *ep, loader_result *result,
                             view *sub_view);
 bool loader_handle_zip_app(loader_result *result, view *sub_view);

@@ -13,7 +13,7 @@ static vu32 *fb;
 
 static void pchar(u32 cx, u32 cy, char c) {
     int x, y;
-    unsigned char *p = &console_font_8x16[16 * c];
+    const unsigned char *p = &console_font_8x16[16 * c];
 
     for (y = 0; y < 16; y++) {
         char v = *p++;
@@ -39,7 +39,7 @@ static void pchar(u32 cx, u32 cy, char c) {
     }
 }
 
-static void putsc(u32 y, char *s) {
+static void putsc(u32 y, const char *s) {
     u32 x = (320 - strlen(s) * 4) / 2;
     while (*s) {
         pchar(x, y, *s++);

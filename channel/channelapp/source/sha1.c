@@ -231,7 +231,7 @@ void SHA1Final(unsigned char digest[20], SHA1_CTX *context) {
 #endif
 }
 
-void SHA1(unsigned char *ptr, unsigned int size, unsigned char *outbuf) {
+void SHA1(const unsigned char *ptr, unsigned int size, unsigned char *outbuf) {
     SHA1_CTX ctx;
 
     SHA1Init(&ctx);

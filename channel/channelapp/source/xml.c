@@ -57,7 +57,7 @@ static char *_get_elem_cdata(mxml_node_t *node, const char *element) {
 }
 
 static int _get_elem_int(mxml_node_t *node, const char *element, int std) {
-    char *cdata;
+    const char *cdata;
 
     if (!node)
         return std;
@@ -73,7 +73,6 @@ static int _get_elem_int(mxml_node_t *node, const char *element, int std) {
 
 static bool _get_color(mxml_node_t *node, const char *element, u32 *color) {
     u32 res, i;
-    int c;
     const char *const channel[] = {"red", "green", "blue", "alpha"};
 
     if (!node)
@@ -87,7 +86,7 @@ static bool _get_color(mxml_node_t *node, const char *element, u32 *color) {
     res = 0;
     for (i = 0; i < 4; ++i) {
         res <<= 8;
-        c = _get_elem_int(node, channel[i], -1);
+        int c = _get_elem_int(node, channel[i], -1);
         if ((c < 0) || (c > 255))
             return false;
         res |= c & 0xff;
@@ -138,7 +137,7 @@ static void _get_font(mxml_node_t *node) {
     const char *t = mxmlElementGetAttr(node, "target");
     if (t && t[0]) {
         char *trg = pstrdup(t);
-        char *tok;
+        const char *tok;
         tok = strtok(trg, ", ");
         while (tok) {
             int i;
@@ -203,7 +202,7 @@ static char *_get_args(u16 *length, mxml_node_t *node, const char *element) {
 
     mxml_node_t *n;
     u16 len = 0;
-    char *arg;
+    const char *arg;
 
     for (n = mxmlFindElement(node, node, "arg", NULL, NULL, MXML_DESCEND_FIRST);
          n != NULL;
@@ -258,7 +257,7 @@ meta_info *meta_parse(char *fn) {
     int fd;
     mxml_node_t *root, *node;
     meta_info *res;
-    char *s;
+    const char *s;
     struct tm t;
 
     fd = open(fn, O_RDONLY);
@@ -346,7 +345,7 @@ void meta_free(meta_info *info) {
 
 update_info *update_parse(char *buf) {
     mxml_node_t *root, *node;
-    char *s;
+    const char *s;
     update_info *res;
 
     root = mxmlLoadString(NULL, buf, MXML_OPAQUE_CALLBACK);
@@ -399,7 +398,7 @@ bool settings_load(void) {
     s32 res;
     u8 *buf;
     mxml_node_t *root, *node;
-    char *s;
+    const char *s;
     const char *titlepath;
     STACK_ALIGN(char, fn, ISFS_MAXPATH, 32);
 
@@ -592,7 +591,7 @@ bool load_theme_xml(char *buf) {
     const char *l = mxmlElementGetAttr(node, "langs");
     if (l && l[0]) {
         char *lng = pstrdup(l);
-        char *tok;
+        const char *tok;
         tok = strtok(lng, ", ");
         while (tok) {
             if (!strcmp(tok, "ja"))

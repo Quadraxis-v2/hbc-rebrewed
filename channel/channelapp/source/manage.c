@@ -34,7 +34,7 @@ s32 dir_exists(char *dirname) {
     return -1;
 }
 
-static s32 mkdir_hier(char *dirname) {
+static s32 mkdir_hier(const char *dirname) {
     char dir[PATH_MAX];
     size_t i;
     s32 res;
@@ -74,7 +74,7 @@ static s32 mkdir_hier(char *dirname) {
 static s32 rmdir_hier_iter(const char *dirname) {
     s32 res = -1;
     DIR *d;
-    struct dirent *de;
+    const struct dirent *de;
 
     gprintf("rmdir_hier_iter '%s'\n", dirname);
 
@@ -196,7 +196,7 @@ bool manage_check_zip_app(u8 *data, u32 data_len, char *dirname, u32 *bytes) {
             *bytes += fi.uncompressed_size;
 
             if (!dirname[0]) {
-                char *p = strchr(filename, '/');
+                const char *p = strchr(filename, '/');
                 if (p) {
                     strncpy(dirname, filename, p - filename + 1);
                     dirname[p - filename + 1] = 0;
@@ -298,7 +298,7 @@ bool manage_check_zip_theme(u8 *data, u32 data_len) {
         }
 
         if (fi.uncompressed_size > 0) {
-            char *p = strchr(filename, '/');
+            const char *p = strchr(filename, '/');
             if (p) {
                 gprintf("directories not accepted\n");
                 goto error;
@@ -489,7 +489,6 @@ static void *manage_func(void *arg) {
 bool manage_run(view *sub_view, const char *dirname, u8 *data, u32 data_len,
                 u32 bytes) {
     s32 res;
-    u32 progress = 0;
     char caption[PATH_MAX];
 
     view *v;
@@ -521,10 +520,8 @@ bool manage_run(view *sub_view, const char *dirname, u8 *data, u32 data_len,
         return false;
     }
 
-    const char *text;
-
     if (data) {
-        text = _("Extracting");
+        const char *text = _("Extracting");
         sprintf(caption, "%s '%s'...", text, dirname);
         v = dialog_progress(sub_view, caption, bytes);
         dialog_fade(v, true);
@@ -540,7 +537,7 @@ bool manage_run(view *sub_view, const char *dirname, u8 *data, u32 data_len,
             break;
         }
 
-        progress = ta.progress;
+        u32 progress = ta.progress;
 
         LWP_MutexUnlock(ta.mutex);
 

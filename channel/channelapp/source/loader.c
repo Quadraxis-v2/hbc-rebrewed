@@ -565,7 +565,6 @@ static void *ld_load_func(void *arg) {
     u8 *d;
     u32 left, received;
     s32 block;
-    int res;
     s64 t;
 
     d = ta->data;
@@ -610,7 +609,7 @@ static void *ld_load_func(void *arg) {
         t = gettime();
 
         while (left) {
-            res =
+            int res =
                 usb_recvbuffer_ex(USBGECKO_CHANNEL, d, left, USBGECKO_RETRIES);
 
             if (res) {
@@ -697,7 +696,7 @@ static void *ld_load_func(void *arg) {
 
 // public loading function
 
-void loader_load(loader_result *result, view *sub_view, app_entry *entry) {
+void loader_load(loader_result *result, const view *sub_view, app_entry *entry) {
     char caption[PATH_MAX + 32];
     char filename[PATH_MAX];
 
@@ -735,7 +734,7 @@ void loader_load(loader_result *result, view *sub_view, app_entry *entry) {
     }
 
     if (entry) {
-        char *name;
+        const char *name;
 
         if (!app_entry_get_filename(filename, entry))
             return;

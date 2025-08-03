@@ -134,14 +134,14 @@ static int elt_is_zero(const u8 *d) {
     return 1;
 }
 
-static void elt_add(u8 *d, u8 *a, const u8 *b) {
+static void elt_add(u8 *d, const u8 *a, const u8 *b) {
     u32 i;
 
     for (i = 0; i < 30; i++)
         d[i] = a[i] ^ b[i];
 }
 
-static void elt_mul_x(u8 *d, u8 *a) {
+static void elt_mul_x(u8 *d, const u8 *a) {
     u8 carry, x, y;
     u32 i;
 
@@ -158,7 +158,7 @@ static void elt_mul_x(u8 *d, u8 *a) {
     d[20] ^= carry << 2;
 }
 
-static void elt_mul(u8 *d, u8 *a, u8 *b) {
+static void elt_mul(u8 *d, const u8 *a, const u8 *b) {
     u32 i, n;
     u8 mask;
 
@@ -180,7 +180,7 @@ static void elt_mul(u8 *d, u8 *a, u8 *b) {
     }
 }
 
-static void elt_square_to_wide(u8 *d, u8 *a) {
+static void elt_square_to_wide(u8 *d, const u8 *a) {
     u32 i;
 
     for (i = 0; i < 30; i++) {
@@ -222,7 +222,7 @@ static void elt_square(u8 *d, u8 *a) {
     elt_copy(d, wide + 30);
 }
 
-static void itoh_tsujii(u8 *d, u8 *a, u8 *b, u32 j) {
+static void itoh_tsujii(u8 *d, const u8 *a, u8 *b, u32 j) {
     u8 t[30];
 
     elt_copy(t, a);
@@ -339,7 +339,7 @@ static void point_add(u8 *r, u8 *p, const u8 *q) {
     elt_add(ry, s, rx);
 }
 
-static void point_mul(u8 *d, u8 *a, const u8 *b) // a is bignum
+static void point_mul(u8 *d, const u8 *a, const u8 *b) // a is bignum
 {
     u32 i;
     u8 mask;
@@ -355,7 +355,7 @@ static void point_mul(u8 *d, u8 *a, const u8 *b) // a is bignum
         }
 }
 
-int check_ecdsa(const u8 *Q, u8 *R, u8 *S, u8 *hash) {
+int check_ecdsa(const u8 *Q, const u8 *R, const u8 *S, const u8 *hash) {
     u8 Sinv[30];
     u8 e[30];
     u8 w1[30], w2[30];

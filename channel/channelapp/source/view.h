@@ -38,7 +38,7 @@ view *view_new(u8 widget_count, const view *sub_view, s16 x, s16 y, s16 z,
 void view_free(view *v);
 
 void view_plot(view *v, u32 alpha, u32 *down, u32 *held, u32 *up);
-void view_fade(view *v, s16 z, u32 c1, u32 c2, u32 c3, u32 c4, u8 steps,
+void view_fade(const view *v, s16 z, u32 c1, u32 c2, u32 c3, u32 c4, u8 steps,
                s8 modifier);
 
 void view_set_focus(view *v, s8 new_focus);

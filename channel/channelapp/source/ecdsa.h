@@ -3,6 +3,6 @@
 
 #include <ogcsys.h>
 
-int check_ecdsa(const u8 *Q, u8 *R, u8 *S, u8 *hash);
+int check_ecdsa(const u8 *Q, const u8 *R, const u8 *S, const u8 *hash);
 
 #endif

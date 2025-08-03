@@ -119,7 +119,7 @@ void view_free(view *v) {
 static void view_push_view(const view *v, u32 subview_alpha) {
     int i, j;
     widget *w;
-    widget_layer *l;
+    const widget_layer *l;
     u32 f;
 
     if (v->sub_view) {
@@ -320,7 +320,7 @@ void view_plot(view *v, u32 alpha, u32 *down, u32 *held, u32 *up) {
         controls_rumble(0);
 }
 
-void view_fade(view *v, s16 z, u32 c1, u32 c2, u32 c3, u32 c4, u8 steps,
+void view_fade(const view *v, s16 z, u32 c1, u32 c2, u32 c3, u32 c4, u8 steps,
                s8 modifier) {
     view *vf;
     u8 i;

@@ -42,7 +42,8 @@ gfx_entity *tex_from_png(const u8 *data, u32 size, u16 width, u16 height) {
     png_bytepp rows;
 
     u8 *pixels;
-    u8 *s, *d;
+    const u8 *s;
+    u8 *d;
     u32 x, y;
     u8 r;
 

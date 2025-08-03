@@ -75,7 +75,7 @@ static u16 get_tmd_version(u64 title) {
 
 static bool http_split_url(char **host, char **path, const char *url) {
     const char *p;
-    char *c;
+    const char *c;
 
     if (strncasecmp(url, "http://", 7))
         return false;
@@ -94,7 +94,6 @@ static bool http_split_url(char **host, char **path, const char *url) {
 
 static void *http_func(void *arg) {
     http_arg *ta = (http_arg *)arg;
-    int s;
     char *request, *r;
     int linecount;
     char *line;
@@ -117,7 +116,7 @@ static void *http_func(void *arg) {
 
         ta->cmd = HTTPCMD_IDLE;
 
-        s = tcp_connect(ta->host, ta->port);
+        int s = tcp_connect(ta->host, ta->port);
 
         LWP_MutexLock(ta_http.mutex);
         if (s < 0) {
@@ -363,11 +362,11 @@ void http_init(void) {
 }
 
 void http_deinit(void) {
-    int i;
 
     if (ta_http.running) {
         gprintf("stopping http thread\n");
 
+        int i;
         for (i = 0; i < 25; ++i) {
             if (LWP_MutexTryLock(ta_http.cmutex) == 0) {
                 break;

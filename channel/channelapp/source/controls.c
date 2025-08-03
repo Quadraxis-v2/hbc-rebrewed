@@ -34,7 +34,7 @@ void controls_init(void) {
 
 void controls_deinit(void) { WPAD_Shutdown(); }
 
-static u32 wpad_button_transform(WPADData *wd, u32 btns) {
+static u32 wpad_button_transform(const WPADData *wd, u32 btns) {
     btns &= ~PADW_BUTTON_NET_INIT;
     btns &= ~PADW_BUTTON_SCREENSHOT;
 
@@ -227,12 +227,11 @@ s32 deadzone(s32 v) {
 
 s32 controls_sticky(void) {
     s32 sy;
-    int i;
     sy = deadzone(PAD_StickY(0));
     if (pointer_owner >= 0) {
         sy += deadzone(wpad_sticky(pointer_owner));
     } else {
-        for (i = 0; i < WPAD_MAX_WIIMOTES; i++) {
+        for (int i = 0; i < WPAD_MAX_WIIMOTES; i++) {
             sy += deadzone(wpad_sticky(i));
         }
     }

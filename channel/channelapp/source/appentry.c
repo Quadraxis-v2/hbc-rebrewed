@@ -192,8 +192,7 @@ void app_entry_set_sort(app_sort sort) {
         break;
     }
 
-    if (settings.sort_order != current_sort)
-        settings.sort_order = current_sort;
+    settings.sort_order = current_sort;
 }
 
 static app_entry *app_entry_load_single(const char *dirname) {
@@ -268,7 +267,7 @@ void app_entries_free(void) {
 static void app_entry_load_all(void) {
     app_entry *entry;
     DIR *d;
-    struct dirent *de;
+    const struct dirent *de;
 
     app_entries_free();
 
@@ -303,7 +302,7 @@ static void app_entry_load_all(void) {
     app_entry_filter(current_filter);
 }
 
-bool app_entry_remove(app_entry *app) {
+bool app_entry_remove(const app_entry *app) {
     u32 i;
     bool res = false;
 
@@ -681,8 +680,7 @@ void app_entry_set_prefered(int device) {
 
     device_prefered = device;
 
-    if (settings.device != device_prefered)
-        settings.device = device_prefered;
+    settings.device = device_prefered;
 }
 
 void app_entry_set_device(int device) {
@@ -704,7 +702,7 @@ bool app_entry_get_path(char *buf) {
     return true;
 }
 
-bool app_entry_get_filename(char *buf, app_entry *app) {
+bool app_entry_get_filename(char *buf, const app_entry *app) {
     if (device_active < 0)
         return false;
 

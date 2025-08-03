@@ -59,14 +59,14 @@ void app_entry_set_prefered(int device);
 void app_entry_set_device(int device);
 
 bool app_entry_get_path(char *buf);
-bool app_entry_get_filename(char *buf, app_entry *app);
+bool app_entry_get_filename(char *buf, const app_entry *app);
 app_entry *app_entry_find(char *dirname);
 
 app_sort app_entry_get_sort(void);
 void app_entry_set_sort(app_sort sort);
 
 app_entry *app_entry_add(const char *dirname);
-bool app_entry_remove(app_entry *app);
+bool app_entry_remove(const app_entry *app);
 
 bool app_entry_is_loading(void);
 

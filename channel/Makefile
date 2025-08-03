@@ -14,3 +14,6 @@ clean:
 
 test:
 	@$(MAKE) -C channelapp test
+
+checks:
+	@$(MAKE) -C channelapp checks

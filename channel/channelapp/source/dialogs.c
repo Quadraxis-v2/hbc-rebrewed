@@ -187,7 +187,7 @@ void dialog_fade(view *v, bool fade_in) {
 view *dialog_app(const app_entry *entry, const view *sub_view) {
     view *v;
     u16 x, gap;
-    char *name;
+    const char *name;
     char coder[64];
     char version[64];
     char size[64];

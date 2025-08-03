@@ -4,6 +4,6 @@
 #include <sys/types.h>
 
 void *blob_alloc(size_t size);
-void blob_free(void *p);
+void blob_free(const void *p);
 
 #endif

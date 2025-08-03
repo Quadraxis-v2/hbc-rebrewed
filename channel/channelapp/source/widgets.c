@@ -364,8 +364,6 @@ void widget_grid_app_entry(widget *w, s16 x, s16 y, s16 z,
         l->flags = 0;
         l->flags_invert = 0;
         l->gfx_entry_count = 1;
-
-        l->gfx_entry_count = 1;
         l->gfx_entries = (gfx_queue_entry *)pmalloc(l->gfx_entry_count *
                                                     sizeof(gfx_queue_entry));
 
