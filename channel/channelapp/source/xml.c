@@ -40,7 +40,7 @@ static char *_get_cdata(mxml_node_t *node) {
 
     while (n) {
         if (mxmlGetType(n) == MXML_OPAQUE)
-            return mxmlGetOpaque(n);
+            return (char*)mxmlGetOpaque(n);
 
         n = mxmlWalkNext(n, node, MXML_NO_DESCEND);
     }
@@ -552,7 +552,11 @@ void theme_xml_init(void) { memset(&theme, 0, sizeof(theme)); }
 
 bool load_theme_xml(char *buf) {
     int i;
-    mxml_node_t *root, *node, *fnode, *mnode;
+    mxml_node_t *root, *node, *fnode;
+
+#ifdef USE_MUSIC
+    mxml_node_t *mnode;
+#endif
 
     // free prior theme
     if (theme.description)

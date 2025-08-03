@@ -12,3 +12,5 @@ clean:
 	@$(MAKE) -C wiiload clean
 	@$(MAKE) -C wiiload clean WIN32=1
 
+test:
+	@$(MAKE) -C channelapp test

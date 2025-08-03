@@ -48,6 +48,8 @@ static gfx_queue_entry *sce = NULL;
 
 bool view_bubbles = false;
 
+bool exiting_minigame = false;
+
 void view_init(void) {
     cursor_enabled = false;
     rumble_enabled = (CONF_GetPadMotorMode() == 0) ? 0 : 1;
@@ -185,6 +187,7 @@ void view_plot(view *v, u32 alpha, u32 *down, u32 *held, u32 *up) {
     if ((bh & WPAD_BUTTON_2 << 16) && (bd & WPAD_BUTTON_1 << 16) && !fading) {
         viewing = !viewing;
         controls_set_ir_threshold(!viewing);
+        if (viewing) exiting_minigame = true;
     }
 
     if (viewing) {

@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "controls.h": "c",
+        "wpad.h": "c",
+        "wiiuse.h": "c",
+        "debug.h": "c",
+        "processor.h": "c",
+        "cursor_drag_png.h": "c",
+        "droid_ttf.h": "c"
+    },
+    "C_Cpp.default.compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-gcc"
+}

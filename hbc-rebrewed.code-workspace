@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"controls.h": "c",
+			"wpad.h": "c"
+		}
+	}
+}

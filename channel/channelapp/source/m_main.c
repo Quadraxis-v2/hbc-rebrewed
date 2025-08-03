@@ -39,7 +39,7 @@ static bool bootmii_is_installed(u64 title_id) {
 
     tmdbuf = pmemalign(32, 1024);
 
-    if (ES_GetTMDView(title_id, tmdbuf, tmd_view_size) < 0) {
+    if (ES_GetTMDView(title_id, (tmd_view*)tmdbuf, tmd_view_size) < 0) {
         free(tmdbuf);
         return false;
     }
@@ -78,7 +78,6 @@ void m_main_deinit(void) {
 
 void m_main_theme_reinit(void) {
     u16 x, y, yadd;
-    int i;
     char buffer[20];
 
     text_no_ip = _("Network not initialized");
@@ -86,7 +85,7 @@ void m_main_theme_reinit(void) {
     text_number_apps = _("%d applications installed");
 
     if (inited_widgets)
-        for (i = 0; i < v_m_main->widget_count; ++i)
+        for (int i = 0; i < v_m_main->widget_count; ++i)
             widget_free(&v_m_main->widgets[i]);
 
     if (bootmii_ios || vwii)
@@ -139,11 +138,11 @@ void m_main_theme_reinit(void) {
 
 void m_main_update(void) {
     u32 ip;
-    char buffer[64];
     char buffer2[64];
 
     if (loader_tcp_initialized()) {
         ip = net_gethostip();
+        char buffer[64];
         sprintf(buffer, text_has_ip, (ip >> 24) & 0xff, (ip >> 16) & 0xff,
                 (ip >> 8) & 0xff, ip & 0xff);
         widget_label(&v_m_main->widgets[7], 48, 32, 0, buffer,

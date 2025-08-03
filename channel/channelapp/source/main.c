@@ -74,6 +74,7 @@ static const char *text_delete;
 static const char *text_error_delete;
 
 extern int viewing;
+extern bool exiting_minigame;
 
 s32 __IOS_LoadStartupIOS(void) {
 #if 0
@@ -96,11 +97,9 @@ static const u16 ticket_check[] = {
 };
 
 static int patch_ahbprot_reset(void) {
-    u16 *patchme;
-
     if ((read32(0x0D800064) == 0xFFFFFFFF) ? 1 : 0) {
         write16(MEM2_PROT, 2);
-        for (patchme = ES_MODULE_START; patchme < ES_MODULE_START + 0x4000;
+        for (u16 *patchme = ES_MODULE_START; patchme < ES_MODULE_START + 0x4000;
              ++patchme) {
             if (!memcmp(patchme, ticket_check, sizeof(ticket_check))) {
                 // write16/uncached poke doesn't work for MEM2
@@ -254,7 +253,7 @@ static void load_text(void) {
     text_error_delete = _("Error deleting '%s'");
 }
 
-static void refresh_theme(view *v, app_entry *app, u8 *data, u32 data_len) {
+static void refresh_theme(view *v, const app_entry *app, u8 *data, u32 data_len) {
     browser_gen_view(BA_REMOVE, NULL);
     view_fade(v, TEX_LAYER_CURSOR + 1, 0, 0, 0, 0, 32, 8);
     font_clear();
@@ -534,7 +533,11 @@ void main_real(void) {
             }
 #endif
             if (viewing) {
-                if ((bu & PADS_1) && !(bh & WPAD_BUTTON_2 << 16))  {
+                if (!(bd & PADS_1) && !(bh & PADS_1) && !(bu & PADS_1) &&
+                    !(bd & PADS_2) && !(bh & PADS_2) && !(bu & PADS_2))
+                    exiting_minigame = false;
+
+                if ((bu & PADS_1) && !(bh & WPAD_BUTTON_2 << 16) && !exiting_minigame)  {
                     dialog_options_result options;
                     options = show_options_dialog(v_current);
 
@@ -547,7 +550,7 @@ void main_real(void) {
                     continue;
                 }
 
-                if (bu & PADS_2) {
+                if (bu & PADS_2 && !exiting_minigame) {
                     browser_switch_mode();
                     continue;
                 }

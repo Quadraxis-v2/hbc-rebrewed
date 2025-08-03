@@ -27,6 +27,7 @@ extern bool view_bubbles;
 extern bool allow_screenshot;
 extern int score;
 extern int viewing;
+extern bool exiting_minigame;
 
 void view_init();
 void view_deinit();

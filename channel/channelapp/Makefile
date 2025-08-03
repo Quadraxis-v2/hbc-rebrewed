@@ -36,14 +36,15 @@ DIR_LIBS = \
 LIBS = mxml freetype png bz2 z db fat wiiuse bte ogc asnd mad m
 
 MACHDEP = -g -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
-CFLAGS = $(MACHDEP) -Os -Wall -DBASE_ADDR=$(BASE_ADDR) -flto $(DIR_INCLUDES:%=-I%)
+CFLAGS = $(MACHDEP) -Os -Wall -DBASE_ADDR=$(BASE_ADDR) -flto=auto $(DIR_INCLUDES:%=-I%) -std=gnu23
 # using -Os for the stub makes it dependent on libgcc
-CFLAGS_STUB = $(MACHDEP) -O2 -Wall -DBASE_ADDR=$(BASE_ADDR) -flto $(DIR_INCLUDES:%=-I%)
+CFLAGS_STUB = $(MACHDEP) -O2 -Wall -DBASE_ADDR=$(BASE_ADDR) -flto=auto $(DIR_INCLUDES:%=-I%) -std=gnu23
 ASFLAGS = -D_LANGUAGE_ASSEMBLY -DHW_RVL
-LDFLAGS_STUB = $(MACHDEP) -Wl,--section-start,.init=0x80001800 -nostartfiles -nodefaultlibs
+LDFLAGS_STUB = $(MACHDEP) -Wl,--section-start,.init=0x80001800 -nostartfiles -nodefaultlibs -z noexecstack
 LDFLAGS_APP = $(MACHDEP) -specs=newrvl.spec -Wl,--section-start,.init=$(BASE_ADDR) \
-	      $(DIR_LIBS:%=-L%) $(LIBS:%=-l%) -Wl,-Map,channelapp.map
-LDFLAGS_CHAN = $(MACHDEP) -specs=newrvl.spec -Wl,--section-start,.init=$(BASE_ADDR) -Wl,-e,_stub_start $(DIR_LIBS:%=-L%) $(LIBS:%=-l%) -Wl,-Map,channelapp_chan.map
+	      $(DIR_LIBS:%=-L%) $(LIBS:%=-l%) -Wl,-Map,channelapp.map -z noexecstack
+LDFLAGS_CHAN = $(MACHDEP) -specs=newrvl.spec -Wl,--section-start,.init=$(BASE_ADDR) -Wl,-e,_stub_start \
+		  $(DIR_LIBS:%=-L%) $(LIBS:%=-l%) -Wl,-Map,channelapp_chan.map -z noexecstack
 
 FILES_STUB = $(wildcard $(DIR_STUB)/*.S) $(wildcard $(DIR_STUB)/*.c)
 FILES_STUB_OBJx = $(FILES_STUB:$(DIR_STUB)/%.S=$(DIR_BUILD)/%.o)
@@ -78,7 +79,7 @@ FILES_SRC_OBJ = $(FILES_SRC:$(DIR_SRC)/%.c=$(DIR_BUILD)/%.o) \
 FILES_CHAN = $(DIR_CHAN)/nandloader.S
 FILES_CHAN_OBJ = $(DIR_BUILD)/nandloader.o $(FILES_SRC_OBJ)
 
-.PHONY: all channel world clean upload gdb debug
+.PHONY: all channel world clean upload gdb debug test
 
 all:
 	@[ -d $(DIR_BUILD) ] || mkdir $(DIR_BUILD)
@@ -238,3 +239,9 @@ gdb:
 
 debug:
 	$(GDB) -n $(TARGET_APP)_nopax.elf -x gdb.txt
+
+test:
+	dolphin.exe --debugger --logger --audio_emulation=LLE --exec=$(TARGET_CHAN).elf
+
+checks:
+	cppcheck source/ --enable=all --verbose --suppress=missingIncludeSystem --suppress=unusedFunction

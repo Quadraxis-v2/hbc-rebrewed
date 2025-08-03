@@ -202,7 +202,7 @@ void repack_adpcm(int idx, int16_t *table, uint8_t *data, int16_t *inbuf)
 	uint8_t tblidx;
 	uint8_t testdata[8];
 	int16_t tlsamps[2];
-	int16_t blsamps[2];
+	int16_t blsamps[2] = {0, 0};
 	float error;
 	float besterror = 99999999.0f;
 	for(tblidx = 0; tblidx < 8; tblidx++) {
