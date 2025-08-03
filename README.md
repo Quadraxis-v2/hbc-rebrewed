@@ -10,6 +10,7 @@ New features:
 * Display of number of applications
 * Restored the bubble minigame scrapped in v1.0.5
 * Display size of application
+* Display app version in main screen
 * Reverted title ID to LULZ for compatibility with BootMii
 * Show new string for when there is only 1 application installed
 * Fixed bugs, warnings and styled code to GNU C23 standard
