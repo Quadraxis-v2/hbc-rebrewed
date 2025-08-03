@@ -15,6 +15,13 @@ New features:
 * Fixed bugs, warnings and styled code to GNU C23 standard
 * Translated to Spanish
 
+## Screenshots
+<img width="640" height="480" alt="LULZHB_2025-08-03_17-28-38" src="https://github.com/user-attachments/assets/cf11d785-ddb3-46ac-adcc-15d4f18033f2" />
+<img width="640" height="480" alt="LULZHB_2025-08-03_17-31-42" src="https://github.com/user-attachments/assets/041bb8cd-a79b-4ecb-b7ed-0b8fb9d79ed8" />
+<img width="640" height="480" alt="LULZHB_2025-08-03_17-32-22" src="https://github.com/user-attachments/assets/6d563667-b9d5-487e-862b-538e4b2b9271" />
+
+## Build instructions
+
 Included portions:
 
 * The Homebrew Channel
@@ -34,8 +41,6 @@ protection features (i.e. we had to add reverse-DRM to stop scammers from
 selling it).
 
 This code is released with no warranty.
-
-## Build instructions
 
 You need devkitPPC and libogc installed, and the DEVKITPRO/DEVKITPPC environment
 variables correctly set. Use the latest available versions. Make sure you have
