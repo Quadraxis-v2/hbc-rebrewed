@@ -100,7 +100,7 @@ void dialogs_theme_reinit(void) {
         "souLLy (ENOTHERE) - banner graphics\n"
         "drmr (EMORECOWBELL) - banner audio, channel graphics\n"
         "mha (E404) - update server and hosting\n"
-        "ItzSwirlz (EPSYDUCK) - rebrewing\n";
+        "ItzSwirlz (EPSYDUCK) & Quadraxis_v2 (ENOTANERD) - rebrewing\n";
 
     string_about_post =
         "Powered by devkitPPC and libogc, by shagkur, WinterMute, "
