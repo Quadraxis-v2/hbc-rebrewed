@@ -1,0 +1,287 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: homebrew_channel\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-01 13:40+0200\n"
+"PO-Revision-Date: 2025-10-13 22:39+0900\n"
+"Last-Translator: DDinghoya <ddinghoya@gmail.com>\n"
+"Language-Team: \n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: source/dialogs.c:65
+msgid "no description available"
+msgstr "사용 가능한 설명 없음"
+
+# This and the following strings are dialog box "title bars"
+#: source/dialogs.c:67
+msgid "Information"
+msgstr "정보"
+
+#: source/dialogs.c:68
+msgid "Confirmation"
+msgstr "확인"
+
+#: source/dialogs.c:69
+msgid "Warning"
+msgstr "경고"
+
+#: source/dialogs.c:70
+msgid "Error"
+msgstr "오류"
+
+#  button text
+#: source/dialogs.c:71
+msgid "Ok"
+msgstr "확인"
+
+#  button text
+#: source/dialogs.c:72
+msgid "Cancel"
+msgstr "취소"
+
+#  button text
+#: source/dialogs.c:73
+msgid "Yes"
+msgstr "예"
+
+#  button text
+#: source/dialogs.c:74
+msgid "No"
+msgstr "아니오"
+
+#: source/dialogs.c:75
+msgid "Delete"
+msgstr "삭제"
+
+#  button text
+#: source/dialogs.c:76
+msgid "Load"
+msgstr "로드"
+
+#  button text
+#: source/dialogs.c:77 source/m_main.c:100
+msgid "Back"
+msgstr "뒤로"
+
+#: source/dialogs.c:78
+msgid "Options"
+msgstr "옵션"
+
+#: source/dialogs.c:79
+msgid "Device:"
+msgstr "장치:"
+
+#: source/dialogs.c:80
+msgid "Internal SD Slot"
+msgstr "내부 SD 슬롯"
+
+#: source/dialogs.c:81
+msgid "USB device"
+msgstr "USB 장치"
+
+#: source/dialogs.c:82
+msgid "SDGecko Slot A"
+msgstr "SDGecko 슬롯 A"
+
+#: source/dialogs.c:83
+msgid "SDGecko Slot B"
+msgstr "SDGecko 슬롯 B"
+
+#: source/dialogs.c:84
+msgid "Sort applications by:"
+msgstr "다음 기준으로 애플리케이션 정렬:"
+
+#: source/dialogs.c:85
+msgid "Name"
+msgstr "이름"
+
+#: source/dialogs.c:86
+msgid "Date"
+msgstr "날짜"
+
+#: source/dialogs.c:87
+msgid "Author"
+msgstr "제작자"
+
+#: source/dialogs.c:88
+msgid "Size"
+msgstr "크기"
+
+#: source/dialogs.c:127
+msgid "<YourLanguageHere> translation by <YourNickNameHere>"
+msgstr "한국어, DDinghoya에 의해 번역"
+
+#: source/dialogs.c:132
+msgid "Theme:"
+msgstr "테마:"
+
+#: source/dialogs.c:141
+#, c-format
+msgid "Version: %s"
+msgstr "버전: %s"
+
+#: source/dialogs.c:142
+#, c-format
+msgid "Author: %s"
+msgstr "제작자: %s"
+
+#: source/dialogs.c:143
+#, c-format
+msgid "Size: %.2f MB"
+msgstr "크기: %.2f MB"
+
+#: source/loader.c:711
+msgid "Error while reading the application from the SD card"
+msgstr "SD 카드에서 애플리케이션을 읽는 중 오류가 발생함"
+
+#: source/loader.c:712
+msgid "Error while receiving the application"
+msgstr "애플리케이션 수신 중 오류 발생함"
+
+#: source/loader.c:713
+msgid "Error uncompressing the received data"
+msgstr "수신된 데이터 압축 해제 오류"
+
+#: source/loader.c:714
+msgid "This is not a valid Wii application"
+msgstr "이것은 유효한 Wii 애플리케이션 아님"
+
+#: source/loader.c:715
+msgid "This is not a usable ZIP file"
+msgstr "이것은 사용할 수 있는 ZIP 파일 아님"
+
+#: source/loader.c:716
+msgid "Not enough memory"
+msgstr "메모리 부족"
+
+#: source/loader.c:758
+#, c-format
+msgid "Loading %s"
+msgstr "%s 로딩 중"
+
+#: source/loader.c:767
+#, c-format
+msgid "Receiving over USBGecko"
+msgstr "USBGecko를 통해 수신"
+
+#: source/loader.c:777
+#, c-format
+msgid "Receiving from %s"
+msgstr "%s에서 수신 중"
+
+#: source/loader.c:963
+#, c-format
+msgid ""
+"Extract the received ZIP file?\n"
+"%s of free space are required."
+msgstr ""
+"받은 ZIP 파일을 추출할까요?\n"
+"%s의 여유 공간이 필요합니다."
+
+#: source/loader.c:964
+#, c-format
+msgid "WARNING: Files in '%s' will be overwritten"
+msgstr "경고: '%s'의 파일이 덮어쓰여짐"
+
+#: source/loader.c:965
+msgid "Error while extracting the ZIP file"
+msgstr "ZIP 파일 추출 중 오류 발생"
+
+#: source/m_main.c:84
+msgid "Network not initialized"
+msgstr "네트워크 초기화되지 않았음"
+
+#: source/m_main.c:85
+#, c-format
+msgid "Your Wii's IP is %u.%u.%u.%u"
+msgstr "Wii IP는 %u.%u.%u.%u"
+
+#: source/m_main.c:86 source/m_main.c:159
+#, c-format
+msgid "%d applications installed"
+msgstr "%d개의 애플리케이션이 설치되었음"
+
+# button text
+#: source/m_main.c:102
+msgid "About"
+msgstr "정보"
+
+#: source/m_main.c:107
+msgid "Launch BootMii"
+msgstr "BootMii 실행"
+
+#: source/m_main.c:113
+msgid "Exit to vWii System Menu"
+msgstr "vWii 시스템 메뉴로 나가기"
+
+#: source/m_main.c:117
+msgid "Reboot to Wii U Menu"
+msgstr "Wii U 메뉴로 재부팅"
+
+#: source/m_main.c:120
+msgid "Exit to System Menu"
+msgstr "시스템 메뉴로 나가기"
+
+#: source/m_main.c:124
+msgid "Shutdown"
+msgstr "시스템 종료"
+
+#: source/m_main.c:156
+msgid "1 application installed"
+msgstr "1개의 애플리케이션이 설치되었음"
+
+#: source/main.c:253
+msgid "Do you really want to delete this application?"
+msgstr "정말 이 애플리케이션을 삭제할까요?"
+
+#: source/main.c:254
+#, c-format
+msgid "Error deleting '%s'"
+msgstr "'%s' 삭제 중 오류 발생"
+
+#: source/manage.c:527
+msgid "Extracting"
+msgstr "추출"
+
+#: source/update.c:230
+#, c-format
+msgid ""
+"An update to the Homebrew Channel (version %s, replacing the installed "
+"version %s) is available for installation, do you want to update now?\n"
+"\n"
+"Release notes:\n"
+"\n"
+"%s"
+msgstr ""
+"홈브류 채널 업데이트 (버전 %s, 설치된 버전 %s를 대체)를 설치할 수 있는"
+"데, 지금 업데이트할까요?\n"
+"\n"
+"개정 사항:\n"
+"\n"
+"%s"
+
+#: source/update.c:260
+#, c-format
+msgid "Downloading Update (%u kB)"
+msgstr "업데이트 다운로드 중 (%u kB)"
+
+#: source/update.c:302
+msgid "Download failed"
+msgstr "다운로드 실패함"
+
+#: source/view.c:258
+#, c-format
+msgid "Score: %08d"
+msgstr "점수: %08d"
+
+#: source/widgets.c:16
+msgid "<no description>"
+msgstr "<설명 없음>"
