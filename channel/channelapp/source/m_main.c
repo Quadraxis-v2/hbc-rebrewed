@@ -60,7 +60,7 @@ view *m_main_init(void) {
     bootmii_ios = bootmii_is_installed(TITLEID_BOOTMII);
     vwii = is_vwii();
 
-    v_m_main = view_new(9, NULL, 0, 0, 0, 0);
+    v_m_main = view_new(10, NULL, 0, 0, 0, 0);
 
     m_main_theme_reinit();
     m_main_update();
@@ -145,10 +145,10 @@ void m_main_update(void) {
         char buffer[64];
         sprintf(buffer, text_has_ip, (ip >> 24) & 0xff, (ip >> 16) & 0xff,
                 (ip >> 8) & 0xff, ip & 0xff);
-        widget_label(&v_m_main->widgets[7], 48, 32, 0, buffer,
+        widget_label(&v_m_main->widgets[8], 48, 32, 0, buffer,
                      view_width / 3 * 2 - 32, FA_LEFT, FA_ASCENDER, FONT_LABEL);
     } else {
-        widget_label(&v_m_main->widgets[7], 48, 32, 0, text_no_ip,
+        widget_label(&v_m_main->widgets[8], 48, 32, 0, text_no_ip,
                      view_width / 3 * 2 - 32, FA_LEFT, FA_ASCENDER, FONT_LABEL);
     }
 
@@ -159,6 +159,6 @@ void m_main_update(void) {
 	sprintf(buffer2, text_number_apps, entry_count);
     }
 
-    widget_label(&v_m_main->widgets[8], 48, 48, 0, buffer2,
+    widget_label(&v_m_main->widgets[9], 48, 48, 0, buffer2,
                  view_width / 3 * 2 - 48, FA_LEFT, FA_ASCENDER, FONT_LABEL);
 }
