@@ -439,8 +439,6 @@ void widget_app_entry(widget *w, s16 x, s16 y, s16 z, const app_entry *entry) {
     if (!line3)
 	   line3 = "";
 
-	gprintf("line3: %s", line3);
-
     l1 = font_get_char_count(FONT_APPNAME, line1,
                              theme_gfx[THEME_APP_ENTRY]->w - APP_ENTRY_TEXT1_X -
                                  16);
@@ -448,8 +446,18 @@ void widget_app_entry(widget *w, s16 x, s16 y, s16 z, const app_entry *entry) {
                              theme_gfx[THEME_APP_ENTRY]->w - APP_ENTRY_TEXT2_X -
                                  16);
     l3 = font_get_char_count(FONT_LABEL, line3,
-							theme_gfx[THEME_APP_ENTRY]->w -
-							APP_ENTRY_TEXT1_X - 16);
+                             theme_gfx[THEME_APP_ENTRY]->w - APP_ENTRY_TEXT1_X -
+                                 16);
+
+    // Drop the version if it doesn't fit next to the name. This has to happen
+    // before the gfx entries are allocated: otherwise l3 entries are reserved
+    // but never written by font_plot_string() and uninitialized memory ends
+    // up in the render queue (crash at startup with long names/versions).
+    if (l3 && font_get_string_width(FONT_APPNAME, line1, l1) +
+                      font_get_string_width(FONT_LABEL, line3, l3) >=
+                  (theme_gfx[THEME_APP_ENTRY]->w - APP_ENTRY_TEXT1_X - 16) /
+                      X_RATIO)
+        l3 = 0;
 
     l = &w->layers[4];
     l->flags = 0;
@@ -469,8 +477,6 @@ void widget_app_entry(widget *w, s16 x, s16 y, s16 z, const app_entry *entry) {
                      APP_ENTRY_TEXT2_X, APP_ENTRY_TEXT2_Y, 1,
                      theme_gfx[THEME_APP_ENTRY]->w - APP_ENTRY_TEXT2_X - 16,
                      FA_LEFT, FA_DESCENDER);
-    if (font_get_string_width(FONT_APPNAME, line1, l1) + font_get_string_width(FONT_LABEL, line3, l3) >=
-        (theme_gfx[THEME_APP_ENTRY]->w - APP_ENTRY_TEXT1_X - 16) / X_RATIO) line3 = "";
     font_plot_string (&l->gfx_entries[l1 + l2], l3, FONT_LABEL, line3,
 						APP_ENTRY_TEXT1_X, APP_ENTRY_TEXT1_Y, 3,
 						theme_gfx[THEME_APP_ENTRY]->w - APP_ENTRY_TEXT1_X - 16, 

@@ -253,12 +253,12 @@ void view_plot(view *v, u32 alpha, u32 *down, u32 *held, u32 *up) {
     gfx_frame_push(&entry_logo, 1);
 
     if (!viewing) {
-        char sct[20];
+        char sct[64];
 
         if (sce)
             free(sce);
 
-        sprintf(sct, _("Score: %08d"), score);
+        snprintf(sct, sizeof(sct), _("Score: %08d"), score);
         int len = font_get_char_count(FONT_LABEL, sct, 200);
         sce = malloc(len * sizeof(gfx_queue_entry));
         // widget_label (&v_m_main->widgets[], 48, 32, 0, buffer,
